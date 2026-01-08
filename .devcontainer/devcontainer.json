@@ -1,13 +1,17 @@
 {
-  "name": "Quarkus MCP Dev",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "runArgs": ["--env-file", ".env"],
-  "features": {
-    "ghcr.io/devcontainers/features/java:1": {
-      "version": "17",
-      "installMaven": true,
-      "mavenVersion": "3.9.6"
-    }
-  },
-  "remoteUser": "vscode"
+    "name": "Chateau",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "."
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "redhat.vscode-quarkus",
+                "vscjava.vscode-java-pack"
+            ]
+        }
+    },
+    "forwardPorts": [8080],
+    "postCreateCommand": "mvn quarkus:dev"
 }
