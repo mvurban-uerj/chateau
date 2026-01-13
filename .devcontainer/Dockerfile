@@ -2,7 +2,7 @@
 FROM maven:3.9.9-eclipse-temurin-21
 
 # Configura o diretório de trabalho no container
-WORKDIR /workspaces/chateau
+WORKDIR /workspaces/study-langchain
 
 # Porta padrão
 EXPOSE 8080
