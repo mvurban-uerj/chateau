@@ -54,3 +54,17 @@ O parser de env-file do Docker Compose não tolera espaços no início da linha 
 ```bash
 cat -A .env.prod | grep NOME_DA_VARIAVEL
 ```
+
+## Rodar cypher-shell da sua máquina (via túnel), sem instalar nada
+
+Com o túnel SSH aberto (`ssh -L 7474:localhost:7474 -L 7687:localhost:7687 prointec@152.92.2.63`), dá pra rodar `cypher-shell` local via Docker, sem precisar copiar/colar no Browser nem instalar o cliente:
+
+```bash
+docker run --rm -i neo4j:5-community \
+  cypher-shell -a neo4j://host.docker.internal:7687 -u neo4j -p 'SENHA_DO_ENV_PROD' \
+  < arquivo.cypher
+```
+
+**Pegadinha (Docker Desktop no WSL2):** se o `docker info` mostrar `Operating System: Docker Desktop`, o container roda numa VM separada da distro WSL2 — `--network host` conecta na rede *dessa VM*, não na distro onde o túnel SSH está escutando em `127.0.0.1:7687`. Isso dá "connection refused" mesmo com o túnel ativo. A correção é usar `host.docker.internal` (hostname que o Docker Desktop expõe pra alcançar o host real) em vez de `--network host` + `localhost`. Confirmar com `docker run --rm alpine sh -c "apk add --no-cache netcat-openbsd >/dev/null; nc -zv host.docker.internal 7687"`.
+
+Alternativa sem essa pegadinha: `scp` o `.cypher` pro servidor e rodar `docker exec -i chateau_neo4j cypher-shell ...` direto lá (mesmo padrão da seção "Comandos úteis" acima) — nesse caso não tem VM extra no meio.
