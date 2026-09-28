@@ -635,21 +635,50 @@ do git). Testado em 2026-09-28 com Ollama falso: o fluxo todo roda; a pergunta
 com ano (`datePublished.year` sobre texto) já aparece como `erro_consulta`,
 confirmando o risco da seção 4, item 10.
 
-- [ ] Túnel de pé; no servidor: `curl -s http://127.0.0.1:11434/api/tags | jq -r '.models[].name'`
-      lista `chateau-gemma4-e4b-cypher`.
-- [ ] Rodar direto no host, sem Docker, para isolar problemas:
-      `exemplo_http.sh` e `perguntar.py --executar --json` com as perguntas da
-      reunião ("Quantos livros existem?", "Quantos artigos o Edson produziu em
-      2025?", "Quantas bananas tem numa penca?"). **Registrar o que volta para
-      as bananas** (fecha a hipótese da seção 2).
-- [ ] `avaliar.py` com as 20 perguntas no `neo4j-exemplo` (esperado ≈15/20 com
-      o compacto) — confirma que a instalação reproduz a medição do Edson.
-- [ ] Perguntas reais contra o banco de produção com `schema_producao.txt`;
-      gravar pergunta, cypher, resultado e julgamento em
-      `comparacao/perguntas_reais.jsonl`.
-- [ ] Resolver o acesso container → Ollama (seção 4, item 2) e subir o
-      orchestration em produção; trocar `ORCHESTRATION_URL` e testar pela
-      interface.
+Checklist operacional (com os comandos): `docs/todo.md`.
+
+**Antes de quarta**
+- [ ] Combinar com o Edson horário e quem sobe o túnel; o Ollama precisa
+      aparecer no servidor em `127.0.0.1:11434` (pendência 4).
+- [ ] Senha do SSH à mão; Docker Desktop rodando na máquina local.
+
+**Quarta — `testar_modelo.sh` (6 etapas, uma senha)**
+- [ ] 1–2. Túnel e Ollama: versão (README: 0.6.5 falha; 0.32.9/0.33.3
+      funcionam) e `chateau-gemma4-e4b-cypher` carregado.
+- [ ] 3. Container → Ollama: testa de dentro do `chateau_api` o gateway do
+      `docker0` (= `host.docker.internal` com `host-gateway`) e o da
+      `backend_net`. Se falhar (túnel só em `127.0.0.1`), aplica com
+      confirmação a ponte `chateau_ollama_ponte` (`alpine/socat`,
+      `--network host`, escuta em `<gw docker0>:11435`) e indica o
+      `OLLAMA_URL` para o `.env.prod`. Resolve a seção 4, item 2, sem sudo.
+- [ ] 4. As 14 perguntas de `teste_modelo/perguntas.txt` contra o Neo4j de
+      produção (túnel), pelo mesmo código da interface. **Registrar o que
+      volta para as bananas** (fecha a hipótese da seção 2) e para as
+      perguntas com ano (risco da seção 4, item 10).
+- [ ] 5. `avaliar.py` do README: 20 perguntas no `neo4j-exemplo` local com o
+      schema compacto (esperado ≈15/20) — confirma que a instalação reproduz a
+      medição do Edson.
+- [ ] 6. Comparação Python × Quarkus (generate e LangChain4j) com o modelo
+      real: perguntas reais (grafo do `chateau-data`) e as 20 do README.
+      Critério da Fase 7: 100%.
+- [ ] Colar `teste_modelo/resultados/<data>/resumo.md` no `docs/talk-ia.md`
+      para análise.
+
+**Quarta — ligar na interface (se a etapa 3 der OK)**
+- [ ] No `.env.prod` do servidor: `COMPOSE_PROFILES=ia`,
+      `ORCHESTRATION_URL=http://orchestration:8000`, `OLLAMA_URL=<indicado>`;
+      `docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build`.
+      Conferir se o `chateau_orchestration` subiu (se o Compose do servidor
+      não ler `COMPOSE_PROFILES` do env-file, usar `--profile ia` e ajustar o
+      deploy automático, que roda `up -d --build` sem profile).
+- [ ] Testar pelo chat as perguntas da reunião.
+- [ ] Voltar ao mock: tirar `ORCHESTRATION_URL` do `.env.prod` + `up -d`.
+      Fazer isso ao devolver a GPU, senão o chat mostra "indisponível".
+
+**Quinta/sexta**
+- [ ] Mais perguntas reais; registrar acertos/erros para o Edson.
+- [ ] Com 100% na comparação: decidir a troca para a Quarkus (Fase 7) e se o
+      `/api/chat` pode ser o padrão (pendência 6).
 
 Aceite: busca real funcionando pela interface em produção; comportamento de
 fora-do-domínio documentado.
@@ -709,18 +738,20 @@ Aceite: relatório 100% igual; produção rodando Quarkus.
 ## 9. Pendências com o Edson
 
 1. Confirmar o que acontece com pergunta fora do domínio (ou validar na Fase 5).
-2. Quarkus: é para já ou é evolução depois que a busca real estiver no ar? Ok
-   usar o Python dele como ponte até lá?
+2. ~~Quarkus: é para já ou é evolução?~~ Feita em 2026-09-28 (Fase 6), com a
+   Python como referência da comparação.
 3. Diagrama do Drive: pedir exportação em PNG.
 4. Túnel da GPU: quem sobe, direção (reverso?), e se temos sudo no servidor
    para `GatewayPorts` (seção 4, item 2).
 5. Log de consultas (dado pessoal): onde guardar e por quanto tempo.
 6. Aceita a chamada ao modelo via `/api/chat` (LangChain4j) se a comparação
    provar equivalência, ou exige `/api/generate`?
-7. Schema de produção: validar com ele o arquivo extraído antes de fixar.
-8. Datas e identificadores como texto nos dados × `DATE`/`INTEGER` no rev_5
+7. Schema de produção: extraído em 2026-09-28 (`orchestration/schema/schema_producao.txt`,
+   2.264 caracteres); falta ele validar.
+8. Datas e identificadores como texto nos dados × `DATE`/`INTEGER` no modelo
    (seção 4, item 10): corrigir no `chateau-data`? Como representar ano sem
-   mês/dia?
+   mês/dia? Em 2026-09-28 ele orientou "seguir o README", que não trata disso;
+   o teste de quarta vai medir o impacto nas perguntas com ano.
 
 ## 10. Riscos
 
