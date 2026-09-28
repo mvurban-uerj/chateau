@@ -1,0 +1,1 @@
+O plano está em docs/integracao-modelo/README.md.
