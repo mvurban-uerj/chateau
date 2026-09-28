@@ -203,6 +203,13 @@ encontrados na revisão:
    (`EXPLAIN` só aceita `r` + `execute_read`), e são suficientes como defesa;
    registrar a limitação.
 4. **LangChain4j usa `/api/chat`, o contrato foi verificado em `/api/generate`.**
+   *Medido em 2026-09-28 com Ollama falso:* o texto de system e pergunta chega
+   idêntico, mas o LangChain4j acrescenta `top_k: 40`, `top_p: 0.9`, `tools: []`
+   e mandava `stop: []` — que pode anular a parada `<turn|>` do Modelfile;
+   configurado `stop=<turn|>`. `top_k`/`top_p` não mudam nada com temperatura 0.
+   Também refaz a chamada em HTTP 500 / JSON inválido (retentativa). Decisão:
+   `/api/generate` é o padrão da Quarkus; o `/api/chat` só vira padrão se a
+   comparação com o modelo real der o mesmo texto de Cypher.
    O `OllamaChatModel` do LangChain4j fala com `/api/chat` (mensagens
    system/user). Pode renderizar o mesmo template, mas não foi verificado. Além
    disso, o LangChain4j tem recursos prontos de "text-to-Cypher" com **prompt
@@ -571,7 +578,9 @@ em rede isolada (o `node_modules` do host é volume do Docker, dono root).
 Aceite: com o mock, cada cenário da Fase 2 aparece corretamente no chat,
 persiste e reabre igual pelo histórico.
 
-*Feito em 2026-09-28, menos o aceite visual:* `/api/search` da stack de dev
+*Feito em 2026-09-28. Aceite visual conferido em produção* (o push dispara o
+deploy automático, `.github/workflows/deploy.yml`): os 6 cenários do mock
+aparecem certos e se mantêm ao recarregar/reabrir pelo histórico. `/api/search` da stack de dev
 responde pelo mock (conferido por `fetch` dentro do container `api`). **Falta
 você abrir o chat no navegador** (login Google) e passar pelos 6 cenários
 ("Quem pesquisa otimização?", "bananas", "nada", "apague", "erro banco",
@@ -614,6 +623,18 @@ recarregado a cada subida (o script usa `CREATE`).
 
 ### Fase 5 — Teste real com GPU (2026-09-30 a 2026-10-02)
 
+**Roteiro automatizado:** com o túnel da GPU de pé,
+`bash chateau-expert/orchestration/teste_modelo/testar_modelo.sh` (pede só a
+senha do SSH). Confere Ollama/versão/modelo no servidor; diagnostica se os
+containers alcançam o Ollama e oferece a ponte `chateau_ollama_ponte` (socat,
+sem sudo) se não alcançarem — cobre o item 2 da seção 4; roda
+`teste_modelo/perguntas.txt` no modelo real contra o banco de produção pelo
+mesmo código da interface; roda o `avaliar.py` do README (20 perguntas) num
+`neo4j-exemplo` local; grava `teste_modelo/resultados/<data>/resumo.md` (fora
+do git). Testado em 2026-09-28 com Ollama falso: o fluxo todo roda; a pergunta
+com ano (`datePublished.year` sobre texto) já aparece como `erro_consulta`,
+confirmando o risco da seção 4, item 10.
+
 - [ ] Túnel de pé; no servidor: `curl -s http://127.0.0.1:11434/api/tags | jq -r '.models[].name'`
       lista `chateau-gemma4-e4b-cypher`.
 - [ ] Rodar direto no host, sem Docker, para isolar problemas:
@@ -635,31 +656,45 @@ fora-do-domínio documentado.
 
 ### Fase 6 — `orchestration/quarkus`
 
-- [ ] Projeto Quarkus (Java 21, Quarkus 3 LTS): `quarkus-rest`,
+- [x] Projeto Quarkus (Java 21, Quarkus 3 LTS): `quarkus-rest`,
       `quarkus-rest-jackson`, `quarkus-neo4j`, `quarkus-smallrye-health`,
       `quarkus-langchain4j-ollama`.
-- [ ] Portar, fiel ao Python: `INSTRUCAO` e `montar_system` (idênticos),
+- [x] Portar, fiel ao Python: `INSTRUCAO` e `montar_system` (idênticos),
       `limpar_resposta` (mesma regex), avisos (mesmos limites e textos),
       `temperature 0`, `num_predict 512`, `EXPLAIN` + recusa se o tipo não for
       `READ_ONLY` (`ResultSummary.queryType()`), transação de leitura com
       timeout 30 s e limite de linhas, log JSONL com os mesmos campos,
       serialização da seção 4, item 5.
-- [ ] Chamada ao modelo: ver seção 4, item 4. **Não** usar recursos
+- [x] Chamada ao modelo: ver seção 4, item 4. **Não** usar recursos
       text-to-Cypher prontos do LangChain4j.
-- [ ] Mesmas variáveis de ambiente, mesma porta, mesmo contrato; Dockerfile.
-- [ ] Testes (JUnit/QuarkusTest) espelhando os da Fase 1.
+- [x] Mesmas variáveis de ambiente, mesma porta, mesmo contrato; Dockerfile.
+- [x] Testes (JUnit/QuarkusTest) espelhando os da Fase 1.
 
 Aceite: testes passam; serviço sobe e responde ao contrato.
 
+*Feito em 2026-09-28* (`orchestration/quarkus/`, ver o README dela): Quarkus
+3.33.3 LTS, `quarkus-langchain4j-ollama` 1.14.0, `quarkus-neo4j` 6.4.1 (driver
+6). 23 testes verdes, com Neo4j real via Dev Services; a serialização foi
+**medida no Python** (21 casos: datas com fuso, duration, point, nó, relação com
+e sem os nós na linha, caminho, hidratação entre linhas) e a Quarkus reproduz
+todos. Chamada ao modelo selecionável: `CHATEAU_GERADOR=generate` (padrão,
+`/api/generate`) ou `langchain4j` (`OllamaChatModel`, `/api/chat`). Imagem sobe
+em 0,7 s; mesmo `schema_sha256` e mesmos campos de log. Sem `smallrye-health`
+(o `/health` é o do contrato).
+
 ### Fase 7 — Comparação e troca
 
-- [ ] `comparacao/comparar.py`: para cada pergunta (20 do exemplo +
+- [x] `comparacao/comparar.py`: para cada pergunta (20 do exemplo +
       `perguntas_reais.jsonl`), chama `POST /search` nas duas versões (mesmo
       Ollama, mesmo banco, mesmo schema) e compara: `cypher` (texto, espaços
       normalizados), `resultado` (mesma comparação do `edson/avaliacao/avaliar.py`:
       sem nome de coluna nem ordem), `recusada`, `erro.etapa`, `avisos`.
       Gera relatório Markdown.
-- [ ] Critério: **resultado igual em 100%** das perguntas. Texto de `cypher`
+- [ ] Critério: **resultado igual em 100%** das perguntas. *Com Ollama falso
+      (30 casos difíceis, `comparacao/roteiro_falso.json`) já está 60/60 —
+      Quarkus-generate e Quarkus-LangChain4j idênticas à Python, e o texto do
+      prompt enviado ao Ollama idêntico nas três. Falta com o modelo real
+      (etapa 6 do `testar_modelo.sh`).* Texto de `cypher`
       diferente é listado e analisado (variação do Ollama × diferença de
       prompt — a segunda é bug).
 - [ ] Troca: apontar o compose para `quarkus/`, validar em produção, apagar
