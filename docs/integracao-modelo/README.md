@@ -233,6 +233,39 @@ encontrados na revisão:
 9. **Contador de consultas.** O `responseTimeMs` enviado a `/api/chat-query`
    hoje é aleatório; passa a ser o tempo real medido.
 
+10. **Modelo rev_5 × schema do treino × dados reais (comparado em 2026-09-28).**
+    Carreguei o `.cypher` consolidado mais recente do `chateau-data`
+    (`data/out/20260901-130247`) num Neo4j local e extraí o schema com
+    `extrair_schema.py`: saiu **compacto, 2.770 caracteres** (folga grande no
+    contexto). Comparação com `orchestration/schema/comparar_com_modelo.py`:
+    - **Nomes batem.** O `schema_rev5.txt` do Edson é idêntico ao Arrows
+      `rev_5_evaluation` (mesmos rótulos, propriedades, tipos e relações).
+      Todo rótulo e relação dos dados reais existe no modelo, e os rótulos
+      extras (`IntellectualProduction`, `Research`, `CommunityOutreach`)
+      aparecem igual no `schema_compacto.txt` do Edson. O modelo foi treinado
+      no mesmo vocabulário do nosso banco.
+    - **Tipos não batem (risco alto).** Nos dados, datas são texto
+      (`datePublished: "2021"`, `startDate`/`endDate` também) e
+      `identifier`/`numberOfHours` também, onde o modelo declara `DATE`/`INTEGER`.
+      O banco de exemplo do Edson usa `date('2024-05-10')` e inteiros, e o
+      gabarito compara datas com `date(...)` (exemplo-19). Pergunta como
+      "artigos do Edson em 2025" tende a gerar `.year`/`date()` sobre texto →
+      zero linhas ou erro. **Correção no `chateau-data`** (o modelo é a fonte
+      da verdade), a decidir com o Edson: ano sozinho vira `date('2021')`
+      (= 2021-01-01) ou fica texto?
+    - **Sobra no banco:** `uid` em todo nó (interno) e os nós de proveniência
+      `SourceDocument`/`ExtractedRecord` (6.125 nós), que não são do domínio.
+      Tirar do `schema_producao.txt` na revisão da Fase 0 (o modelo não deve
+      consultá-los).
+    - **Falta no banco:** entidades sem dado ainda (Course, Job, Campus,
+      AcademicWork, Acknowledgment, Role…) somem do schema extraído; é
+      esperado — o modelo não perguntará por elas.
+    - **Bug no `chateau-data`:** artigo em coautoria vira **um nó por autor**
+      com o mesmo `identifier` (ex.: Sucupira `35426135`, idPessoa 47168 e
+      226436; 4 casos). A constraint de unicidade barra o segundo e o
+      `cypher-shell` para no primeiro erro — conferir se a carga de produção
+      ficou incompleta. Com `--fail-at-end` a carga termina com 387 artigos.
+
 ---
 
 ## 5. Arquitetura alvo
@@ -403,7 +436,7 @@ tocado (mensagens em pt-BR, padrão `feat:`/`fix:`/`docs:` já usado).
 - [x] Copiar `chateau-cypher-orquestrador-v1.0.1/` para
       `chateau-expert/orchestration/python/edson/` sem alterações (conferir
       `sha256sum -c SHA256SUMS` dentro da pasta).
-- [ ] Extrair o schema do Neo4j de produção (túnel `ssh -L 7687:localhost:7687 prointec@152.92.2.63`;
+- [x] Extrair o schema do Neo4j de produção (túnel `ssh -L 7687:localhost:7687 prointec@152.92.2.63`;
       script usando `cc.conectar()` + `cc.obter_schema(driver)`), revisar e
       gravar em `orchestration/schema/schema_producao.txt` (sem `\n` final).
       Registrar tamanho em caracteres e aviso de tokens.
@@ -411,6 +444,53 @@ tocado (mensagens em pt-BR, padrão `feat:`/`fix:`/`docs:` já usado).
       (instruções no arquivo). Rodado no banco de exemplo, saiu idêntico ao
       `schema_compacto.txt` do Edson. **Falta rodar na produção** — precisa do
       túnel SSH (senha) e da `NEO4J_PASSWORD` do `.env.prod`. Exige APOC.
+      **Como rodar:** túnel aberto num terminal
+      (`ssh -L 7687:localhost:7687 prointec@152.92.2.63`) e, em outro,
+      `bash chateau-expert/orchestration/schema/extrair_producao.sh` — confere
+      o túnel, pede a senha, extrai, remove `SourceDocument`/`ExtractedRecord`/`uid`
+      (seção 4, item 10) e compara com o modelo. Caminho container → túnel →
+      Neo4j de produção testado em 2026-09-28 (só faltou a senha).
+      **Formato forçado para compacto:** na produção o `obter_schema` em modo
+      `auto` escolheu *enhanced* (o banco é menor que a cópia local — indício
+      de carga incompleta). Compacto é o único medido neste domínio (15/20,
+      README do Edson seção 7) e o enhanced carrega valores reais de exemplo
+      (nomes, e-mails), que não podem ir para o git.
+      **Resultado da extração na produção (2026-09-28): o banco está
+      incompleto.** 65 nós (31 produções, 11 cursos curtos + 11 instâncias,
+      5 pessoas, 4 biografias, 3 projetos) e **zero relações**; sem
+      LineOfResearch, PostGraduateProgram, Book etc. Schema de 574 caracteres,
+      sem nenhuma linha em "The relationships". Com ele o modelo não responde
+      nada que ligue pessoa a produção ("artigos do Edson"). Provável carga
+      interrompida no primeiro erro (a relação vem depois dos nós no `.cypher`)
+      ou feita com um export antigo de julho. **O arquivo NÃO deve ser fixado
+      assim.** Caminho: corrigir o bug de coautoria no `chateau-data` →
+      gerar o consolidado → recarregar a produção → extrair de novo. Até lá, o
+      teste com GPU (Fase 5) usa o banco de exemplo.
+      **Bug corrigido no `chateau-data` (2026-09-28):** produção intelectual
+      passou a ser identidade global (`common.core.producao_key` = título
+      normalizado + ano, sem a pessoa), usada pelo Sucupira (API e PDF) e pelo
+      `general`. Resultado: coautorias viram 1 nó (5 casos, Ivan/Verona) e
+      artigos repetidos entre Sucupira e currículo se fundem (45 duplicatas).
+      Consolidado novo: 488 nós de domínio, 603 relações, 337 artigos;
+      **carga num Neo4j vazio sem nenhum erro**. Mesmo título+ano com
+      `identifier` diferente na API fica separado (1 caso, anotado).
+      Teste de regressão: `scripts/tests/test_producoes_coautoria.py`.
+      **Modelo padrão trocado para rev_6 training (2026-09-28)** no
+      `chateau-data` (mesmos rótulos e propriedades do rev_5; muda só
+      `Person-WORKS_AT->WorkPlace` e `AcademicWork-[CO_]SUPERVISED_BY->Person`,
+      que o modelo do Edson — treinado com `schema_rev5` — não conhece; sem
+      dados dessas relações hoje, o grafo gerado é idêntico). Consolidado em
+      `chateau-data/data/out/20260928-132724`. **Publicação na produção:**
+      `bash chateau-data/scripts/publicar_producao.sh` (pede só a senha do
+      SSH, mostra o estado, pede "SIM", apaga, carrega pelo SSH sem gravar o
+      arquivo no servidor, confere contagem = 6.691 nós / 6.728 relações e
+      extrai o schema). Testado em modo local contra um Neo4j descartável.
+      **Publicado em 2026-09-28:** produção com 6.691 nós / 6.728 relações
+      (contagem conferida pelo script). `schema_producao.txt` extraído:
+      compacto, 2.264 caracteres (prompt de sistema 2.459), 16 rótulos de
+      domínio e 18 relações, sem proveniência nem `uid`. Pendente só a
+      validação com o Edson (pendência 7) e a questão dos tipos (item 10 /
+      pendência 8: datas e identificadores como texto).
 - [x] Atualizar `orchestration/README.md` (substitui o placeholder) com o
       contrato da seção 6.
 
@@ -603,6 +683,9 @@ Aceite: relatório 100% igual; produção rodando Quarkus.
 6. Aceita a chamada ao modelo via `/api/chat` (LangChain4j) se a comparação
    provar equivalência, ou exige `/api/generate`?
 7. Schema de produção: validar com ele o arquivo extraído antes de fixar.
+8. Datas e identificadores como texto nos dados × `DATE`/`INTEGER` no rev_5
+   (seção 4, item 10): corrigir no `chateau-data`? Como representar ano sem
+   mês/dia?
 
 ## 10. Riscos
 
