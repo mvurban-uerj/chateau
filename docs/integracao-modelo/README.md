@@ -210,10 +210,13 @@ encontrados na revisão:
    chamar `/api/generate` (REST client do Quarkus) ou provar pela comparação
    (Fase 7) que `/api/chat` gera o mesmo texto nas 20 perguntas.
 5. **Serialização das linhas precisa ser idêntica nas duas versões.** O Python
-   usa `record.data()` (nó → mapa de propriedades) e `json.dumps(default=str)`
-   (datas do Neo4j → string). Regra do contrato: nós e relações viram mapas de
-   propriedades; tipos temporais viram string ISO-8601; listas e mapas
-   aninhados preservados. A Quarkus tem de reproduzir.
+   usa `record.data()` e `json.dumps(default=str)`. **Medido contra um Neo4j 5
+   real (2026-09-28)** — a regra que estava aqui ("relações viram mapas de
+   propriedades") estava errada: nó → mapa de propriedades; relação →
+   `[propsInício, tipo, propsFim]`; caminho → lista achatada; `date`/`datetime`
+   → string ISO (com nanossegundos); `duration` → `[meses, dias, segundos,
+   nanos]`; `point` → lista de coordenadas. Tabela completa no
+   `orchestration/README.md`. A Quarkus tem de reproduzir.
 6. **Banco de exemplo para teste.** Neo4j Community tem **um banco de usuário
    só** por instância; não dá para criar o banco de exemplo ao lado do de
    produção. Para rodar as 20 perguntas com gabarito é preciso **outra
@@ -397,14 +400,18 @@ tocado (mensagens em pt-BR, padrão `feat:`/`fix:`/`docs:` já usado).
 
 ### Fase 0 — Preparação
 
-- [ ] Copiar `chateau-cypher-orquestrador-v1.0.1/` para
+- [x] Copiar `chateau-cypher-orquestrador-v1.0.1/` para
       `chateau-expert/orchestration/python/edson/` sem alterações (conferir
       `sha256sum -c SHA256SUMS` dentro da pasta).
 - [ ] Extrair o schema do Neo4j de produção (túnel `ssh -L 7687:localhost:7687 prointec@152.92.2.63`;
       script usando `cc.conectar()` + `cc.obter_schema(driver)`), revisar e
       gravar em `orchestration/schema/schema_producao.txt` (sem `\n` final).
       Registrar tamanho em caracteres e aviso de tokens.
-- [ ] Atualizar `orchestration/README.md` (substitui o placeholder) com o
+      *Script pronto e validado:* `orchestration/schema/extrair_schema.py`
+      (instruções no arquivo). Rodado no banco de exemplo, saiu idêntico ao
+      `schema_compacto.txt` do Edson. **Falta rodar na produção** — precisa do
+      túnel SSH (senha) e da `NEO4J_PASSWORD` do `.env.prod`. Exige APOC.
+- [x] Atualizar `orchestration/README.md` (substitui o placeholder) com o
       contrato da seção 6.
 
 Aceite: pacote conferido pelo SHA256SUMS; schema em arquivo, abaixo de 11.058
@@ -412,73 +419,118 @@ caracteres de prompt de sistema (ou decisão registrada se passar).
 
 ### Fase 1 — `orchestration/python`
 
-- [ ] `servidor.py` (FastAPI): `POST /search` e `GET /health` conforme seção 6,
+- [x] `servidor.py` (FastAPI): `POST /search` e `GET /health` conforme seção 6,
       importando `edson/cliente/chateau_cypher.py` (`gerar_cypher` com
       `usuario=`, `executar_somente_leitura`). Driver Neo4j criado uma vez.
       Schema lido uma vez de `CHATEAU_SCHEMA_ARQUIVO` com `rstrip("\n")`.
-- [ ] Aquecimento opcional na subida (uma chamada curta ao Ollama, sem log).
-- [ ] Serialização das linhas conforme seção 4, item 5.
-- [ ] `tests/` com pytest: Ollama e Neo4j simulados, um teste por desfecho da
+- [x] Aquecimento opcional na subida (uma chamada curta ao Ollama, sem log).
+- [x] Serialização das linhas conforme seção 4, item 5.
+- [x] `tests/` com pytest: Ollama e Neo4j simulados, um teste por desfecho da
       tabela da seção 6, mais 422.
-- [ ] `Dockerfile` (python:3.12-slim, usuário não-root, `uvicorn`).
+- [x] `Dockerfile` (python:3.12-slim, usuário não-root, `uvicorn`).
 
 Aceite: testes passam; com Ollama simulado, cada desfecho devolve o JSON exato
 da seção 6.
 
+*Feito em 2026-09-28:* 22 testes passando (Ollama falso é um servidor HTTP
+real, então o `gerar_cypher` do Edson roda inteiro, inclusive o log). Imagem
+builda e sobe; testado também contra Neo4j 5 real com o banco de exemplo
+(recusa de escrita `'w'`, erro de sintaxe, serialização). Aquecimento: `POST
+/api/generate` só com `{"model"}` (o Ollama carrega sem gerar), em thread,
+desligável com `CHATEAU_AQUECER=0`. Timeout do modelo: 55 s. Dockerfile usa
+contexto `orchestration/` (para copiar `schema/`).
+
 ### Fase 2 — Backend
 
-- [ ] `backend/src/lib/orchestration.ts`: cliente HTTP do contrato
+- [x] `backend/src/lib/orchestration.ts`: cliente HTTP do contrato
       (`ORCHESTRATION_URL`, `ORCHESTRATION_TIMEOUT_MS=60000`).
-- [ ] `backend/src/lib/orchestration.mock.ts`: devolve o **mesmo JSON do
+- [x] `backend/src/lib/orchestration.mock.ts`: devolve o **mesmo JSON do
       contrato**, com cenários por palavra-chave na pergunta, para exercitar a
       interface: padrão → `ok` com linhas fictícias; "banana" → contagem 0;
       "nada" → zero linhas; "apague"/"delete" → `recusada`; "erro banco" →
       `erro.etapa=banco`; "fora do ar" → `erro.etapa=modelo`. Atraso fixo curto.
-- [ ] `backend/src/services/search.service.ts`: escolhe mock × real e
+- [x] `backend/src/services/search.service.ts`: escolhe mock × real e
       classifica (seção 7). Tipos em `backend/src/types/index.ts`.
-- [ ] `backend/src/routes/search.router.ts` + registro em `app.ts`.
-- [ ] Testes unitários do classificador (todas as linhas da seção 7, inclusive
+- [x] `backend/src/routes/search.router.ts` + registro em `app.ts`.
+- [x] Testes unitários do classificador (todas as linhas da seção 7, inclusive
       `[{count: 0}]`, `[{x: null}]`, truncado) e de integração da rota com o
       mock (401/403 via `authorizeUser`).
-- [ ] `.env.example` e `backend/CLAUDE.md` (endpoint novo, variáveis).
+- [x] `.env.example` e `backend/CLAUDE.md` (endpoint novo, variáveis).
 
 Aceite: `npm test` verde; `ORCHESTRATION_URL` vazia → mock; preenchida → chama
 o serviço.
 
+*Feito em 2026-09-28:* 51 testes verdes (10 unitários do `classify`, 13 de
+integração da rota: 401/403/400, os 6 cenários do mock, chamada real a um
+orchestration falso, HTTP 500, fora do ar e timeout). Extras em relação ao
+planejado: `ORCHESTRATION_MOCK_DELAY_MS` (padrão 800; 0 nos testes), limite de
+1.000 caracteres na pergunta (400), resposta fora do contrato →
+`indisponivel`. O backend **não** envia `limite` (vale o padrão 50 do
+orchestration). Em `sem_resultado` as linhas/colunas seguem para a tela (ex.:
+mostrar o `count = 0`). Para rodar os testes sem mexer na stack de dev:
+container `chateau-expert-api` com `node_modules` em tmpfs e Postgres de teste
+em rede isolada (o `node_modules` do host é volume do Docker, dono root).
+
 ### Fase 3 — Web
 
-- [ ] `web/src/app/api/search/route.ts`: mesmo padrão de `api/chats/route.ts`
+- [x] `web/src/app/api/search/route.ts`: mesmo padrão de `api/chats/route.ts`
       (sessão → e-mail; repassa status HTTP; 403 → o chat manda para `/pending`).
-- [ ] `chat/page.tsx` → `send()`: troca `setTimeout` + `mockResponse()` por
+- [x] `chat/page.tsx` → `send()`: troca `setTimeout` + `mockResponse()` por
       `await fetch("/api/search")`; mede o tempo real e envia ao
       `/api/chat-query`; conteúdo da mensagem = `"__SEARCH__:" + JSON`.
-- [ ] Componente `SearchResult`: mensagem do status; tabela (`colunas`/`linhas`,
+- [x] Componente `SearchResult`: mensagem do status; tabela (`colunas`/`linhas`,
       rolagem horizontal, aviso de truncado); avisos; bloco recolhível
       "Consulta gerada" com a query e botão copiar. Cores/ícones por status.
       shadcn/ui, pt-BR.
-- [ ] Manter `ProfessionalsList` só para renderizar chats antigos
+- [x] Manter `ProfessionalsList` só para renderizar chats antigos
       (`__PROFESSIONALS__:`); remover `mockResponse()`.
-- [ ] `npm run lint` e `npm run build` limpos.
+- [x] `npm run build` limpo. `npm run lint`: **já falhava no `main`** (4 erros
+      antigos: `sidebar.tsx`, `middleware.ts` e dois `setState` em efeito no
+      `chat/page.tsx`); nenhum erro novo nos arquivos tocados.
 
 Aceite: com o mock, cada cenário da Fase 2 aparece corretamente no chat,
 persiste e reabre igual pelo histórico.
 
+*Feito em 2026-09-28, menos o aceite visual:* `/api/search` da stack de dev
+responde pelo mock (conferido por `fetch` dentro do container `api`). **Falta
+você abrir o chat no navegador** (login Google) e passar pelos 6 cenários
+("Quem pesquisa otimização?", "bananas", "nada", "apague", "erro banco",
+"fora do ar"), conferindo que persistem e reabrem pelo histórico. Detalhes:
+componente em `web/src/app/chat/SearchResult.tsx`, tipos em
+`web/src/types/search.ts`; "Consulta gerada" é um `<details>` aberto por padrão
+em todos os status menos `ok`; se o web não alcança o backend, a mensagem
+mostrada (e persistida) é a de `indisponivel`. A verificação de 403 que o mock
+fazia com `GET /api/chats/:id` saiu: o `/api/search` já passa pelo
+`authorizeUser`.
+
 ### Fase 4 — Infra (compose)
 
-- [ ] `docker-compose.prod.yml`: serviço `orchestration` (build
-      `./orchestration/python`), rede `backend_net`, sem porta publicada,
+- [x] `docker-compose.prod.yml`: serviço `orchestration` (build: context
+      `./orchestration`, dockerfile `python/Dockerfile`), rede `backend_net`, sem porta publicada,
       `NEO4J_URI=neo4j://neo4j:7687`, `NEO4J_PASSWORD`, `OLLAMA_URL`,
       `CHATEAU_SCHEMA_ARQUIVO=/app/schema/schema_producao.txt`,
       `CHATEAU_LOG=/logs/consultas.jsonl`, volume de logs, `extra_hosts`
       host-gateway, healthcheck em `/health`. `api` ganha
       `ORCHESTRATION_URL=http://orchestration:8000` (em `.env.prod`).
-- [ ] `docker-compose.yml` (dev): profile `ia` com `neo4j-exemplo` (carregado
-      com `edson/exemplo/criar_banco.cypher`) + `orchestration` apontando para
+- [x] `docker-compose.yml` (dev): profile `ia` com `neo4j-exemplo` (carregado
+      com `edson/exemplo/criar_banco.cypher`; **com APOC**,
+      `NEO4J_PLUGINS='["apoc"]'`, para o `obter_schema` funcionar) + `orchestration` apontando para
       ele com `schema_compacto.txt`. Sem o profile, dev roda com mock.
-- [ ] Documentar no `orchestration/README.md`.
+- [x] Documentar no `orchestration/README.md`.
 
 Aceite: `docker compose up` (sem profile) funciona com mock;
 `docker compose --profile ia up` sobe orchestration + banco de exemplo.
+
+*Feito em 2026-09-28:* ambos validados com `docker compose config`; profile `ia`
+de dev subido e testado (banco de exemplo com 71 nós, `/health` com
+`neo4j: true`, log no volume). Teste ponta a ponta com um Ollama **falso**
+contra o Neo4j de exemplo: "livros" → `[{total: 2}]`, "bananas" →
+`[{total: 0}]`, `DETACH DELETE` → recusada. Decisões: em produção o
+`orchestration` também fica no profile `ia` (ligar com `COMPOSE_PROFILES=ia`
+no `.env.prod` na Fase 5 — deploy atual não muda nada); log em **volume
+nomeado** `orchestration_logs` (bind mount criaria a pasta como root e o
+container, uid 10001, não conseguiria gravar); `neo4j-exemplo` sem volume e
+recarregado a cada subida (o script usa `CREATE`).
 
 ### Fase 5 — Teste real com GPU (2026-09-30 a 2026-10-02)
 
