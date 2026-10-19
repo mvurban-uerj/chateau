@@ -21,9 +21,9 @@ Coordenador: Edson. Desenvolvedor: Marcelo (mvurban).
 
 | repo | caminho local | papel |
 |---|---|---|
-| `chateau` | `~/projetos/chateau` | raiz: `docs/`, notas de reunião |
-| `chateau-expert` | `~/projetos/chateau/chateau-expert` | a aplicação: `web/` (Next.js), `backend/` (Express + Prisma + Postgres), `orchestration/` (vazio, reservado para a camada de IA) |
-| `chateau-data` | `~/projetos/chateau/chateau-data` | extração de dados (Lattes, Sucupira...) → `.cypher` no modelo rev_5, carregado no Neo4j de produção |
+| `chateau` | `~/projetos/uerj/chateau` | raiz: `docs/`, notas de reunião |
+| `chateau-expert` | `~/projetos/uerj/chateau/chateau-expert` | a aplicação: `web/` (Next.js), `backend/` (Express + Prisma + Postgres), `orchestration/` (vazio, reservado para a camada de IA) |
+| `chateau-data` | `~/projetos/uerj/chateau/chateau-data` | extração de dados (Lattes, Sucupira...) → `.cypher` no modelo rev_5, carregado no Neo4j de produção |
 
 Servidor de produção: `prointec@152.92.2.63` (`/opt/apps/chateau-expert`), atrás
 do firewall da faculdade; serviços internos escutam só em `127.0.0.1` e são
@@ -74,7 +74,7 @@ reais do `chateau-data` (rev_5), não o banco de exemplo do Edson.
 ## 2. Fatos verificados no pacote do Edson
 
 Pacote `chateau-cypher-orquestrador-v1.0.1` (cópia local em
-`~/projetos/chateau/chateau-cypher-orquestrador-v1.0.1/`, ignorada pelo git;
+`~/projetos/uerj/chateau/chateau-cypher-orquestrador-v1.0.1/`, ignorada pelo git;
 original no servidor em `~/chateau/model/`). README também em
 `docs/orquestrador/README.md`. Tudo abaixo foi lido no código, não inferido.
 
@@ -765,7 +765,7 @@ Aceite: relatório 100% igual; produção rodando Quarkus.
 
 ## 11. Referências
 
-- Pacote do Edson: `~/projetos/chateau/chateau-cypher-orquestrador-v1.0.1/`
+- Pacote do Edson: `~/projetos/uerj/chateau/chateau-cypher-orquestrador-v1.0.1/`
   (README seções 2 contrato, 6 HTTP, 7 schema, 8 segurança, 9 avaliação, 11 problemas)
 - `docs/orquestrador/README.md` (cópia do README do pacote)
 - `docs/reunioes/2026-09-23.md`, `docs/talk-ia.md`

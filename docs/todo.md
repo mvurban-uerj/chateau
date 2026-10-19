@@ -19,7 +19,7 @@ Detalhes e justificativas: `docs/integracao-modelo/README.md`, Fase 5.
 
 1. [ ] Rodar o teste (pede só a senha do SSH; leva alguns minutos):
    ```bash
-   bash ~/projetos/chateau/chateau-expert/orchestration/teste_modelo/testar_modelo.sh
+   bash ~/projetos/uerj/chateau/chateau-expert/orchestration/teste_modelo/testar_modelo.sh
    ```
    - Se parar em **"Ollama NÃO responde"**, o túnel não está de pé: falar com
      o Edson.
