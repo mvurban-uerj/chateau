@@ -8,13 +8,20 @@ A tela "Antes de começar, o que podemos usar?" pede escolhas por campo (nome, u
 
 ## 2. Como a interface conversa com o modelo
 
-Pelo que entendi, a busca tem duas portas e um só mecanismo: a pergunta guiada (cards "Buscar candidatos" e "Montar equipe", com opções para marcar) ou o chat, onde a pessoa escreve. Nos dois casos o sistema monta a pergunta, que vai para o orquestrador, que consulta o modelo, que devolve a resposta; as perguntas do questionário são roteiro fixo da interface e o modelo é chamado uma vez, no fim. Está certo?
+Pelo que entendi, a busca tem duas portas e um só mecanismo: a pergunta guiada (cards "Buscar candidatos" e "Montar equipe", com opções para marcar) ou o chat, onde a pessoa escreve. Nos dois casos o sistema monta a pergunta, que vai para o orquestrador, que consulta o modelo, que devolve a resposta final. Está certo?
 
-As opções da pergunta guiada estão fixas no código. Deveriam vir de alguma base (com administração por trás) ou do grafo?
+Enquanto a busca roda, o desenho mostra etapas nomeadas com contador e botão Parar ("Lendo 11 perfis no escopo", "Casando nome e área", "Escrevendo as justificativas"...). No protótipo elas avançam por tempo; para refletirem o progresso real, o modelo ou o orquestrador precisa avisar a interface em que etapa está. O modelo vai informar essas etapas durante a busca? Como?
 
-O que o modelo devolve em cada caso (profissionais, equipe) e como informa as etapas da busca, que vamos implementar porque o modelo está sendo treinado para esse fluxo?
+## 3. Origem dos dados
 
-## 3. Versões do protótipo × projeto
+1- Perguntas guiadas (cards "Buscar candidatos" e "Montar equipe")
+a- fixas no código 
+b- vem automaticamente pelo grafo
+c- vem do backend com admin por trás
+
+Os demais itens, mesma dúvida: Filtros e interesses, instruções (na engrenagem do perfil)
+
+## 4. Versões do protótipo × projeto
 
 O protótipo está em React 19 / Vite e o projeto em Next.js 14 / React 18; vamos adaptar o protótipo às versões do projeto. O protótipo vai continuar evoluindo em paralelo? Se sim, como mantemos os dois iguais?
 
