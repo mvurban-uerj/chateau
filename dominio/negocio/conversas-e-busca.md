@@ -6,6 +6,6 @@ O envio da pergunta usa `POST /api/search`; a primeira mensagem pode criar a con
 
 O status da busca é um entre `ok`, `sem_resultado`, `recusada`, `erro_consulta` e `indisponivel`. Zero linhas ou todas as células vazias, inclusive `count: 0`, viram `sem_resultado`: o produto **não consegue afirmar** se a pergunta está fora do domínio ou se o Cypher não correspondeu à intenção. Uma consulta de escrita recusada e uma falha de banco são estados diferentes. Ver [contrato de busca](../tech/contrato-de-busca.md).
 
-No protótipo da nova UI, níveis de profundidade, perguntas guiadas, filtros, montagem de equipe, porcentagens e justificativas operam sobre dados simulados. Ainda não são contrato do backend nem garantia sobre a busca real.
+No protótipo da nova UI, níveis de profundidade, perguntas guiadas, filtros, montagem de equipe, porcentagens e justificativas operam sobre dados simulados. **Direção decidida em 20/10/2026:** ranqueamento, aderência, justificativas e equipe virão do modelo de IA consultando o grafo rev_6, pelo caminho web → API → orquestração. O contrato dessa resposta ainda não existe; até lá, o resultado real continua sendo a tabela descrita acima.
 
 Fontes: [serviço de conversa](../../chateau-expert/backend/src/services/chat.service.ts), [chat web](../../chateau-expert/web/src/app/chat/page.tsx), [serviço de busca](../../chateau-expert/backend/src/services/search.service.ts), [análise da UI](../../docs/analises/ui-prototipo-2026-10-20.md).

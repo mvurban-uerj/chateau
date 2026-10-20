@@ -17,6 +17,7 @@ Produção intelectual pode portar o rótulo comum `IntellectualProduction`; os 
 ## Versões e fronteiras
 
 - [rev_5_evaluation](../../chateau-data/model/diagramas/evaluation/Expert-Finding-in-academia_rev_5_evaluation.json) é referência da fase de avaliação e da investigação [PDF versus API](../../chateau-data/docs/sucupira-pdf-vs-api/campos-do-modelo-rev5.md). Não é mais o padrão do extrator.
+- **Dados da aplicação:** os campos de perfil exibidos pela nova UI virão do Cypher gerado pelo `chateau-data` no modelo rev_6 (decisão de 20/10/2026). O Neo4j de produção ainda não foi recarregado com esse Cypher.
 - O [schema de produção extraído](../../chateau-expert/orchestration/schema/schema_producao.txt) é uma fotografia dos dados carregados no Neo4j; pode diferir do modelo rev_6. O modelo texto→Cypher usa o schema fornecido ao serviço, não lê automaticamente o JSON Arrows.
 - [chateau-db-schema.json](../../chateau-data/model/schema/chateau-db-schema.json) descreve um **modelo alvo relacional** elaborado em outro trabalho de modelagem, com entidades como `pessoa`, `cargo`, `atribuicao` e `userJobs`. Não corresponde ao schema Prisma operacional do Expert e não substitui o JSON Arrows rev_6.
 - Versões históricas em `model/diagramas/` documentam a evolução. Ao criar regra nova, declarar a versão do modelo a que ela se refere.

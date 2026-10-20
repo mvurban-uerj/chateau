@@ -9,4 +9,4 @@ Este diretório reúne repositórios independentes. [AGENTS.md](AGENTS.md) orien
 | Aplicação web, API e orquestração | [chateau-expert](https://github.com/edmlucas/chateau-expert) |
 | Dados | [chateau-data](https://github.com/edmlucas/chateau-data) |
 
-`chateau-expert/` e `chateau-data/` são checkouts independentes, não incluídos no clone desta raiz. Clone os repositórios nos diretórios indicados quando a tarefa envolver seus arquivos; cada um tem seu próprio `AGENTS.md`. O protótipo da nova UI está, por enquanto, no caminho local `/mnt/c/temp/chateau/ui`; seu estado e as lacunas de integração estão em [docs/analises/ui-prototipo-2026-10-20.md](docs/analises/ui-prototipo-2026-10-20.md).
+`chateau-expert/` e `chateau-data/` são checkouts independentes, não incluídos no clone desta raiz. Clone os repositórios nos diretórios indicados quando a tarefa envolver seus arquivos; cada um tem seu próprio `AGENTS.md`. O protótipo da nova UI (versão final, não versionada) está no caminho local `/mnt/c/temp/chateau/ui`; decisões e lacunas de integração estão em [docs/analises/ui-prototipo-2026-10-20.md](docs/analises/ui-prototipo-2026-10-20.md).

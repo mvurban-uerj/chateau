@@ -26,10 +26,24 @@
 
 Fontes: `chateau-expert/web/src/middleware.ts`, `web/src/app/api/search/route.ts`, `web/src/app/api/chats/route.ts`, `web/src/types/search.ts` e os arquivos citados do protótipo.
 
+## Decisões de 20/10/2026
+
+Tomadas pelo Marcelo após a revisão de divergências pré-integração.
+
+1. **Dados do perfil:** cargo, vínculo, carreira, unidade, campus, prêmios, disciplinas, coordenação de projetos e demais campos exibidos pelo protótipo virão do grafo gerado em Cypher pelo `chateau-data` no modelo `rev_6_training`, padrão vigente. As referências à rev_5 no código do protótipo devem ser lidas como rev_6 no port. O grafo hoje carregado em produção ainda não tem esses campos (schema extraído em 28/09: sem `Job`, `Role`, `WORKS`, `TAUGHT`, `COORDINATES`, `Campus`, `Acknowledgment`).
+2. **Resultado da busca:** ranqueamento, aderência, justificativas, caminho no grafo, cobertura e equipe virão do modelo de IA consultando esse grafo, não de regras do backend. O transporte continua o da infraestrutura atual: web → API → orquestração (a orquestração só é alcançável pela rede interna e a API é o único caminho autenticado).
+3. **Port:** os componentes do protótipo serão portados para `chateau-expert/web`, com a interface **visualmente idêntica**. Prevalecem a infraestrutura e as versões do projeto (Next.js 14, React 18, NextAuth, API Express): o protótipo é adaptado ao nosso código, não o contrário. O port é um passo posterior; antes, levantar tudo o que é necessário.
+4. **Consentimento:** vale o aceite registrado no PostgreSQL (`Term`/`Account.acceptedTermId`). A tela de consentimento do protótipo passa a representar esse aceite; o `localStorage` deixa de valer como consentimento.
+5. **Contexto do usuário:** permanece no navegador (`localStorage`) até se definir sua origem.
+6. **Controles sem funcionalidade:** a aparência segue o protótipo; o comportamento é o que já existe. Controle sem efeito real (ex.: seletor de modelo de IA) continua sem efeito.
+7. **Versionamento:** o diretório `/mnt/c/temp/chateau/ui` é a versão final do protótipo e não será versionado; serve de referência para o port.
+
+As frentes e tarefas decorrentes estão em [todo.md](../todo.md).
+
 ## Próximo passo após avaliação conjunta
 
 1. Avaliar visualmente e percorrer os fluxos da UI isolada. Registrar decisões e conceitos do Figma, com fonte e estado de validação.
 2. Definir o mapa de telas e contratos entre o protótipo e as rotas/API atuais, inclusive estados vazios, erros, permissões e persistência de conversas.
 3. Adaptar componentes ao web Next.js preservando autenticação, autorização, termos, administração e dados reais. Validar cada fluxo integrado antes de retirar a interface anterior.
 
-Ainda não há decisão de substituir o web atual nem de tratar regras expressas no código do protótipo como regras confirmadas do domínio.
+Decidido em 20/10/2026 portar o protótipo para o web atual (ver acima). Regras expressas no código do protótipo (ex.: derivação de vínculo por `vinculoDe`, montagem de equipe, níveis de profundidade) continuam **não confirmadas** como regras do domínio: passam a ser responsabilidade do modelo de IA ou precisam de decisão própria.

@@ -7,7 +7,7 @@
 | Nova interface: execução isolada, análise e integração futura | [analises/ui-prototipo-2026-10-20.md](analises/ui-prototipo-2026-10-20.md) |
 | Divergências entre documentação, modelos e código; decisões pendentes | [analises/divergencias-2026-10-20.md](analises/divergencias-2026-10-20.md) |
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
-| Trabalho pendente | [todo.md](todo.md) |
+| Tarefas e agenda, por frente de trabalho | [todo.md](todo.md) |
 | Testes do backend | [testes-backend.md](testes-backend.md) |
 | Reuniões e decisões datadas | [reunioes/](reunioes/) |
 | Termos de uso | [termos-uso/README.md](termos-uso/README.md) |
