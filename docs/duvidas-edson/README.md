@@ -12,10 +12,10 @@ Pelo que entendi, a busca tem duas portas e um só mecanismo: a pergunta guiada 
 
 Enquanto a busca roda, o desenho mostra etapas nomeadas com contador e botão Parar ("Lendo 11 perfis no escopo", "Casando nome e área", "Escrevendo as justificativas"...). No protótipo elas avançam por tempo; para refletirem o progresso real, o modelo ou o orquestrador precisa avisar a interface em que etapa está. O modelo vai informar essas etapas durante a busca? Como?
 
-O "Meu contexto" também muda a busca: no protótipo as instruções valem como filtro em toda busca (ex.: só quadro efetivo), os interesses entram quando a área não foi respondida e o objetivo só ajuda a ordenar. Como essas informações entram como parâmetro para o modelo, junto com a pergunta e as respostas do questionário?
+O "Meu contexto" (objetivo, interesses e instruções) também muda a busca: no protótipo essas configurações valem como filtro em toda busca? Como essas informações entram como parâmetro para o modelo, junto com a pergunta e as respostas do questionário?
 
 ## 3. Origem dos dados
-
+De onde devem vir as opções que a interface mostra?
 1- Perguntas guiadas (cards "Buscar candidatos" e "Montar equipe")
 a- fixas no código 
 b- vem automaticamente pelo grafo
@@ -38,6 +38,5 @@ O protótipo vai continuar evoluindo em paralelo? Se sim, como mantemos os dois 
 | Framework | Vite 8 (SPA) | Next.js 14.2 + NextAuth 4 |
 | React | 19.2 | 18.3 |
 | TypeScript | 6.0 | 5 |
-| Tailwind CSS | 4.3 | 4.2 |
 | Ícones | Phosphor | lucide |
-| Tema | só claro | claro e escuro |
+
