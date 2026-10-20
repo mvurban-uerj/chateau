@@ -18,13 +18,12 @@ Decisões de 20/10/2026: [análise da UI](analises/ui-prototipo-2026-10-20.md#de
 Levantamento (antes de programar). O Figma é espelho do protótipo e a página 08 Handoff já traz mapa de arquivos, contrato com o grafo e interruptores: ver [análise do Figma](analises/figma-2026-10-20.md).
 
 - [ ] Confirmar com o Edson que a cópia em `/mnt/c/temp/chateau/ui` corresponde ao commit `3cf7be7` (ou posterior) do repositório local dele, que o Figma espelha.
-- [ ] **Decidir o consentimento:** o desenho pede escolha por campo (nome, unidade/vínculo, e-mail, campus, cookies) e o PostgreSQL só guarda aceite de termo. Criar o registro das escolhas no PostgreSQL ou reduzir a tela ao aceite do termo? E o que cada escolha controla.
-- [ ] **Decidir progresso e parada da busca:** etapas reais, Parar e Retomar exigem que o contrato da IA informe progresso e aceite cancelamento; sem isso, ocultar. **(dep: contrato da frente 3)**
-- [ ] Decidir nomes e existência dos níveis de busca (em aberto no Figma; não existem no backend).
-- [ ] Decidir acesso à administração na nova sidebar e aparência das telas de admin; decidir se o tema escuro sai (desenho só tem claro).
-- [ ] Histórico: Desfazer por 6 s ao apagar e voltar/avançar do navegador entre conversas exigem exclusão adiada e rota por conversa no web.
+- [ ] **Consentimento × termo de uso:** visão atual: são coisas diferentes; a tela é ampliação da permissão de cookies e as escolhas vão para o PostgreSQL (hoje só existe o aceite de termo). **(dep: Edson, [dúvidas 1–4](duvidas-edson/README.md))**
+- [ ] **Busca por etapas, Parar e Retomar:** decidido implementar (o modelo é treinado para esse fluxo). Definir com o Edson etapas, formato do andamento e cancelamento; depois, adaptar API e web (hoje é requisição única). **(dep: Edson, [dúvidas 5–6](duvidas-edson/README.md))**
+- [ ] Níveis de busca: nomes e existência no modelo. **(dep: Edson, [dúvida 8](duvidas-edson/README.md))**
+- [ ] Ajustar nosso código (decidido): acesso à administração pela nova sidebar; tema único claro; histórico com Desfazer por 6 s (exclusão adiada) e rota por conversa para voltar/avançar do navegador. Visual do admin e saída do tema escuro: confirmar com o Edson ([dúvidas 12–13](duvidas-edson/README.md)).
 - [ ] Inventário tela a tela e componente a componente do protótipo → rota/componente correspondente no `chateau-expert/web`, indicando o que é visual puro e o que depende de dado ou de backend.
-- [ ] Compatibilidade técnica: dependências do protótipo (`motion` 13, `@phosphor-icons/react`, `@radix-ui/react-slider`, fontes Geist) aceitam React 18 e o código não usa APIs exclusivas do React 19 (verificado em 20/10). Falta: conferir Tailwind 4 do protótipo × configuração do web (tokens, `index.css`), coexistência com shadcn/lucide já usados no web, e o aviso de bundle > 500 kB.
+- [ ] Compatibilidade técnica ([tabela de versões](duvidas-edson/README.md#nova-ui--versões-do-protótipo--projeto)): dependências do protótipo (`motion` 13, `@phosphor-icons/react`, `@radix-ui/react-slider`, fontes Geist) aceitam React 18 e o código não usa APIs exclusivas do React 19 (verificado em 20/10). Falta: conferir Tailwind 4 do protótipo × configuração do web (tokens, `index.css`), coexistência com shadcn/lucide já usados no web, e o aviso de bundle > 500 kB.
 - [ ] Campo a campo: cada dado exibido (cartão, gaveta de perfil, comparação, cobertura, equipe) → nó/propriedade/aresta da **rev_6** (o código do protótipo cita rev_5). Marcar o que existe no modelo e o que não existe. **(dep: frente 2 para saber o que estará carregado)**
 - [ ] Mapear fluxos do protótipo para os contratos do Expert:
   - login demonstrativo → Google/NextAuth; `/pending` e regras de [acesso](../dominio/negocio/acesso.md);
@@ -34,7 +33,7 @@ Levantamento (antes de programar). O Figma é espelho do protótipo e a página 
   - links de termos/privacidade → páginas existentes (`/termos-uso`, `/privacidade`);
   - área administrativa: não existe no protótipo; definir como fica visualmente.
 - [ ] Listar controles que ficam visíveis sem efeito (ex.: seletor de modelo, níveis de profundidade até haver suporte) e os que o `features.ts` já esconde.
-- [ ] Estados vazios, erro, recusa e indisponibilidade: mapear os 5 status atuais da busca para telas do protótipo (`recusada` não tem tela no desenho).
+- [ ] Estados vazios, erro, recusa e indisponibilidade: mapear os 5 status atuais da busca para telas do protótipo (`recusada` não tem tela no desenho: [dúvida 9](duvidas-edson/README.md)).
 - [ ] Port responsivo: o desenho tem telas de celular (390 px).
 
 Depois do levantamento:
@@ -53,6 +52,7 @@ Depois do levantamento:
 
 ## 3. IA e orquestração
 
+- [ ] Levar ao Edson a lista de [dúvidas](duvidas-edson/README.md) e registrar as respostas.
 - [ ] Definir com o Edson o **contrato de resposta do modelo** para a nova UI: lista de perfis, aderência, justificativa, caminho no grafo, cobertura e montagem de equipe; como isso chega pelo caminho web → API → orquestração. **(dep: levantamento campo a campo da frente 1)**
 - [ ] Depois da carga rev_6: extrair de novo `schema_producao.txt` e atualizar o schema usado pelo modelo. **(dep: frente 2, carga rev_6)**
 - [ ] Datas e identificadores gravados como texto (`datePublished: "2021"`) × `DATE`/`INTEGER` no modelo: pendente com o Edson.

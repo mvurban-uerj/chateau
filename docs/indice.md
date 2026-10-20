@@ -9,6 +9,7 @@
 | Divergências entre documentação, modelos e código; decisões pendentes | [analises/divergencias-2026-10-20.md](analises/divergencias-2026-10-20.md) |
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
 | Tarefas e agenda, por frente de trabalho | [todo.md](todo.md) |
+| Perguntas abertas para o Edson | [duvidas-edson/README.md](duvidas-edson/README.md) |
 | Testes do backend | [testes-backend.md](testes-backend.md) |
 | Reuniões e decisões datadas | [reunioes/](reunioes/) |
 | Termos de uso | [termos-uso/README.md](termos-uso/README.md) |
