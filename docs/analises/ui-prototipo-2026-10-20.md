@@ -33,12 +33,25 @@ Tomadas pelo Marcelo após a revisão de divergências pré-integração.
 1. **Dados do perfil:** cargo, vínculo, carreira, unidade, campus, prêmios, disciplinas, coordenação de projetos e demais campos exibidos pelo protótipo virão do grafo gerado em Cypher pelo `chateau-data` no modelo `rev_6_training`, padrão vigente. As referências à rev_5 no código do protótipo devem ser lidas como rev_6 no port. O grafo hoje carregado em produção ainda não tem esses campos (schema extraído em 28/09: sem `Job`, `Role`, `WORKS`, `TAUGHT`, `COORDINATES`, `Campus`, `Acknowledgment`).
 2. **Resultado da busca:** ranqueamento, aderência, justificativas, caminho no grafo, cobertura e equipe virão do modelo de IA consultando esse grafo, não de regras do backend. O transporte continua o da infraestrutura atual: web → API → orquestração (a orquestração só é alcançável pela rede interna e a API é o único caminho autenticado).
 3. **Port:** os componentes do protótipo serão portados para `chateau-expert/web`, com a interface **visualmente idêntica**. Prevalecem a infraestrutura e as versões do projeto (Next.js 14, React 18, NextAuth, API Express): o protótipo é adaptado ao nosso código, não o contrário. O port é um passo posterior; antes, levantar tudo o que é necessário.
-4. **Consentimento:** vale o registrado no PostgreSQL; o `localStorage` deixa de valer como consentimento. *Revisto no mesmo dia após o Figma:* a tela do protótipo pede escolhas por campo e provavelmente é diferente do termo de uso (`Term`/`Account.acceptedTermId`); a relação entre os dois está em [dúvidas para o Edson](../duvidas-edson/README.md).
-5. **Contexto do usuário:** permanece no navegador (`localStorage`) até se definir sua origem.
-6. **Controles sem funcionalidade:** a aparência segue o protótipo; o comportamento é o que já existe. Controle sem efeito real (ex.: seletor de modelo de IA) continua sem efeito.
+4. **Consentimento:** vale o registrado no PostgreSQL; o `localStorage` deixa de valer como consentimento. *Revisto no mesmo dia após o Figma:* a tela do protótipo pede escolhas por campo e provavelmente é diferente do termo de uso (`Term`/`Account.acceptedTermId`); a relação entre os dois está em [dúvidas para o Edson](../duvidas-edson/README.md). *Revisto na reunião com o Edson (abaixo):* o termo de uso sai; fica uma autorização de contexto junto com os cookies.
+5. **Contexto do usuário:** permanece no navegador (`localStorage`) até se definir sua origem. *Revisto na reunião com o Edson:* vai para o PostgreSQL, ligado à conta Google.
+6. **Controles sem funcionalidade:** a aparência segue o protótipo; o comportamento é o que já existe. Controle sem efeito real (ex.: seletor de modelo de IA) continua sem efeito. *Revisto na reunião com o Edson:* o que não tem dado ou que o modelo não responde aparece com dado simulado.
 7. **Versionamento:** o diretório `/mnt/c/temp/chateau/ui` é a versão final do protótipo e não será versionado; serve de referência para o port.
 
 As frentes e tarefas decorrentes estão em [todo.md](../todo.md).
+
+## Reunião com o Edson, 20/10/2026
+
+Respostas às [dúvidas](../duvidas-edson/README.md); registro em [reunioes/2026-10-20.md](../reunioes/2026-10-20.md). Revê as decisões 4, 5 e 6 acima.
+
+- **Escopo do port:** toda a interface do protótipo vai para o nosso projeto, exceto os desdobramentos de "Buscar candidatos" e "Montar equipe": os botões aparecem, desabilitados.
+- **Dado ausente:** o que não tem dado ou que o modelo ainda não responde (ex.: índice de aderência) fica simulado; o que já dá para implementar, implementa-se com dado real.
+- **Modelo:** ainda em treino para pergunta → resposta. Não informa etapas durante a busca; as etapas reais, Parar e Retomar ficam para depois.
+- **Consentimento:** remover o termo de uso e criar uma autorização de contexto (nome, unidade, e-mail, campus etc.) junto com os cookies.
+- **Contexto do usuário:** filtros, interesses, instruções e demais dados do contexto ficam no PostgreSQL, ligados à conta Google. Por enquanto não entram no envio da pesquisa, mas já são implementados. Disponibilidade começa como "disponível".
+- **Perguntas guiadas:** o campo de pesquisa monta o texto aos poucos e termina com tab, que abre um modal de perguntas. As perguntas são geradas uma vez a partir do grafo rev_6 (`Expert-Finding-in-academia_rev_6_training.json`) e gravadas no PostgreSQL.
+- **Opções de filtro:** vêm do grafo (Cypher). Em avaliação: o Next consulta o grafo direto ou lê uma cópia no PostgreSQL sincronizada por cron noturno.
+- **Protótipo:** não evolui em paralelo; a interface está aprovada. Área de admin e ajustes pontuais são feitos direto no projeto.
 
 ## Próximo passo após avaliação conjunta
 

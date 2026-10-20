@@ -7,7 +7,12 @@
 - `Filter` prevê variável do modelo de domínio, operador (`=`, `<`, `>` ou `!=`) e valor.
 - `Consent` modela nome, unidade, localização, e-mail, cookies e revogação.
 
-**Decidido em 20/10/2026:** o contexto do usuário permanece no navegador (`localStorage`) até se definir de onde ele vem; o consentimento, ao contrário, vale só o aceite no PostgreSQL ([termos](../negocio/termos-e-privacidade.md)).
+**Decidido na [reunião de 20/10/2026](../../docs/reunioes/2026-10-20.md)** (substitui a decisão anterior do mesmo dia de manter o contexto no `localStorage`): o contexto do usuário — filtros, interesses, instruções e demais itens — fica no PostgreSQL, ligado ao usuário do site (conta Google). Por enquanto **não entra no envio da pesquisa**; o modelo ainda não recebe contexto. A disponibilidade começa como "disponível". O consentimento vira uma autorização de contexto, também no PostgreSQL ([termos](../negocio/termos-e-privacidade.md)).
+
+- **Opções de filtro:** vêm do grafo acadêmico (Cypher). Ainda a avaliar se o web consulta o grafo diretamente ou lê uma cópia no PostgreSQL atualizada por rotina noturna.
+- **Perguntas guiadas:** geradas uma vez a partir do grafo rev_6 ([`Expert-Finding-in-academia_rev_6_training.json`](../../chateau-data/model/diagramas/training/Expert-Finding-in-academia_rev_6_training.json)) e gravadas no PostgreSQL. Na interface, o campo de pesquisa monta o texto aos poucos e termina com tab, que abre um modal com as perguntas. Se um administrador poderá editá-las não foi definido.
+
+Nada disso está implementado no Expert; não há tabelas para contexto, autorização de contexto ou perguntas guiadas.
 
 O protótipo Vite guarda contexto e consentimento no `localStorage` e implementa só parte desse desenho. Em especial, documentos são armazenados mas não entram na busca; sua interface está desativada. O protótipo oferece apenas `=` e `!=` para filtros e trata consentimento localmente. Nada disso está integrado às tabelas, APIs ou termos do Expert atual.
 

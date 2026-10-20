@@ -8,4 +8,6 @@ O status da busca é um entre `ok`, `sem_resultado`, `recusada`, `erro_consulta`
 
 No protótipo da nova UI, níveis de profundidade, perguntas guiadas, filtros, montagem de equipe, porcentagens e justificativas operam sobre dados simulados. **Direção decidida em 20/10/2026:** ranqueamento, aderência, justificativas e equipe virão do modelo de IA consultando o grafo rev_6, pelo caminho web → API → orquestração. O contrato dessa resposta ainda não existe; até lá, o resultado real continua sendo a tabela descrita acima.
 
+**Estado do modelo ([reunião de 20/10/2026](../../docs/reunioes/2026-10-20.md)):** ainda em treino para receber uma pergunta e emitir uma resposta. Não responde aderência e outros campos do protótipo, não recebe o contexto do usuário e não informa etapas durante a busca. No port, esses campos ficam simulados; "Buscar candidatos" e "Montar equipe" ficam desabilitados.
+
 Fontes: [serviço de conversa](../../chateau-expert/backend/src/services/chat.service.ts), [chat web](../../chateau-expert/web/src/app/chat/page.tsx), [serviço de busca](../../chateau-expert/backend/src/services/search.service.ts), [análise da UI](../../docs/analises/ui-prototipo-2026-10-20.md).

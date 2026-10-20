@@ -15,24 +15,31 @@ Legenda: **(dep: X)** = depende de outra tarefa ou pessoa.
 
 Decisões de 20/10/2026: [análise da UI](analises/ui-prototipo-2026-10-20.md#decisões-de-20102026). Aparência idêntica ao protótipo (`/mnt/c/temp/chateau/ui`, versão final, não versionada); infraestrutura e versões do Expert prevalecem (Next.js 14, React 18). **Nada de código antes de fechar o levantamento abaixo.**
 
+Escopo pela [reunião de 20/10](reunioes/2026-10-20.md): portar toda a interface, menos os desdobramentos de "Buscar candidatos" e "Montar equipe" (botões desabilitados). O que não tem dado ou o modelo não responde fica simulado; o que dá para implementar (ex.: contexto no PostgreSQL) já se implementa. O protótipo não evolui em paralelo.
+
 Levantamento (antes de programar). O Figma é espelho do protótipo e a página 08 Handoff já traz mapa de arquivos, contrato com o grafo e interruptores: ver [análise do Figma](analises/figma-2026-10-20.md).
 
 - [ ] Confirmar com o Edson que a cópia em `/mnt/c/temp/chateau/ui` corresponde ao commit `3cf7be7` (ou posterior) do repositório local dele, que o Figma espelha.
-- [ ] **Consentimento × termo de uso:** visão atual: são coisas diferentes; a tela é ampliação da permissão de cookies e as escolhas vão para o PostgreSQL (hoje só existe o aceite de termo). **(dep: Edson, [dúvida 1](duvidas-edson/README.md))**
-- [ ] **Busca por etapas, Parar e Retomar:** decidido implementar (o modelo é treinado para esse fluxo). Definir com o Edson etapas, formato do andamento e cancelamento; depois, adaptar API e web (hoje é requisição única). **(dep: Edson, [dúvida 2](duvidas-edson/README.md))**
-- [ ] Níveis de busca: nomes e existência no modelo. **(dep: resposta da [dúvida 2](duvidas-edson/README.md))**
+- [x] Consentimento × termo de uso: respondido na [reunião de 20/10](reunioes/2026-10-20.md) (20/10).
+- [ ] **Remover o termo de uso e criar a autorização de contexto** (nome, unidade, e-mail, campus etc. + cookies) no PostgreSQL. Definir o destino de `Term`, `Account.acceptedTermId`, `/termos-uso`, da exigência de termo aceito na API e do menu de termos no admin; e o que cada escolha controla.
+- [ ] **Busca por etapas, Parar e Retomar:** adiado ([reunião de 20/10](reunioes/2026-10-20.md)): o modelo ainda só recebe pergunta e devolve resposta. Definir no port como a espera aparece sem etapas reais. **(dep: Edson, quando o modelo informar etapas)**
+- [ ] Níveis de busca: nomes e existência no modelo. **(dep: Edson; não respondido na [reunião de 20/10](reunioes/2026-10-20.md))**
+- [ ] Confirmar com o Edson se o chat livre também fica para depois ou se já vai para o modelo como hoje.
+- [ ] **Contexto do usuário no PostgreSQL**, ligado à conta Google: filtros, interesses, instruções e demais itens; disponibilidade com padrão "disponível". Ainda não entra no envio da pesquisa.
+- [ ] **Perguntas guiadas:** gerar uma vez a partir do grafo rev_6 e gravar no PostgreSQL; modal aberto pelo tab no fim do texto do campo de pesquisa. Perguntar ao Edson se o admin poderá editá-las.
+- [ ] **Opções de filtro:** medir o custo das consultas no grafo rev_6 e decidir entre consultar o Cypher direto (com cache no Next) ou copiar para o PostgreSQL com cron noturno de diferenças.
 - [ ] Ajustar nosso código (decidido): acesso à administração pela nova sidebar; tema único claro; histórico com Desfazer por 6 s (exclusão adiada) e rota por conversa para voltar/avançar do navegador.
 - [ ] Inventário tela a tela e componente a componente do protótipo → rota/componente correspondente no `chateau-expert/web`, indicando o que é visual puro e o que depende de dado ou de backend.
 - [ ] Compatibilidade técnica ([versões](duvidas-edson/README.md#4-versões-do-protótipo--projeto)): dependências do protótipo (`motion` 13, `@phosphor-icons/react`, `@radix-ui/react-slider`, fontes Geist) aceitam React 18 e o código não usa APIs exclusivas do React 19 (verificado em 20/10). Falta: conferir Tailwind 4 do protótipo × configuração do web (tokens, `index.css`), coexistência com shadcn/lucide já usados no web, e o aviso de bundle > 500 kB.
 - [ ] Campo a campo: cada dado exibido (cartão, gaveta de perfil, comparação, cobertura, equipe) → nó/propriedade/aresta da **rev_6** (o código do protótipo cita rev_5). Marcar o que existe no modelo e o que não existe. **(dep: frente 2 para saber o que estará carregado)**
 - [ ] Mapear fluxos do protótipo para os contratos do Expert:
   - login demonstrativo → Google/NextAuth; `/pending` e regras de [acesso](../dominio/negocio/acesso.md);
-  - tela de consentimento → aceite de termo no PostgreSQL (decidido);
+  - tela de consentimento → autorização de contexto no PostgreSQL, sem termo de uso (decidido na reunião de 20/10);
   - histórico em `localStorage` → `/api/chats` (formato `__SEARCH__:` precisa acomodar o novo resultado);
-  - contexto do usuário → continua em `localStorage` (decidido);
+  - contexto do usuário → PostgreSQL, ligado à conta Google (decidido na reunião de 20/10; antes `localStorage`);
   - links de termos/privacidade → páginas existentes (`/termos-uso`, `/privacidade`);
   - área administrativa: não existe no protótipo; definir como fica visualmente.
-- [ ] Listar controles que ficam visíveis sem efeito (ex.: seletor de modelo, níveis de profundidade até haver suporte) e os que o `features.ts` já esconde.
+- [ ] Listar os campos e controles que ficam com dado simulado (ex.: aderência, que o modelo ainda não responde), os que ficam visíveis sem efeito (ex.: seletor de modelo, níveis de profundidade até haver suporte) e os que o `features.ts` já esconde.
 - [ ] Estados vazios, erro, recusa e indisponibilidade: mapear os 5 status atuais da busca para telas do protótipo (`recusada` não tem tela no desenho; definir no nosso código).
 - [ ] Port responsivo: o desenho tem telas de celular (390 px).
 
@@ -52,8 +59,8 @@ Depois do levantamento:
 
 ## 3. IA e orquestração
 
-- [ ] Levar ao Edson a lista de [dúvidas](duvidas-edson/README.md) e registrar as respostas.
-- [ ] Definir com o Edson o **contrato de resposta do modelo** para a nova UI: lista de perfis, aderência, justificativa, caminho no grafo, cobertura e montagem de equipe; como isso chega pelo caminho web → API → orquestração. **(dep: levantamento campo a campo da frente 1)**
+- [x] Levar ao Edson a lista de [dúvidas](duvidas-edson/README.md) e registrar as respostas ([reunião de 20/10](reunioes/2026-10-20.md)).
+- [ ] Definir com o Edson o **contrato de resposta do modelo** (hoje o modelo ainda está em treino para pergunta → resposta, sem aderência nem contexto) para a nova UI: lista de perfis, aderência, justificativa, caminho no grafo, cobertura e montagem de equipe; como isso chega pelo caminho web → API → orquestração. **(dep: levantamento campo a campo da frente 1)**
 - [ ] Depois da carga rev_6: extrair de novo `schema_producao.txt` e atualizar o schema usado pelo modelo. **(dep: frente 2, carga rev_6)**
 - [ ] Datas e identificadores gravados como texto (`datePublished: "2021"`) × `DATE`/`INTEGER` no modelo: pendente com o Edson.
 - [ ] Tarefa 1: versão 2.0 do orquestrador — aguardando o Edson.
