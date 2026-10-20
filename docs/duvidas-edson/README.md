@@ -23,7 +23,13 @@ Os demais itens, mesma dúvida: Filtros e interesses, instruções (na engrenage
 
 ## 4. Versões do protótipo × projeto
 
-O protótipo está em React 19 / Vite e o projeto em Next.js 14 / React 18; vamos adaptar o protótipo às versões do projeto. O protótipo vai continuar evoluindo em paralelo? Se sim, como mantemos os dois iguais?
+O protótipo está em React 19 / Vite e o projeto em Next.js 14 / React 18; vamos adaptar o protótipo às versões do projeto. O protótipo roda sozinho no navegador e pode usar sempre a versão mais nova; o projeto prefere versões estáveis e compatíveis entre si, porque convive com peças que o protótipo não tem. Exemplos:
+
+- **Next.js 14 e React 18:** React 19 só entra com Next.js 15, e essa troca mexe no login (NextAuth), no middleware de acesso e nas rotas do servidor que hoje protegem a API.
+- **Telas que o protótipo não tem:** administração, termos de uso e privacidade usam componentes shadcn/Radix e ícones lucide já testados com React 18.
+- **Backend e infraestrutura:** API em Express com Prisma e TypeScript 5, imagens Docker em Node 20 e deploy automático com testes; TypeScript 6 e Vite 8 trariam outra base de ferramentas para manter.
+
+O protótipo vai continuar evoluindo em paralelo? Se sim, como mantemos os dois iguais?
 
 | Item | Protótipo | Projeto (web) |
 |---|---|---|
