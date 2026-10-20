@@ -18,6 +18,9 @@ Lista viva de perguntas abertas. Ao receber a resposta, anotar a data e o desfec
 9. **Busca recusada:** quando a pergunta gera uma consulta que altera dados (ex.: "Apague todos os pesquisadores"), o Expert bloqueia e mostra "consulta recusada". O desenho não tem essa tela. Usamos o mesmo aviso de erro do serviço com outro texto, ou você prefere desenhar?
 10. Filtros e "Instruções" do contexto: o modelo vai receber as tags e filtros como texto da pergunta ou em campos separados? A combinação por OU prevista no grafo de UX entra?
 
+10a. **Origem das opções dos questionários** (Buscar candidatos e Montar equipe): no protótipo estão fixas em `src/flows/` e o Figma não fala em base ou administração. Proposta: linhas de pesquisa vêm do grafo (`LineOfResearch` real no Neo4j); vínculo, tipos de produção, disponibilidade, obrigatoriedade, tipo de projeto e tamanho do time ficam fixos, ligados ao modelo rev_6. Concorda, ou alguma lista deve ser administrável?
+10b. **Regras de ranqueamento e de equipe:** no protótipo, `runSearch` aplica "obrigatório elimina, desejável pesa" (área +8, produção +5, disponibilidade +3, tipo de projeto +5, objetivo +4) e monta a equipe com uma vaga por linha de pesquisa e até 2 reservas. Essas regras passam a ser do modelo, ou o nosso sistema aplica sobre o que o modelo devolve?
+
 ## Nova UI — desenho e código
 
 11. A cópia que recebemos (`/mnt/c/temp/chateau/ui`, sem Git) corresponde ao commit `3cf7be7` que o Figma espelha, ou é posterior?
