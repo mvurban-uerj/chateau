@@ -5,6 +5,7 @@
 | Assunto | Onde ler |
 |---|---|
 | Nova interface: execução isolada, análise e integração futura | [analises/ui-prototipo-2026-10-20.md](analises/ui-prototipo-2026-10-20.md) |
+| Figma da nova UI: estrutura, handoff e pontos de decisão | [analises/figma-2026-10-20.md](analises/figma-2026-10-20.md) |
 | Divergências entre documentação, modelos e código; decisões pendentes | [analises/divergencias-2026-10-20.md](analises/divergencias-2026-10-20.md) |
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
 | Tarefas e agenda, por frente de trabalho | [todo.md](todo.md) |

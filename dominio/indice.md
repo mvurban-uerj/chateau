@@ -37,5 +37,5 @@ Os arquivos distinguem **regra implementada**, **modelo definido** e **proposta*
 
 - Escrever a regra uma vez, com fonte rastreável. O índice é roteador, não cópia dos documentos.
 - Antes de mudar um conceito, conferir modelo/código atual e [divergências conhecidas](../docs/analises/divergencias-2026-10-20.md). Uma divergência exige decisão explícita antes de declarar uma nova regra.
-- O Figma ainda será fornecido. Seus conceitos entrarão em arquivos temáticos com referência ao frame/versão e estado de validação, após avaliação conjunta.
+- O Figma (versão 01, 13/10/2026) foi lido em 20/10/2026 e é espelho do protótipo: [análise](../docs/analises/figma-2026-10-20.md). Seus conceitos entram nos arquivos temáticos só quando decididos.
 - O repositório raiz versiona estes documentos separadamente dos dois repositórios de implementação. Uma mudança que atravesse repositórios deve registrar quais versões de código foram verificadas.

@@ -8,15 +8,21 @@ Legenda: **(dep: X)** = depende de outra tarefa ou pessoa.
 
 | Data | O quê | Frente |
 |---|---|---|
-| 20/10 | Edson deve mandar o Figma/zip da identidade visual (reunião de 19/10) | Identidade visual |
+| 20/10 | ~~Edson deve mandar o Figma da identidade visual~~ recebido e lido ([análise](analises/figma-2026-10-20.md)) | Identidade visual |
 | — | Teste do modelo com GPU previsto para 30/09–02/10: resultado não registrado aqui; confirmar se aconteceu | IA e orquestração |
 
 ## 1. Nova UI — port do protótipo
 
 Decisões de 20/10/2026: [análise da UI](analises/ui-prototipo-2026-10-20.md#decisões-de-20102026). Aparência idêntica ao protótipo (`/mnt/c/temp/chateau/ui`, versão final, não versionada); infraestrutura e versões do Expert prevalecem (Next.js 14, React 18). **Nada de código antes de fechar o levantamento abaixo.**
 
-Levantamento (antes de programar):
+Levantamento (antes de programar). O Figma é espelho do protótipo e a página 08 Handoff já traz mapa de arquivos, contrato com o grafo e interruptores: ver [análise do Figma](analises/figma-2026-10-20.md).
 
+- [ ] Confirmar com o Edson que a cópia em `/mnt/c/temp/chateau/ui` corresponde ao commit `3cf7be7` (ou posterior) do repositório local dele, que o Figma espelha.
+- [ ] **Decidir o consentimento:** o desenho pede escolha por campo (nome, unidade/vínculo, e-mail, campus, cookies) e o PostgreSQL só guarda aceite de termo. Criar o registro das escolhas no PostgreSQL ou reduzir a tela ao aceite do termo? E o que cada escolha controla.
+- [ ] **Decidir progresso e parada da busca:** etapas reais, Parar e Retomar exigem que o contrato da IA informe progresso e aceite cancelamento; sem isso, ocultar. **(dep: contrato da frente 3)**
+- [ ] Decidir nomes e existência dos níveis de busca (em aberto no Figma; não existem no backend).
+- [ ] Decidir acesso à administração na nova sidebar e aparência das telas de admin; decidir se o tema escuro sai (desenho só tem claro).
+- [ ] Histórico: Desfazer por 6 s ao apagar e voltar/avançar do navegador entre conversas exigem exclusão adiada e rota por conversa no web.
 - [ ] Inventário tela a tela e componente a componente do protótipo → rota/componente correspondente no `chateau-expert/web`, indicando o que é visual puro e o que depende de dado ou de backend.
 - [ ] Compatibilidade técnica: dependências do protótipo (`motion` 13, `@phosphor-icons/react`, `@radix-ui/react-slider`, fontes Geist) aceitam React 18 e o código não usa APIs exclusivas do React 19 (verificado em 20/10). Falta: conferir Tailwind 4 do protótipo × configuração do web (tokens, `index.css`), coexistência com shadcn/lucide já usados no web, e o aviso de bundle > 500 kB.
 - [ ] Campo a campo: cada dado exibido (cartão, gaveta de perfil, comparação, cobertura, equipe) → nó/propriedade/aresta da **rev_6** (o código do protótipo cita rev_5). Marcar o que existe no modelo e o que não existe. **(dep: frente 2 para saber o que estará carregado)**
@@ -28,7 +34,8 @@ Levantamento (antes de programar):
   - links de termos/privacidade → páginas existentes (`/termos-uso`, `/privacidade`);
   - área administrativa: não existe no protótipo; definir como fica visualmente.
 - [ ] Listar controles que ficam visíveis sem efeito (ex.: seletor de modelo, níveis de profundidade até haver suporte) e os que o `features.ts` já esconde.
-- [ ] Estados vazios, erro, recusa e indisponibilidade: mapear os 5 status atuais da busca para telas do protótipo.
+- [ ] Estados vazios, erro, recusa e indisponibilidade: mapear os 5 status atuais da busca para telas do protótipo (`recusada` não tem tela no desenho).
+- [ ] Port responsivo: o desenho tem telas de celular (390 px).
 
 Depois do levantamento:
 
@@ -128,7 +135,9 @@ Depois:
 
 ## 5. Identidade visual
 
-- [ ] Tarefa 31: receber o Figma/zip do Edson e registrar os conceitos com referência ao frame/versão. Conferir se diverge do protótipo, que é a versão final da aparência.
+- [x] Tarefa 31: Figma recebido e lido em 20/10 ([análise](analises/figma-2026-10-20.md)); é espelho do protótipo (versão 01, 13/10, commit `3cf7be7`) e, por regra do próprio arquivo, o código prevalece.
+- [ ] Revogar o token pessoal do Figma usado na leitura (Settings → Security) quando o levantamento terminar.
+- [ ] Se o original do Edson mudar, refazer a cópia ou pedir acesso de leitura para `mvurban@mvurban.eti.br` (a cópia em rascunhos não acompanha o original).
 
 ## 6. Documentação e segurança
 
