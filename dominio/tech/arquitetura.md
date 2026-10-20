@@ -1,6 +1,6 @@
 # Arquitetura e ambientes
 
-**Estado versionado, não confirmação do que está rodando em produção.** A raiz `chateau/` coordena documentação e os repositórios Git independentes `chateau-data/` e `chateau-expert/`. O Expert contém web Next.js, API Express/Prisma/PostgreSQL e orquestração de IA. `docker-compose.yml` é o ambiente local; `docker-compose.prod.yml` define produção. Caddy encaminha tráfego ao web. A API conversa com PostgreSQL e, quando configurada, com a orquestração. O Neo4j armazena o grafo acadêmico.
+**Estado versionado, não confirmação do que está rodando em produção.** A raiz `chateau/` coordena documentação e os repositórios Git independentes `chateau-data/` e `chateau-expert/`. O Expert contém web Next.js, API Express/Prisma/PostgreSQL e orquestração de IA. `docker-compose.yml` é o ambiente local; `docker-compose.prod.yml` define produção. Caddy encaminha tráfego ao web. O navegador só fala com o web; o servidor Next.js chama a API com o token `INTERNAL_API_TOKEN` e o usuário da sessão ([regras](../negocio/acesso.md#autorização-na-api)). A API conversa com PostgreSQL e, quando configurada, com a orquestração. O Neo4j armazena o grafo acadêmico.
 
 O serviço de orquestração tem duas implementações sob o mesmo contrato HTTP: Python/FastAPI (ponte de referência) e Quarkus/Java (alternativa em comparação). No Compose ele é ativado pelo perfil `ia`; `ORCHESTRATION_URL` vazia faz o backend usar mock. A implantação ou presença do perfil no arquivo não prova que a busca real esteja ativa em um ambiente específico.
 

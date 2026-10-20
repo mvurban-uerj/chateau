@@ -6,7 +6,15 @@ Este registro separa observações verificáveis de decisões ainda não tomadas
 
 Inventário dos arquivos rastreados nos três repositórios (21 na raiz, 161 em `chateau-data`, 244 em `chateau-expert`) e do protótipo local. Código, configuração, documentação, modelos JSON, ontologia, schemas, migrations, testes, fixtures e o diagrama XML foram examinados por estrutura e, nos assuntos de domínio, pelo conteúdo. Locks de dependência foram conferidos como inventário. Imagens, currículos/certificados/PDFs brutos, planilhas de entrada, dados pessoais de amostra e artefatos gerados não foram usados como documentação normativa.
 
-## Prioridade alta: autorização das rotas da API
+## ~~Prioridade alta~~ Resolvida: autorização das rotas da API
+
+**Desfecho (20/10/2026):** implementada autenticação web → API no Expert (`514cc8a`, enviado para `main` em 20/10/2026). Toda rota `/api/*` exige o token `INTERNAL_API_TOKEN`, conhecido só pelo servidor Next.js; o usuário vem do cabeçalho `X-User-Email` preenchido a partir da sessão NextAuth, e e-mail no corpo/query deixou de identificar o usuário. As rotas de administração exigem `ADMIN` (com termo aceito) ou `SUPERADMIN`; busca, conversas e catálogos do chat exigem usuário autorizado (ou `ADMIN`) com termo aceito; privacidade exige só usuário existente. As server actions do web passam a enviar o usuário da sessão, então chamá-las fora da página de origem não concede privilégio. Verificação: 57 testes de integração do backend (inclui `auth-guards.test.ts`), `tsc` e `next build` do web. Regra vigente em [dominio/negocio/acesso.md](../../dominio/negocio/acesso.md#autorização-na-api).
+
+Mudanças de comportamento decididas na correção: a API passou a exigir também o termo vigente aceito nas rotas de usuário e de administração (antes só o web exigia), e `ADMIN` não aprovado individualmente passa nas rotas de usuário, como já acontecia nas páginas.
+
+`INTERNAL_API_TOKEN` foi gerado no `.env.prod` do servidor antes do push. **Pendente:** validar os fluxos no ambiente implantado. O fallback do middleware web para o JWT quando a API está indisponível continua como estava.
+
+Registro original:
 
 O [middleware web](../../chateau-expert/web/src/middleware.ts) restringe `/admin`, e as rotas Next.js de busca/conversa usam a sessão. Porém o [backend Express](../../chateau-expert/backend/src/app.ts) monta rotas administrativas e de privacidade sem middleware de autenticação. A [rota de privacidade](../../chateau-expert/backend/src/routes/privacy.router.ts) aceita e-mail fornecido no pedido para exportar ou excluir a conta; [authorizeUser](../../chateau-expert/backend/src/middleware/authorizeUser.ts), nas rotas onde é usado, também confia no e-mail do pedido para identificar o usuário. O Compose atual não publica a porta da API diretamente, mas o serviço é alcançável na rede `frontend_net`. **Questão:** definir e implementar autenticação/autorização entre web e API antes de expor novos caminhos de acesso ou integrar a nova UI. Não assumir que o controle da página protege sozinho os endpoints internos.
 
@@ -26,6 +34,6 @@ O [middleware web](../../chateau-expert/web/src/middleware.ts) restringe `/admin
 
 ## Interface e busca
 
-- [web/dominio.md](../../chateau-expert/web/dominio.md) chama autorização por domínio de e-mail de futura; [auth.service.ts](../../chateau-expert/backend/src/services/auth.service.ts) já a implementa. [dominio/negocio/acesso.md](../../dominio/negocio/acesso.md) registra o comportamento atual.
+- ~~[web/dominio.md](../../chateau-expert/web/dominio.md) chama autorização por domínio de e-mail de futura~~ — corrigido em 20/10/2026 junto com a autenticação da API; [auth.service.ts](../../chateau-expert/backend/src/services/auth.service.ts) já a implementava.
 - O seletor de `AiModel` no [chat atual](../../chateau-expert/web/src/app/chat/page.tsx) não integra o pedido de busca; o backend recebe `{pergunta}`. Evitar descrevê-lo como escolha efetiva do modelo texto→Cypher.
 - O protótipo Vite usa busca, consentimento e persistência locais, incompatíveis diretamente com o contrato do Expert. A [análise inicial](ui-prototipo-2026-10-20.md) contém o mapa de integração. Conceitos do Figma ainda não foram fornecidos/validados.

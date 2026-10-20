@@ -1,6 +1,6 @@
 # Acesso à aplicação atual
 
-**Implementado no Expert.** Fontes: [NextAuth](../../chateau-expert/web/src/lib/auth.ts), [middleware web](../../chateau-expert/web/src/middleware.ts), [sessão no backend](../../chateau-expert/backend/src/services/auth.service.ts) e [schema Prisma](../../chateau-expert/backend/prisma/schema.prisma).
+**Implementado no Expert.** Fontes: [NextAuth](../../chateau-expert/web/src/lib/auth.ts), [middleware web](../../chateau-expert/web/src/middleware.ts), [sessão no backend](../../chateau-expert/backend/src/services/auth.service.ts), [barreiras da API](../../chateau-expert/backend/src/middleware/authorizeUser.ts) e [schema Prisma](../../chateau-expert/backend/prisma/schema.prisma).
 
 - Entrada via Google OAuth/NextAuth. No login, o backend cria/atualiza `User` e `Account`, atribui `USER` e registra `LOGIN`.
 - `privateAccessStatus` tem `PENDING` (padrão), `APPROVED` e `DENIED`. A sessão considera autorizado quem é `SUPERADMIN`, tem `APPROVED` **ou** usa domínio de e-mail cadastrado em `AuthorizedDomain`. A autorização por domínio **já está implementada**.
@@ -9,4 +9,15 @@
 - `USER` sem autorização vai para `/pending` antes de qualquer pedido de termo; autorizado, precisa aceitar o termo vigente para entrar em `/chat` e outras rotas protegidas.
 - O middleware consulta a sessão atual no backend para rotas protegidas. Se essa consulta falha, usa os valores do JWT; isso é **comportamento atual**, não decisão de política de segurança confirmada.
 
-O backend usa `authorizeUser` nas rotas de busca e conversa, conferindo autorização pelo e-mail recebido. O login demonstrativo da UI Vite não substitui nenhum destes controles. Ver [divergências e risco de autorização na API](../../docs/analises/divergencias-2026-10-20.md).
+## Autorização na API
+
+As regras acima valem também na API, não só nas páginas. Só o servidor Next.js chama a API: toda rota `/api/*` exige o token `INTERNAL_API_TOKEN`, que o navegador nunca recebe. O usuário é o da sessão NextAuth, enviado pelo servidor web no cabeçalho `X-User-Email`; **e-mail no corpo ou na query não identifica ninguém**. A API consulta papéis, autorização e termo no PostgreSQL a cada chamada:
+
+| Nível | Exige | Rotas |
+|---|---|---|
+| Só token | — | login (`sign-in`), dados de sessão, termo vigente, contagem pública de acessos |
+| Usuário | conta existente | aceite de termo, visita à home, exportação e exclusão da própria conta (direitos de privacidade independem de aprovação) |
+| Usuário autorizado | `SUPERADMIN`; ou autorizado/`ADMIN` com termo vigente aceito | busca, conversas, registro de consulta, leitura de exemplos e do catálogo de modelos |
+| Administração | `SUPERADMIN`; ou `ADMIN` com termo vigente aceito | usuários, domínios, administradores, listagem/criação de termos, escrita de exemplos e modelos |
+
+Sem token configurado (mínimo de 32 caracteres) a API não sobe e responde 503. O login demonstrativo da UI Vite não substitui nenhum destes controles. Histórico da correção em [divergências](../../docs/analises/divergencias-2026-10-20.md).

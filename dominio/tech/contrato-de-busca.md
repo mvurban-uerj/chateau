@@ -1,6 +1,6 @@
 # Contrato da busca
 
-**Implementado no Expert.** Fluxo: web `POST /api/search` com `{pergunta}` → rota Next.js acrescenta e-mail da sessão → backend `POST /api/search` → mock ou serviço de orquestração → classificação para o web. O backend limita pergunta a 1.000 caracteres. O resultado da API inclui `status`, `mensagem`, `cypher`, `avisos`, `colunas`, `linhas`, `truncado` e `tempoMs`.
+**Implementado no Expert.** Fluxo: web `POST /api/search` com `{pergunta}` → rota Next.js envia ao backend o token interno e o e-mail da sessão no cabeçalho `X-User-Email` → backend `POST /api/search` (exige usuário autorizado com termo aceito, ver [acesso](../negocio/acesso.md#autorização-na-api)) → mock ou serviço de orquestração → classificação para o web. O backend limita pergunta a 1.000 caracteres. O resultado da API inclui `status`, `mensagem`, `cypher`, `avisos`, `colunas`, `linhas`, `truncado` e `tempoMs`.
 
 `ORCHESTRATION_URL` vazia seleciona mock; preenchida, o backend chama `POST /search` com pergunta original e usuário. O serviço responde com todas as chaves do contrato (`cypher`, `avisos`, `tokens_prompt`, `segundos`, `resultado`, `recusada`, `erro`), inclusive nas falhas do modelo/banco; transporte/HTTP inválido vira indisponibilidade. O limite padrão devolvido pelo serviço é 50 linhas, máximo aceito 500.
 

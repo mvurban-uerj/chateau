@@ -1,4 +1,14 @@
-# TODO — teste do modelo real com GPU (qua 30/09 a sex 02/10)
+# TODO
+
+## Autenticação web → API (20/10/2026)
+
+- [x] Revisar e commitar no `chateau-expert` a autenticação web → API ([desfecho](analises/divergencias-2026-10-20.md)).
+- [x] **Antes do push para `main`** (dispara o deploy): no servidor, acrescentar ao `/opt/apps/chateau-expert/.env.prod`
+      `INTERNAL_API_TOKEN=<openssl rand -hex 32>`. Sem ela a API não sobe.
+- [ ] Depois do deploy: entrar com Google, abrir `/chat`, fazer uma busca e abrir `/admin` com um administrador.
+- [x] Atualizar o commit de referência do Expert em [dominio/indice.md](../dominio/indice.md).
+
+# Teste do modelo real com GPU (qua 30/09 a sex 02/10)
 
 Detalhes e justificativas: `docs/integracao-modelo/README.md`, Fase 5.
 

@@ -5,7 +5,7 @@
 ## Núcleos do modelo rev_6
 
 | Área | Nós principais | Relações exemplares |
-|---|---|
+|---|---|---|
 | Pessoas e vínculos | `Person`, `Job`, `Role`, `JobPosting`, `Service` | `WORKS`, `HAS_ROLE`, `ADMITTED_THROUGH`, `PERFORMED` |
 | Produção e reconhecimento | `Article`, `Book`, `Chapter`, `AcademicWork`, `Presentation`, `Biography`, `Acknowledgment` | `IS_AUTHOR_OF`, `WROTE`, `RECEIVED`, `SUPERVISED_BY`, `IS_ABOUT` |
 | Pesquisa | `ResearchProject`, `LineOfResearch`, `ConcentrationArea`, `Topic` | `COORDINATES`, `IS_MEMBER_OF`, `CONTRIBUTES_TO`, `GROUPS`, `BROADER` |

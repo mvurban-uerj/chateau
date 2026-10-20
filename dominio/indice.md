@@ -2,7 +2,7 @@
 
 Fonte canônica dos conceitos e regras do projeto, compartilhada pelos repositórios `chateau-data` e `chateau-expert`. Leia **só o assunto da tarefa**. O código e os modelos versionados comprovam o estado de implementação; [docs/](../docs/indice.md) guarda a história, propostas e questões abertas.
 
-Revisão inicial de 20/10/2026 contra `chateau-data` `04c8225` e `chateau-expert` `51c4b1b`. Conferir novamente as fontes ao mudar de commit.
+Revisão inicial de 20/10/2026 contra `chateau-data` `04c8225` e `chateau-expert` `51c4b1b`; reconferida no mesmo dia contra `chateau-data` `c770241` (só `AGENTS.md` mudou) e `chateau-expert` `514cc8a` (autenticação web → API). Conferir novamente as fontes ao mudar de commit.
 
 Os arquivos distinguem **regra implementada**, **modelo definido** e **proposta**. Não interpretar um nó de grafo, campo planejado ou mock como funcionalidade entregue. Detalhes exaustivos de propriedades e relações pertencem ao JSON do modelo indicado abaixo.
 
@@ -11,7 +11,7 @@ Os arquivos distinguem **regra implementada**, **modelo definido** e **proposta*
 | Ao trabalhar com… | Ler |
 |---|---|
 | Objetivo, fronteiras e vocabulário | [negocio/visao-geral.md](negocio/visao-geral.md) · [negocio/glossario.md](negocio/glossario.md) |
-| Login, autorização, perfis de acesso | [negocio/acesso.md](negocio/acesso.md) |
+| Login, autorização, perfis de acesso, proteção da API | [negocio/acesso.md](negocio/acesso.md) |
 | Administração de usuários, domínios, modelos e exemplos | [negocio/administracao.md](negocio/administracao.md) |
 | Conversas, busca e apresentação dos resultados | [negocio/conversas-e-busca.md](negocio/conversas-e-busca.md) |
 | Termos, dados pessoais, exportação e exclusão | [negocio/termos-e-privacidade.md](negocio/termos-e-privacidade.md) |
