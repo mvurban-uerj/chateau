@@ -10,6 +10,8 @@ A tela "Antes de começar, o que podemos usar?" pede escolhas por campo (nome, u
 
 Pelo que entendi, a busca tem duas portas e um só mecanismo: a pergunta guiada (cards "Buscar candidatos" e "Montar equipe", com opções para marcar) ou o chat, onde a pessoa escreve. Nos dois casos o sistema monta a pergunta, que vai para o orquestrador, que consulta o modelo, que devolve a resposta. Está certo?
 
+No protótipo, quem pergunta de volta é a interface: se o texto segue um molde e ficou incompleto, o chat faz só as perguntas que faltaram; texto livre vai direto para a busca. Com o modelo real, um texto livre vago recebe resposta direta ou o modelo também pode pedir esclarecimento?
+
 As opções da pergunta guiada estão fixas no código. Deveriam vir de alguma base (com administração por trás) ou do grafo?
 
 O que o modelo devolve em cada caso (profissionais, equipe) e como informa as etapas da busca, que vamos implementar porque o modelo está sendo treinado para esse fluxo?
