@@ -8,7 +8,11 @@ A tela "Antes de começar, o que podemos usar?" pede escolhas por campo (nome, u
 
 ## 2. Como a interface conversa com o modelo
 
-Os cards "Buscar candidatos" e "Montar equipe" abrem um questionário com opções fixas no código. Essas opções deveriam vir de alguma base (com administração por trás) ou do grafo? E as respostas, junto com o texto digitado, vão para o modelo, que gera o Cypher e devolve os profissionais (e a equipe, no caso de Montar equipe)? Quero entender o que a interface envia e o que o modelo devolve, inclusive as etapas da busca, que vamos implementar porque o modelo está sendo treinado para esse fluxo.
+Pelo que entendi, a busca tem duas portas e um só mecanismo: a pergunta guiada (cards "Buscar candidatos" e "Montar equipe", com opções para marcar) ou o chat, onde a pessoa escreve. Nos dois casos o sistema monta a pergunta, que vai para o orquestrador, que consulta o modelo, que devolve a resposta. Está certo?
+
+As opções da pergunta guiada estão fixas no código. Deveriam vir de alguma base (com administração por trás) ou do grafo?
+
+O que o modelo devolve em cada caso (profissionais, equipe) e como informa as etapas da busca, que vamos implementar porque o modelo está sendo treinado para esse fluxo?
 
 ## 3. Versões do protótipo × projeto
 
