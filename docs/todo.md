@@ -43,7 +43,7 @@ Depois do levantamento:
 
 ## 2. Dados — `chateau-data` (rev_6)
 
-- [ ] Gerar o Cypher completo no modelo `rev_6_training` e carregar no Neo4j de produção (hoje o grafo é da carga anterior: sem `Job`, `Role`, `WORKS`, `TAUGHT`, `COORDINATES`, `Campus`, `Acknowledgment`). Definir a estratégia de carga (substituir × incrementar; identificadores sequenciais não são estáveis entre execuções). Ver [Neo4j](neo4j/README.md) e a issue citada na [reunião de 23/09](reunioes/2026-09-23.md).
+- [ ] **(Marcelo)** Gerar o Cypher completo no modelo `rev_6_training` e carregar no Neo4j de produção (hoje o grafo é da carga anterior: sem `Job`, `Role`, `WORKS`, `TAUGHT`, `COORDINATES`, `Campus`, `Acknowledgment`). Definir a estratégia de carga (substituir × incrementar; identificadores sequenciais não são estáveis entre execuções). Ver [Neo4j](neo4j/README.md) e a issue citada na [reunião de 23/09](reunioes/2026-09-23.md).
 - [ ] Corrigir o extrator de produções do PDF Sucupira (teste falha em 20 PDFs) e repetir o teste. Ver [fontes e pipeline](../dominio/dados/fontes-e-pipeline.md).
 - [ ] Fontes para os campos novos da UI (cargo/vínculo, unidade, campus, disciplinas, prêmios, coordenação): identificar de onde cada um é extraído. **(dep: levantamento campo a campo da frente 1)**
 - [ ] Atividade 16: baixar dados do S-Ticket da Cotplan (Marcelo e Geraldo) para o grafo rev_6 (reunião de 19/10).

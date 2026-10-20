@@ -12,6 +12,8 @@ Pelo que entendi, a busca tem duas portas e um só mecanismo: a pergunta guiada 
 
 Enquanto a busca roda, o desenho mostra etapas nomeadas com contador e botão Parar ("Lendo 11 perfis no escopo", "Casando nome e área", "Escrevendo as justificativas"...). No protótipo elas avançam por tempo; para refletirem o progresso real, o modelo ou o orquestrador precisa avisar a interface em que etapa está. O modelo vai informar essas etapas durante a busca? Como?
 
+O "Meu contexto" também muda a busca: no protótipo as instruções valem como filtro em toda busca (ex.: só quadro efetivo), os interesses entram quando a área não foi respondida e o objetivo só ajuda a ordenar. Como essas informações entram como parâmetro para o modelo, junto com a pergunta e as respostas do questionário?
+
 ## 3. Origem dos dados
 
 1- Perguntas guiadas (cards "Buscar candidatos" e "Montar equipe")
