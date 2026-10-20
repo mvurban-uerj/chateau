@@ -8,9 +8,7 @@ A tela "Antes de começar, o que podemos usar?" pede escolhas por campo (nome, u
 
 ## 2. Como a interface conversa com o modelo
 
-Pelo que entendi, a busca tem duas portas e um só mecanismo: a pergunta guiada (cards "Buscar candidatos" e "Montar equipe", com opções para marcar) ou o chat, onde a pessoa escreve. Nos dois casos o sistema monta a pergunta, que vai para o orquestrador, que consulta o modelo, que devolve a resposta. Está certo?
-
-No desenho, as perguntas são roteiro fixo da interface e o modelo é chamado uma vez, no fim.
+Pelo que entendi, a busca tem duas portas e um só mecanismo: a pergunta guiada (cards "Buscar candidatos" e "Montar equipe", com opções para marcar) ou o chat, onde a pessoa escreve. Nos dois casos o sistema monta a pergunta, que vai para o orquestrador, que consulta o modelo, que devolve a resposta; as perguntas do questionário são roteiro fixo da interface e o modelo é chamado uma vez, no fim. Está certo?
 
 As opções da pergunta guiada estão fixas no código. Deveriam vir de alguma base (com administração por trás) ou do grafo?
 
