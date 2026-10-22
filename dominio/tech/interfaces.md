@@ -1,17 +1,19 @@
 # Interfaces gráficas
 
-**Port concluído no branch `feat/nova-ui` (`43a25d1`, 22/10/2026), ainda não em `main`:** a interface do protótipo substituiu a antiga em todas as telas (entrada, autorização de contexto, pendente, chat, conversa, gavetas, Meu contexto, admin e privacidade), com i18n (pt-BR) e os primitivos da nova UI; o shadcn, o lucide e o `next-themes` saíram. Detalhes e fases em [nova UI](../../docs/nova-ui/plano.md). O texto abaixo descreve `main`.
+## Web — implementado
 
-## Web atual — implementado
+**Nova UI em `main` desde 22/10/2026 (`43a25d1`).** `chateau-expert/web` é Next.js 14 (App Router, React 18) com a interface do protótipo portada com aparência idêntica ([decisões](../../docs/analises/ui-prototipo-2026-10-20.md#decisões-de-20102026), [plano e fases](../../docs/nova-ui/plano.md)):
 
-`chateau-expert/web` é Next.js com Google OAuth/NextAuth, middleware de acesso, landing, home, chat, área administrativa, aceite de termos (a remover, ver [termos e privacidade](../negocio/termos-e-privacidade.md)) e privacidade. O chat usa as APIs intermediárias `/api/chats` e `/api/search`. O servidor, não o navegador, acrescenta o e-mail da sessão nas chamadas principais. O catálogo `AiModel` aparece no seletor visual, mas a busca atual envia só `{pergunta}`.
+- **Telas:** entrada (Google/NextAuth), acesso pendente e restrito, autorização de contexto, chat (`/chat` e `/chat/[id]`) com histórico na sidebar, cartões de resultado, gavetas de perfil e comparação, Meu contexto, administração (`/admin/*`, dentro da casca) e privacidade.
+- **Textos:** todos em `web/messages/pt-BR.json` (next-intl, idioma fixo pt-BR, sem rota por idioma); o lint proíbe texto solto na interface.
+- **Componentes:** primitivos próprios com os nomes do Figma (`web/src/components/chateau/primitivos`), tema único claro, ícones Phosphor, animações `motion` com movimento reduzido respeitado. Não há mais shadcn, lucide nem `next-themes`.
+- **Dados:** o servidor web chama a API com o token interno e o e-mail da sessão ([acesso](../negocio/acesso.md#autorização-na-api)); conversas, contexto, autorização e perguntas guiadas vêm do PostgreSQL pela API. O que o grafo não traz aparece simulado e marcado em vermelho ([conversas e busca](../negocio/conversas-e-busca.md)).
+- **Recursos ainda parciais**, controlados em `web/src/lib/chateau/features.ts`: "Buscar candidatos" e "Montar equipe" desabilitados; profundidade visível e inerte; Parar avisa "em desenvolvimento"; upload de edital, documentos e ações secundárias ocultos.
 
-## Protótipo novo — referência para o port
+O catálogo `AiModel` é administrado, mas a busca envia só a pergunta.
 
-`/mnt/c/temp/chateau/ui` é React/Vite, com landing, consentimento, chat, histórico, contexto, filtros, profundidade, resultados e gavetas. A busca usa registros simulados em `src/data.ts`; não chama o backend. Histórico, contexto e consentimento ficam em `localStorage`. `src/features.ts` desativa controles ainda sem comportamento correspondente. Seu login é demonstrativo.
+## Protótipo — referência
 
-**Decidido em 20/10/2026** ([decisões](../../docs/analises/ui-prototipo-2026-10-20.md#decisões-de-20102026)): os componentes serão portados para `chateau-expert/web` com aparência idêntica ao protótipo, adaptados às versões do projeto (Next.js 14, React 18). O comportamento é o que o Expert já oferece: controle sem funcionalidade real continua sem efeito. Autenticação, autorização, administração, API real e persistência de conversas do Expert continuam sendo contratos a cumprir (o termo de uso sai, substituído pela autorização de contexto); o comportamento simulado não os altera. O diretório local é a versão final do protótipo e não será versionado.
+`/mnt/c/temp/chateau/ui` (React/Vite, dados simulados, não versionado por decisão) é a versão final do protótipo e serviu de referência para o port. Não evolui em paralelo: ajustes de interface são feitos direto no `chateau-expert/web`. Se o diretório não existir no ambiente, solicitar o código.
 
-**Escopo do port (decidido na [reunião de 20/10/2026](../../docs/reunioes/2026-10-20.md)):** toda a interface do protótipo vai para o web, exceto os desdobramentos de "Buscar candidatos" e "Montar equipe", cujos botões aparecem desabilitados. O que não tem dado ou que o modelo ainda não responde (ex.: aderência) aparece com dado simulado; o que pode ser implementado, como o contexto no PostgreSQL, é implementado mesmo antes de entrar na busca. Sem etapas reais da busca por enquanto. O protótipo não evolui em paralelo: a interface está aprovada, e área de admin e ajustes pontuais são feitos direto no projeto.
-
-Fontes: [web atual](../../chateau-expert/web/src/app/), [análise do protótipo](../../docs/analises/ui-prototipo-2026-10-20.md). O caminho do protótipo é local e não versionado por decisão; se não existir no ambiente, solicitar o código.
+Fontes: [web](../../chateau-expert/web/src/app/), [plano do port](../../docs/nova-ui/plano.md).

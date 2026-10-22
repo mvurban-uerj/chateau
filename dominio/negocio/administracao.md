@@ -1,6 +1,6 @@
 # Administração
 
-**Implementado no Expert, com mudanças decididas em 22/10/2026.** O web reserva `/admin` aos papéis `ADMIN` e `SUPERADMIN`. O menu contém gestão de administradores, autorização de usuários, domínios, modelos de IA e exemplos de busca. **A gestão de termos saiu** junto com o termo de uso ([termos e privacidade](termos-e-privacidade.md)) no branch `feat/nova-ui`; `ADMIN` passa a precisar da autorização de contexto. Em `main` ainda existem o menu de termos e o aceite. A área será redesenhada com os componentes da nova UI e acessada pela nova sidebar ([plano](../../docs/nova-ui/plano.md)).
+**Implementado no Expert, com mudanças decididas em 22/10/2026.** O web reserva `/admin` aos papéis `ADMIN` e `SUPERADMIN`. O menu contém gestão de administradores, autorização de usuários, domínios, modelos de IA e exemplos de busca. **A gestão de termos saiu** junto com o termo de uso ([termos e privacidade](termos-e-privacidade.md)); `ADMIN` precisa da autorização de contexto. A área foi redesenhada com os componentes da nova UI, fica dentro da casca (com abas) e é acessada pela sidebar, em `main` desde 22/10/2026 (`43a25d1`).
 
 - **Usuários:** busca por e-mail e fila `PENDING`; um administrador pode mudar o status entre `PENDING`, `APPROVED` e `DENIED`.
 - **Domínios:** cadastro de sufixos de e-mail, normalizados e validados; o domínio cadastrado concede autorização de sessão.

@@ -60,7 +60,8 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 7 — perguntas guiadas geradas do rev_6 (sem revisão do Marcelo; a crítica fica com o Edson), carregadas pela seed; molde no campo de busca e modal de perguntas no Tab; 136 testes no web e 73 no backend (`774286f`, 22/10).
 - [x] Fase 8 — painel de filtros por tag no campo de busca; opções institucionais simuladas num provedor isolado; tags vão ao modelo na pergunta em linguagem natural; 145 testes (`89731c6`, 22/10).
 - [x] Fase 9 — admin e privacidade na nova UI; retirada da interface antiga e das dependências sem uso; axe sem violações em 13 telas; lint limpo; 153 testes no web e 73 no backend (`43a25d1`, 22/10). Peso por página entre 196 e 230 kB comprimidos (React/Next ~165 kB; motion + Radix ~74 kB); carregar o motion à parte não reduziu nada.
-- [ ] Merge de `feat/nova-ui` em `main` (dispara o deploy) e validação em produção. **(dep: confirmação do Marcelo)**
+- [x] Merge de `feat/nova-ui` em `main` (fast-forward até `43a25d1`, 22/10), confirmado pelo Marcelo; dispara o deploy.
+- [ ] Validar em produção: entrada, autorização de contexto, busca (simulada, sem `ORCHESTRATION_URL`), Meu contexto, admin e privacidade.
 - [ ] Revisão jurídica da página de privacidade: linha nova "Meu contexto" e textos de exportação e exclusão (22/10).
 - [ ] Levar ao Edson: como os filtros devem chegar ao modelo (hoje vão na pergunta em linguagem natural, porque a busca só recebe texto). **(dep: Edson)**
 - [ ] Levar ao Edson: crítica das perguntas guiadas geradas (`backend/src/data/perguntas-guiadas.pt-BR.ts`) e do comportamento do Tab (abre o modal no fim do molde ou quando não há o que completar). **(dep: Edson)**
