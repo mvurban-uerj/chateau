@@ -1,5 +1,7 @@
 # Interfaces gráficas
 
+**Port concluído no branch `feat/nova-ui` (`43a25d1`, 22/10/2026), ainda não em `main`:** a interface do protótipo substituiu a antiga em todas as telas (entrada, autorização de contexto, pendente, chat, conversa, gavetas, Meu contexto, admin e privacidade), com i18n (pt-BR) e os primitivos da nova UI; o shadcn, o lucide e o `next-themes` saíram. Detalhes e fases em [nova UI](../../docs/nova-ui/plano.md). O texto abaixo descreve `main`.
+
 ## Web atual — implementado
 
 `chateau-expert/web` é Next.js com Google OAuth/NextAuth, middleware de acesso, landing, home, chat, área administrativa, aceite de termos (a remover, ver [termos e privacidade](../negocio/termos-e-privacidade.md)) e privacidade. O chat usa as APIs intermediárias `/api/chats` e `/api/search`. O servidor, não o navegador, acrescenta o e-mail da sessão nas chamadas principais. O catálogo `AiModel` aparece no seletor visual, mas a busca atual envia só `{pergunta}`.
