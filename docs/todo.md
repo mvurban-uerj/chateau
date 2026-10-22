@@ -48,6 +48,12 @@ Levantamento (antes de programar). O Figma é espelho do protótipo e a página 
 - [ ] Estados vazios, erro, recusa e indisponibilidade: mapear os 5 status atuais da busca para telas do protótipo (`recusada` não tem tela no desenho; definir no nosso código).
 - [ ] Port responsivo: o desenho tem telas de celular (390 px).
 
+Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.md#7-fases)):
+
+- [x] Fase 0 — fundação: tokens, fontes, `motion` enxuto, i18n (`next-intl`, pt-BR), interruptores, lint contra texto literal, Vitest e job `web-test` no deploy (`7093d86`, 22/10).
+- [x] Fase 1 — primitivos com os nomes do Figma e catálogo em `/catalogo` (só em desenvolvimento); 37 testes (`e47cf4d`, 22/10).
+- [ ] Fase 2 — rotas e casca: route groups, Shell, Sidebar, `/chat/[id]`, histórico pela API.
+
 Depois do levantamento:
 
 - [ ] Plano de port por etapas (o que entra primeiro com dados reais, o que fica escondido). **(dep: levantamento completo)**
