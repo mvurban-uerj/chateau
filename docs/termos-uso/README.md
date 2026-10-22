@@ -1,3 +1,5 @@
+> **Histórico.** Decidido em 22/10/2026: o termo de uso sai por completo, sem guardar aceites, substituído pela autorização de contexto. Regra vigente em [termos e privacidade](../../dominio/negocio/termos-e-privacidade.md). Este documento descreve o código atual até a remoção.
+
 # Termos de Uso
 
 A página `/termos-uso` (e as demais telas que exibem o termo — aceite em

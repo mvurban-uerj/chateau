@@ -10,11 +10,11 @@ Os arquivos distinguem **regra implementada**, **modelo definido** e **proposta*
 
 | Ao trabalhar com… | Ler |
 |---|---|
-| Objetivo, fronteiras e vocabulário | [negocio/visao-geral.md](negocio/visao-geral.md) · [negocio/glossario.md](negocio/glossario.md) |
+| Objetivo, fronteiras, vocabulário e fluxo de ponta a ponta (dados → grafo → modelo → web) | [negocio/visao-geral.md](negocio/visao-geral.md) · [negocio/glossario.md](negocio/glossario.md) |
 | Login, autorização, perfis de acesso, proteção da API | [negocio/acesso.md](negocio/acesso.md) |
 | Administração de usuários, domínios, modelos e exemplos | [negocio/administracao.md](negocio/administracao.md) |
 | Conversas, busca e apresentação dos resultados | [negocio/conversas-e-busca.md](negocio/conversas-e-busca.md) |
-| Termos, dados pessoais, exportação e exclusão | [negocio/termos-e-privacidade.md](negocio/termos-e-privacidade.md) |
+| Autorização de contexto (sem termo de uso), dados pessoais, exportação e exclusão | [negocio/termos-e-privacidade.md](negocio/termos-e-privacidade.md) |
 
 ## Modelo acadêmico e dados
 

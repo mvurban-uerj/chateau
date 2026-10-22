@@ -9,7 +9,7 @@
 
 **Decidido na [reunião de 20/10/2026](../../docs/reunioes/2026-10-20.md)** (substitui a decisão anterior do mesmo dia de manter o contexto no `localStorage`): o contexto do usuário — filtros, interesses, instruções e demais itens — fica no PostgreSQL, ligado ao usuário do site (conta Google). Por enquanto **não entra no envio da pesquisa**; o modelo ainda não recebe contexto. A disponibilidade começa como "disponível". O consentimento vira uma autorização de contexto, também no PostgreSQL ([termos](../negocio/termos-e-privacidade.md)).
 
-- **Opções de filtro:** vêm do grafo acadêmico (Cypher). Ainda a avaliar se o web consulta o grafo diretamente ou lê uma cópia no PostgreSQL atualizada por rotina noturna.
+- **Opções de filtro:** o destino é vir do grafo acadêmico, com cache e sem cópia no PostgreSQL. Por enquanto ficam **simuladas**: o backend e a web não ganham acesso ao Neo4j; o grafo só é alcançado pelo modelo, via orquestração. O que não vier do modelo fica simulado (mock) até o Edson decidir o rumo (decidido pelo Marcelo em 22/10/2026). A fonte definitiva depende do Edson.
 - **Perguntas guiadas:** geradas uma vez a partir do grafo rev_6 ([`Expert-Finding-in-academia_rev_6_training.json`](../../chateau-data/model/diagramas/training/Expert-Finding-in-academia_rev_6_training.json)) e gravadas no PostgreSQL. Na interface, o campo de pesquisa monta o texto aos poucos e termina com tab, que abre um modal com as perguntas. Se um administrador poderá editá-las não foi definido.
 
 Nada disso está implementado no Expert; não há tabelas para contexto, autorização de contexto ou perguntas guiadas.

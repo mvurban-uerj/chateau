@@ -17,17 +17,22 @@ Decisões de 20/10/2026: [análise da UI](analises/ui-prototipo-2026-10-20.md#de
 
 Escopo pela [reunião de 20/10](reunioes/2026-10-20.md): portar toda a interface, menos os desdobramentos de "Buscar candidatos" e "Montar equipe" (botões desabilitados). O que não tem dado ou o modelo não responde fica simulado; o que dá para implementar (ex.: contexto no PostgreSQL) já se implementa. O protótipo não evolui em paralelo.
 
+Contexto consolidado para o port (22/10): [nova-ui/README.md](nova-ui/README.md), com escopo, mapa protótipo → web, tabelas propostas e ordem sugerida. Plano de execução em [nova-ui/plano.md](nova-ui/plano.md) (22/10).
+
 Levantamento (antes de programar). O Figma é espelho do protótipo e a página 08 Handoff já traz mapa de arquivos, contrato com o grafo e interruptores: ver [análise do Figma](analises/figma-2026-10-20.md).
 
 - [ ] Confirmar com o Edson que a cópia em `/mnt/c/temp/chateau/ui` corresponde ao commit `3cf7be7` (ou posterior) do repositório local dele, que o Figma espelha.
 - [x] Consentimento × termo de uso: respondido na [reunião de 20/10](reunioes/2026-10-20.md) (20/10).
-- [ ] **Remover o termo de uso e criar a autorização de contexto** (nome, unidade, e-mail, campus etc. + cookies) no PostgreSQL. Definir o destino de `Term`, `Account.acceptedTermId`, `/termos-uso`, da exigência de termo aceito na API e do menu de termos no admin; e o que cada escolha controla.
+- [ ] **Remover o termo de uso por completo e criar a autorização de contexto** (nome, unidade, e-mail, campus etc. + cookies) no PostgreSQL: apagar `Term`, `Account.acceptedTermId`, `/terms`, `/termos-uso`, `/api/accept-terms`, admin de termos e a exigência na API e no middleware, sem guardar aceites (fase 3 do [plano](nova-ui/plano.md#7-fases)). Falta definir o que cada escolha opcional controla.
 - [ ] **Busca por etapas, Parar e Retomar:** adiado ([reunião de 20/10](reunioes/2026-10-20.md)): o modelo ainda só recebe pergunta e devolve resposta. Definir no port como a espera aparece sem etapas reais. **(dep: Edson, quando o modelo informar etapas)**
 - [ ] Níveis de busca: nomes e existência no modelo. **(dep: Edson; não respondido na [reunião de 20/10](reunioes/2026-10-20.md))**
-- [ ] Confirmar com o Edson se o chat livre também fica para depois ou se já vai para o modelo como hoje.
+- [x] Chat livre: continua indo ao modelo; profissionais da resposta viram cartões, campos fora do grafo em vermelho com dado falso; modelo fora → simulação com aviso "Modelo fora do ar — dados simulados" (decidido pelo Marcelo em 22/10, [regra](nova-ui/README.md#chat-livre--cartões-decidido-em-22102026)).
+- [ ] Implementar a regra do chat livre: detector de linhas de pessoa e construtor de cartões no web; gerador determinístico de dado falso; campo `simulado` no `SearchResult` e no histórico; mock do backend marcado como simulado quando o modelo está fora.
 - [ ] **Contexto do usuário no PostgreSQL**, ligado à conta Google: filtros, interesses, instruções e demais itens; disponibilidade com padrão "disponível". Ainda não entra no envio da pesquisa.
 - [ ] **Perguntas guiadas:** gerar uma vez a partir do grafo rev_6 e gravar no PostgreSQL; modal aberto pelo tab no fim do texto do campo de pesquisa. Perguntar ao Edson se o admin poderá editá-las.
-- [ ] **Opções de filtro:** medir o custo das consultas no grafo rev_6 e decidir entre consultar o Cypher direto (com cache no Next) ou copiar para o PostgreSQL com cron noturno de diferenças.
+- [ ] **Opções de filtro:** simuladas por enquanto, num provedor isolado (fase 8 do [plano](nova-ui/plano.md#7-fases)); backend sem acesso ao Neo4j (decidido em 22/10). Fonte definitiva: **(dep: Edson)**.
+- [x] Decisões do plano (22/10): branch `feat/nova-ui` até fechar; Parar visível avisando "em desenvolvimento"; admin redesenhado com os primitivos novos; perguntas guiadas geradas por script e revisadas pelo Marcelo ([plano](nova-ui/plano.md#10-decisões)).
+- [x] Termo de uso sai por completo, sem guardar aceites; backend sem acesso ao Neo4j, o que o modelo não trouxer fica simulado (decidido em 22/10; [domínio](../dominio/negocio/termos-e-privacidade.md) atualizado).
 - [ ] Ajustar nosso código (decidido): acesso à administração pela nova sidebar; tema único claro; histórico com Desfazer por 6 s (exclusão adiada) e rota por conversa para voltar/avançar do navegador.
 - [ ] Inventário tela a tela e componente a componente do protótipo → rota/componente correspondente no `chateau-expert/web`, indicando o que é visual puro e o que depende de dado ou de backend.
 - [ ] Compatibilidade técnica ([versões](duvidas-edson/README.md#4-versões-do-protótipo--projeto)): dependências do protótipo (`motion` 13, `@phosphor-icons/react`, `@radix-ui/react-slider`, fontes Geist) aceitam React 18 e o código não usa APIs exclusivas do React 19 (verificado em 20/10). Falta: conferir Tailwind 4 do protótipo × configuração do web (tokens, `index.css`), coexistência com shadcn/lucide já usados no web, e o aviso de bundle > 500 kB.
@@ -64,6 +69,7 @@ Depois do levantamento:
 - [ ] Depois da carga rev_6: extrair de novo `schema_producao.txt` e atualizar o schema usado pelo modelo. **(dep: frente 2, carga rev_6)**
 - [ ] Datas e identificadores gravados como texto (`datePublished: "2021"`) × `DATE`/`INTEGER` no modelo: pendente com o Edson.
 - [ ] Tarefa 1: versão 2.0 do orquestrador — aguardando o Edson.
+- [ ] Levar ao Edson: como a interface obtém o que o modelo não traz (opções de filtro, campos de perfil para completar os cartões). Hoje backend e web não acessam o Neo4j e esses dados ficam simulados (decidido em 22/10). **(dep: Edson)**
 - [ ] Teste do modelo real com GPU e ligação da busca real: confirmar se aconteceu e registrar o resultado. Roteiro detalhado abaixo.
 
 ### Roteiro do teste com GPU (planejado para 30/09–02/10)

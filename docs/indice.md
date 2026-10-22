@@ -4,6 +4,7 @@
 
 | Assunto | Onde ler |
 |---|---|
+| **Nova UI: contexto para montar o port** (escopo, mapa protótipo → web, persistência, pendências) | [nova-ui/README.md](nova-ui/README.md) |
 | Nova interface: execução isolada, análise e integração futura | [analises/ui-prototipo-2026-10-20.md](analises/ui-prototipo-2026-10-20.md) |
 | Figma da nova UI: estrutura, handoff e pontos de decisão | [analises/figma-2026-10-20.md](analises/figma-2026-10-20.md) |
 | Divergências entre documentação, modelos e código; decisões pendentes | [analises/divergencias-2026-10-20.md](analises/divergencias-2026-10-20.md) |
