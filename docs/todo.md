@@ -23,7 +23,7 @@ Levantamento (antes de programar). O Figma é espelho do protótipo e a página 
 
 - [ ] Confirmar com o Edson que a cópia em `/mnt/c/temp/chateau/ui` corresponde ao commit `3cf7be7` (ou posterior) do repositório local dele, que o Figma espelha.
 - [x] Consentimento × termo de uso: respondido na [reunião de 20/10](reunioes/2026-10-20.md) (20/10).
-- [ ] **Remover o termo de uso por completo e criar a autorização de contexto** (nome, unidade, e-mail, campus etc. + cookies) no PostgreSQL: apagar `Term`, `Account.acceptedTermId`, `/terms`, `/termos-uso`, `/api/accept-terms`, admin de termos e a exigência na API e no middleware, sem guardar aceites (fase 3 do [plano](nova-ui/plano.md#7-fases)). Falta definir o que cada escolha opcional controla.
+- [x] **Remover o termo de uso por completo e criar a autorização de contexto** (feito na fase 3, `9bf9aaf`) (nome, unidade, e-mail, campus etc. + cookies) no PostgreSQL: apagar `Term`, `Account.acceptedTermId`, `/terms`, `/termos-uso`, `/api/accept-terms`, admin de termos e a exigência na API e no middleware, sem guardar aceites (fase 3 do [plano](nova-ui/plano.md#7-fases)). Falta definir o que cada escolha opcional controla.
 - [ ] **Busca por etapas, Parar e Retomar:** adiado ([reunião de 20/10](reunioes/2026-10-20.md)): o modelo ainda só recebe pergunta e devolve resposta. Definir no port como a espera aparece sem etapas reais. **(dep: Edson, quando o modelo informar etapas)**
 - [ ] Níveis de busca: nomes e existência no modelo. **(dep: Edson; não respondido na [reunião de 20/10](reunioes/2026-10-20.md))**
 - [x] Chat livre: continua indo ao modelo; profissionais da resposta viram cartões, campos fora do grafo em vermelho com dado falso; modelo fora → simulação com aviso "Modelo fora do ar — dados simulados" (decidido pelo Marcelo em 22/10, [regra](nova-ui/README.md#chat-livre--cartões-decidido-em-22102026)).
@@ -53,7 +53,8 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 0 — fundação: tokens, fontes, `motion` enxuto, i18n (`next-intl`, pt-BR), interruptores, lint contra texto literal, Vitest e job `web-test` no deploy (`7093d86`, 22/10).
 - [x] Fase 1 — primitivos com os nomes do Figma e catálogo em `/catalogo` (só em desenvolvimento); 37 testes (`e47cf4d`, 22/10).
 - [x] Fase 2 — casca: route groups, Shell, Sidebar, `/chat/[id]`, histórico pela API com Desfazer; 59 testes (`842cd96`, 22/10). Logout ainda não existe na casca nova (entra com Meu contexto, fase 6).
-- [ ] Fase 3 — entrada e autorização de contexto; remoção do termo de uso.
+- [x] Fase 3 — entrada nova, pendente e restrito; autorização de contexto (backend + tela) e remoção completa do termo de uso; 75 testes no web e 60 no backend (`9bf9aaf`, 22/10).
+- [ ] Fase 4 — campo de busca e chat livre: cartões com campos simulados em vermelho, bloco tabular, avisos dos status e do modelo fora.
 
 Depois do levantamento:
 
