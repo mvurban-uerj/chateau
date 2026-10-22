@@ -27,7 +27,7 @@ Levantamento (antes de programar). O Figma é espelho do protótipo e a página 
 - [ ] **Busca por etapas, Parar e Retomar:** adiado ([reunião de 20/10](reunioes/2026-10-20.md)): o modelo ainda só recebe pergunta e devolve resposta. Definir no port como a espera aparece sem etapas reais. **(dep: Edson, quando o modelo informar etapas)**
 - [ ] Níveis de busca: nomes e existência no modelo. **(dep: Edson; não respondido na [reunião de 20/10](reunioes/2026-10-20.md))**
 - [x] Chat livre: continua indo ao modelo; profissionais da resposta viram cartões, campos fora do grafo em vermelho com dado falso; modelo fora → simulação com aviso "Modelo fora do ar — dados simulados" (decidido pelo Marcelo em 22/10, [regra](nova-ui/README.md#chat-livre--cartões-decidido-em-22102026)).
-- [ ] Implementar a regra do chat livre: detector de linhas de pessoa e construtor de cartões no web; gerador determinístico de dado falso; campo `simulado` no `SearchResult` e no histórico; mock do backend marcado como simulado quando o modelo está fora.
+- [x] Implementar a regra do chat livre: detector de linhas de pessoa e construtor de cartões no web; gerador determinístico de dado falso; campo `simulado` no `SearchResult` e no histórico; mock do backend marcado como simulado quando o modelo está fora. (fase 4, `e4b19a5`)
 - [ ] **Contexto do usuário no PostgreSQL**, ligado à conta Google: filtros, interesses, instruções e demais itens; disponibilidade com padrão "disponível". Ainda não entra no envio da pesquisa.
 - [ ] **Perguntas guiadas:** gerar uma vez a partir do grafo rev_6 e gravar no PostgreSQL; modal aberto pelo tab no fim do texto do campo de pesquisa. Perguntar ao Edson se o admin poderá editá-las.
 - [ ] **Opções de filtro:** simuladas por enquanto, num provedor isolado (fase 8 do [plano](nova-ui/plano.md#7-fases)); backend sem acesso ao Neo4j (decidido em 22/10). Fonte definitiva: **(dep: Edson)**.
@@ -54,7 +54,8 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 1 — primitivos com os nomes do Figma e catálogo em `/catalogo` (só em desenvolvimento); 37 testes (`e47cf4d`, 22/10).
 - [x] Fase 2 — casca: route groups, Shell, Sidebar, `/chat/[id]`, histórico pela API com Desfazer; 59 testes (`842cd96`, 22/10). Logout ainda não existe na casca nova (entra com Meu contexto, fase 6).
 - [x] Fase 3 — entrada nova, pendente e restrito; autorização de contexto (backend + tela) e remoção completa do termo de uso; 75 testes no web e 60 no backend (`9bf9aaf`, 22/10).
-- [ ] Fase 4 — campo de busca e chat livre: cartões com campos simulados em vermelho, bloco tabular, avisos dos status e do modelo fora.
+- [x] Fase 4 — campo de busca e chat livre: cartões com campos simulados em vermelho, tabela, avisos dos status e do modelo fora; backend devolve `simulado`; 99 testes no web e 63 no backend (`e4b19a5`, 22/10).
+- [ ] Fase 5 — gaveta de perfil, comparação, barra de seleção e "Quero os currículos".
 
 Depois do levantamento:
 
