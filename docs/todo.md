@@ -52,7 +52,8 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 
 - [x] Fase 0 — fundação: tokens, fontes, `motion` enxuto, i18n (`next-intl`, pt-BR), interruptores, lint contra texto literal, Vitest e job `web-test` no deploy (`7093d86`, 22/10).
 - [x] Fase 1 — primitivos com os nomes do Figma e catálogo em `/catalogo` (só em desenvolvimento); 37 testes (`e47cf4d`, 22/10).
-- [ ] Fase 2 — rotas e casca: route groups, Shell, Sidebar, `/chat/[id]`, histórico pela API.
+- [x] Fase 2 — casca: route groups, Shell, Sidebar, `/chat/[id]`, histórico pela API com Desfazer; 59 testes (`842cd96`, 22/10). Logout ainda não existe na casca nova (entra com Meu contexto, fase 6).
+- [ ] Fase 3 — entrada e autorização de contexto; remoção do termo de uso.
 
 Depois do levantamento:
 
