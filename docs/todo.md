@@ -29,7 +29,7 @@ Levantamento (antes de programar). O Figma é espelho do protótipo e a página 
 - [x] Chat livre: continua indo ao modelo; profissionais da resposta viram cartões, campos fora do grafo em vermelho com dado falso; modelo fora → simulação com aviso "Modelo fora do ar — dados simulados" (decidido pelo Marcelo em 22/10, [regra](nova-ui/README.md#chat-livre--cartões-decidido-em-22102026)).
 - [x] Implementar a regra do chat livre: detector de linhas de pessoa e construtor de cartões no web; gerador determinístico de dado falso; campo `simulado` no `SearchResult` e no histórico; mock do backend marcado como simulado quando o modelo está fora. (fase 4, `e4b19a5`)
 - [x] **Contexto do usuário no PostgreSQL** (fase 6, `a96b322`), ligado à conta Google: filtros, interesses, instruções e demais itens; disponibilidade com padrão "disponível". Ainda não entra no envio da pesquisa.
-- [ ] **Perguntas guiadas:** gerar uma vez a partir do grafo rev_6 e gravar no PostgreSQL; modal aberto pelo tab no fim do texto do campo de pesquisa. Perguntar ao Edson se o admin poderá editá-las.
+- [x] **Perguntas guiadas:** geradas do grafo rev_6 e gravadas no PostgreSQL; modal aberto pelo Tab (fase 7, `774286f`). Ainda perguntar ao Edson se o admin poderá editá-las (hoje uma nova versão gerada regrava o banco).
 - [ ] **Opções de filtro:** simuladas por enquanto, num provedor isolado (fase 8 do [plano](nova-ui/plano.md#7-fases)); backend sem acesso ao Neo4j (decidido em 22/10). Fonte definitiva: **(dep: Edson)**.
 - [x] Decisões do plano (22/10): branch `feat/nova-ui` até fechar; Parar visível avisando "em desenvolvimento"; admin redesenhado com os primitivos novos; perguntas guiadas geradas por script e revisadas pelo Marcelo ([plano](nova-ui/plano.md#10-decisões)).
 - [x] Termo de uso sai por completo, sem guardar aceites; backend sem acesso ao Neo4j, o que o modelo não trouxer fica simulado (decidido em 22/10; [domínio](../dominio/negocio/termos-e-privacidade.md) atualizado).
@@ -57,7 +57,9 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 4 — campo de busca e chat livre: cartões com campos simulados em vermelho, tabela, avisos dos status e do modelo fora; backend devolve `simulado`; 99 testes no web e 63 no backend (`e4b19a5`, 22/10).
 - [x] Fase 5 — gaveta de perfil, comparação, barra de seleção e "Quero os currículos" (salvo na conversa); contato e currículo simulados sem link; 105 testes (`fbf9995`, 22/10).
 - [x] Fase 6 — Meu contexto no PostgreSQL (perfil, objetivo, disponibilidade, interesses, instruções e filtros), revogar autorização e sair; 119 testes no web e 69 no backend (`a96b322`, 22/10).
-- [ ] Fase 7 — perguntas guiadas: script que gera a partir do rev_6 (revisão do Marcelo), tabelas, molde com Tab no campo de busca e modal de perguntas.
+- [x] Fase 7 — perguntas guiadas geradas do rev_6 (sem revisão do Marcelo; a crítica fica com o Edson), carregadas pela seed; molde no campo de busca e modal de perguntas no Tab; 136 testes no web e 73 no backend (`774286f`, 22/10).
+- [ ] Fase 8 — painel de filtros por tag no campo de busca, com opções simuladas num provedor isolado.
+- [ ] Levar ao Edson: crítica das perguntas guiadas geradas (`backend/src/data/perguntas-guiadas.pt-BR.ts`) e do comportamento do Tab (abre o modal no fim do molde ou quando não há o que completar). **(dep: Edson)**
 
 Depois do levantamento:
 
