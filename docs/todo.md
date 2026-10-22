@@ -28,7 +28,7 @@ Levantamento (antes de programar). O Figma é espelho do protótipo e a página 
 - [ ] Níveis de busca: nomes e existência no modelo. **(dep: Edson; não respondido na [reunião de 20/10](reunioes/2026-10-20.md))**
 - [x] Chat livre: continua indo ao modelo; profissionais da resposta viram cartões, campos fora do grafo em vermelho com dado falso; modelo fora → simulação com aviso "Modelo fora do ar — dados simulados" (decidido pelo Marcelo em 22/10, [regra](nova-ui/README.md#chat-livre--cartões-decidido-em-22102026)).
 - [x] Implementar a regra do chat livre: detector de linhas de pessoa e construtor de cartões no web; gerador determinístico de dado falso; campo `simulado` no `SearchResult` e no histórico; mock do backend marcado como simulado quando o modelo está fora. (fase 4, `e4b19a5`)
-- [ ] **Contexto do usuário no PostgreSQL**, ligado à conta Google: filtros, interesses, instruções e demais itens; disponibilidade com padrão "disponível". Ainda não entra no envio da pesquisa.
+- [x] **Contexto do usuário no PostgreSQL** (fase 6, `a96b322`), ligado à conta Google: filtros, interesses, instruções e demais itens; disponibilidade com padrão "disponível". Ainda não entra no envio da pesquisa.
 - [ ] **Perguntas guiadas:** gerar uma vez a partir do grafo rev_6 e gravar no PostgreSQL; modal aberto pelo tab no fim do texto do campo de pesquisa. Perguntar ao Edson se o admin poderá editá-las.
 - [ ] **Opções de filtro:** simuladas por enquanto, num provedor isolado (fase 8 do [plano](nova-ui/plano.md#7-fases)); backend sem acesso ao Neo4j (decidido em 22/10). Fonte definitiva: **(dep: Edson)**.
 - [x] Decisões do plano (22/10): branch `feat/nova-ui` até fechar; Parar visível avisando "em desenvolvimento"; admin redesenhado com os primitivos novos; perguntas guiadas geradas por script e revisadas pelo Marcelo ([plano](nova-ui/plano.md#10-decisões)).
@@ -56,7 +56,8 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 3 — entrada nova, pendente e restrito; autorização de contexto (backend + tela) e remoção completa do termo de uso; 75 testes no web e 60 no backend (`9bf9aaf`, 22/10).
 - [x] Fase 4 — campo de busca e chat livre: cartões com campos simulados em vermelho, tabela, avisos dos status e do modelo fora; backend devolve `simulado`; 99 testes no web e 63 no backend (`e4b19a5`, 22/10).
 - [x] Fase 5 — gaveta de perfil, comparação, barra de seleção e "Quero os currículos" (salvo na conversa); contato e currículo simulados sem link; 105 testes (`fbf9995`, 22/10).
-- [ ] Fase 6 — Meu contexto no PostgreSQL (perfil, objetivo, disponibilidade, interesses, instruções e filtros), revogar autorização e sair.
+- [x] Fase 6 — Meu contexto no PostgreSQL (perfil, objetivo, disponibilidade, interesses, instruções e filtros), revogar autorização e sair; 119 testes no web e 69 no backend (`a96b322`, 22/10).
+- [ ] Fase 7 — perguntas guiadas: script que gera a partir do rev_6 (revisão do Marcelo), tabelas, molde com Tab no campo de busca e modal de perguntas.
 
 Depois do levantamento:
 
