@@ -55,7 +55,8 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 2 — casca: route groups, Shell, Sidebar, `/chat/[id]`, histórico pela API com Desfazer; 59 testes (`842cd96`, 22/10). Logout ainda não existe na casca nova (entra com Meu contexto, fase 6).
 - [x] Fase 3 — entrada nova, pendente e restrito; autorização de contexto (backend + tela) e remoção completa do termo de uso; 75 testes no web e 60 no backend (`9bf9aaf`, 22/10).
 - [x] Fase 4 — campo de busca e chat livre: cartões com campos simulados em vermelho, tabela, avisos dos status e do modelo fora; backend devolve `simulado`; 99 testes no web e 63 no backend (`e4b19a5`, 22/10).
-- [ ] Fase 5 — gaveta de perfil, comparação, barra de seleção e "Quero os currículos".
+- [x] Fase 5 — gaveta de perfil, comparação, barra de seleção e "Quero os currículos" (salvo na conversa); contato e currículo simulados sem link; 105 testes (`fbf9995`, 22/10).
+- [ ] Fase 6 — Meu contexto no PostgreSQL (perfil, objetivo, disponibilidade, interesses, instruções e filtros), revogar autorização e sair.
 
 Depois do levantamento:
 
