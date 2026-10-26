@@ -162,7 +162,7 @@ Depois:
 
 - [x] Abrir o protótipo Vite em <http://localhost:5179/> para uso local (26/10). A cópia publicada por engano no Sites foi substituída por uma página de encerramento, com acesso privado; o projeto hospedado ainda existe.
 - [x] Autenticação web → API: implementada, commitada (`514cc8a`) e token gerado no `.env.prod` (20/10). [Desfecho](analises/divergencias-2026-10-20.md).
-- [ ] Reduzir o tempo do deploy: no log de 26/10 (`talk-ia.md`), `next build` levou 846 s, a cópia do app inteiro para a imagem final 167 s, e a exportação da imagem web 269 s; a cópia de `node_modules` entre etapas estava em cache. Investigar recursos do servidor e reduzir cópia/exportação da imagem. A limpeza final removeu 1,426 GB de cache; avaliar o custo de `docker builder prune -af` em cada deploy.
+- [ ] Validar o deploy do commit `6545a07` e medir tempo/espaço após a correção do erro de 26/10: o log de 39 min terminou em `no space left on device`; a imagem web passou a usar Next standalone, o deploy constrói apenas serviços alterados e mantém até 2 GB de cache. Ainda falta medir CPU, RAM, I/O e espaço reais no servidor (SSH indisponível neste ambiente) e confirmar o resultado em produção. [Análise](analises/deploy-2026-10-26.md).
 - [ ] Validar em produção (<http://chateau2.duckdns.org:8080>): entrar com Google, abrir `/chat`, fazer uma busca e abrir `/admin` com um administrador.
 - [ ] Retenção de logs de acesso: decidir o prazo (página diz 6 meses, código tem limpeza de 90 dias nunca chamada) e implementar a rotina. Ver [termos e privacidade](../dominio/negocio/termos-e-privacidade.md).
 - [ ] Middleware web usa o JWT quando a API está fora do ar (fail-open): decidir se mantém.
