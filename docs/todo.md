@@ -62,6 +62,7 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 9 — admin e privacidade na nova UI; retirada da interface antiga e das dependências sem uso; axe sem violações em 13 telas; lint limpo; 153 testes no web e 73 no backend (`43a25d1`, 22/10). Peso por página entre 196 e 230 kB comprimidos (React/Next ~165 kB; motion + Radix ~74 kB); carregar o motion à parte não reduziu nada.
 - [x] Merge de `feat/nova-ui` em `main` (fast-forward até `43a25d1`, 22/10), confirmado pelo Marcelo; dispara o deploy.
 - [ ] Validar em produção: entrada, autorização de contexto, busca (simulada, sem `ORCHESTRATION_URL`), Meu contexto, admin e privacidade.
+- [ ] Confirmar o deploy após aumentar o limite do passo SSH de 30 para 60 min: ele expirou durante o build Docker da web em 22/10/2026 (`docs/talk-ia.md`); verificar o run no Actions, containers e fluxos da UI no servidor.
 - [ ] Revisão jurídica da página de privacidade: linha nova "Meu contexto" e textos de exportação e exclusão (22/10).
 - [ ] Levar ao Edson: como os filtros devem chegar ao modelo (hoje vão na pergunta em linguagem natural, porque a busca só recebe texto). **(dep: Edson)**
 - [ ] Levar ao Edson: crítica das perguntas guiadas geradas (`backend/src/data/perguntas-guiadas.pt-BR.ts`) e do comportamento do Tab (abre o modal no fim do molde ou quando não há o que completar). **(dep: Edson)**
