@@ -9,6 +9,7 @@
 | Figma da nova UI: estrutura, handoff e pontos de decisão | [analises/figma-2026-10-20.md](analises/figma-2026-10-20.md) |
 | Divergências entre documentação, modelos e código; decisões pendentes | [analises/divergencias-2026-10-20.md](analises/divergencias-2026-10-20.md) |
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
+| Uso de um disco adicional no servidor | [producao/disco-adicional.md](producao/disco-adicional.md) |
 | Falha de espaço e lentidão do deploy de 26/10/2026 | [analises/deploy-2026-10-26.md](analises/deploy-2026-10-26.md) |
 | Tarefas e agenda, por frente de trabalho | [todo.md](todo.md) |
 | Perguntas abertas para o Edson | [duvidas-edson/README.md](duvidas-edson/README.md) |
