@@ -111,7 +111,7 @@ Nada disso existe no `schema.prisma` hoje, que tem `User`, `Account`, `Role`, `U
 ## O que fica escondido, desabilitado ou simulado
 
 - **Escondido** (`RECURSOS = false`): upload de edital, Procurar no histórico, Sobre o projeto, documentos em Meu contexto, Sugerir formações, Analisar competências e Avaliar perfis. Os links de termos e privacidade no login voltam a aparecer, apontando para `/privacidade`.
-- **Desabilitado e visível:** "Buscar candidatos", "Montar equipe" e o seletor de profundidade. O seletor de modelo também continua sem efeito.
+- **Desabilitado e visível:** "Buscar candidatos" e "Montar equipe". O seletor de profundidade usa o catálogo do admin e permite escolher visualmente um nível, marcado em vermelho; a escolha ainda não altera a busca.
 - **Simulado, em vermelho no cartão:** aderência, justificativa, caminho "Por que este perfil", cobertura, equipe e os campos de perfil da rev_6 que não estão no grafo de produção (`Job`, `Role`, `WORKS`, `TAUGHT`, `COORDINATES`, `Campus`, `Acknowledgment`).
 - **Modelo fora:** resposta inteira simulada, com o aviso "Modelo fora do ar — dados simulados".
 - **Espera da busca:** sem etapas reais; indicador genérico de "consultando", sem contador. **Parar** aparece e, ao clicar, avisa que está em desenvolvimento (decidido em 22/10).

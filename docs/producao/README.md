@@ -1,6 +1,7 @@
 # Produção
 
 - **Site:** <http://chateau2.duckdns.org:8080> — é o `NEXTAUTH_URL` do `.env.prod`; o login Google só funciona por este endereço.
+- **Protótipo estático separado:** <https://chateau-prototipo-uerj.merryflea11.chatgpt.site> (Sites, acesso privado inicial; dados simulados e histórico local no navegador). Não usa a API de produção.
 - **Servidor:** `prointec@152.92.2.63`, diretório `/opt/apps/chateau-expert`, atrás do firewall da faculdade. Serviços internos (Neo4j, orchestration) só em `127.0.0.1`, acessados por túnel SSH ([Neo4j](../neo4j/README.md)).
 - **Deploy:** push para `main` do `chateau-expert` roda o [workflow](../../chateau-expert/.github/workflows/deploy.yml) (testes do backend → `git reset --hard origin/main` → `docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build`). Acompanhar na aba Actions do GitHub.
 - **Variáveis:** `.env.prod` no servidor, fora do Git. `INTERNAL_API_TOKEN` foi gerado lá em 20/10/2026 ([acesso](../../dominio/negocio/acesso.md#autorização-na-api)).

@@ -61,8 +61,9 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 8 — painel de filtros por tag no campo de busca; opções institucionais simuladas num provedor isolado; tags vão ao modelo na pergunta em linguagem natural; 145 testes (`89731c6`, 22/10).
 - [x] Fase 9 — admin e privacidade na nova UI; retirada da interface antiga e das dependências sem uso; axe sem violações em 13 telas; lint limpo; 153 testes no web e 73 no backend (`43a25d1`, 22/10). Peso por página entre 196 e 230 kB comprimidos (React/Next ~165 kB; motion + Radix ~74 kB); carregar o motion à parte não reduziu nada.
 - [x] Merge de `feat/nova-ui` em `main` (fast-forward até `43a25d1`, 22/10), confirmado pelo Marcelo; dispara o deploy.
+- [x] Ajuste solicitado em 26/10: dados simulados em vermelho também nas opções e respostas mock; seletor visual de complexidade alimentado pelo catálogo do admin, com subtítulo próprio. A escolha ainda não altera a busca; aguarda publicação e validação em produção.
 - [ ] Validar em produção: entrada, autorização de contexto, busca (simulada, sem `ORCHESTRATION_URL`), Meu contexto, admin e privacidade.
-- [ ] Confirmar o deploy após aumentar o limite do passo SSH de 30 para 60 min: ele expirou durante o build Docker da web em 22/10/2026 (`docs/talk-ia.md`); verificar o run no Actions, containers e fluxos da UI no servidor.
+- [x] Deploy após aumentar o limite do passo SSH de 30 para 60 min: o run de 26/10/2026 terminou com `Deploy finalizado` e os containers foram iniciados (`docs/talk-ia.md`). A validação dos fluxos da UI continua pendente acima.
 - [ ] Revisão jurídica da página de privacidade: linha nova "Meu contexto" e textos de exportação e exclusão (22/10).
 - [ ] Levar ao Edson: como os filtros devem chegar ao modelo (hoje vão na pergunta em linguagem natural, porque a busca só recebe texto). **(dep: Edson)**
 - [ ] Levar ao Edson: crítica das perguntas guiadas geradas (`backend/src/data/perguntas-guiadas.pt-BR.ts`) e do comportamento do Tab (abre o modal no fim do molde ou quando não há o que completar). **(dep: Edson)**
@@ -159,7 +160,9 @@ Depois:
 
 ## 4. Aplicação — `chateau-expert`
 
+- [x] Publicar cópia estática separada do protótipo Vite para demonstração (26/10): <https://chateau-prototipo-uerj.merryflea11.chatgpt.site>, acesso privado inicial no Sites. Não substitui o Expert.
 - [x] Autenticação web → API: implementada, commitada (`514cc8a`) e token gerado no `.env.prod` (20/10). [Desfecho](analises/divergencias-2026-10-20.md).
+- [ ] Reduzir o tempo do deploy: no log de 26/10 (`talk-ia.md`), `next build` levou 846 s, a cópia do app inteiro para a imagem final 167 s, e a exportação da imagem web 269 s; a cópia de `node_modules` entre etapas estava em cache. Investigar recursos do servidor e reduzir cópia/exportação da imagem. A limpeza final removeu 1,426 GB de cache; avaliar o custo de `docker builder prune -af` em cada deploy.
 - [ ] Validar em produção (<http://chateau2.duckdns.org:8080>): entrar com Google, abrir `/chat`, fazer uma busca e abrir `/admin` com um administrador.
 - [ ] Retenção de logs de acesso: decidir o prazo (página diz 6 meses, código tem limpeza de 90 dias nunca chamada) e implementar a rotina. Ver [termos e privacidade](../dominio/negocio/termos-e-privacidade.md).
 - [ ] Middleware web usa o JWT quando a API está fora do ar (fail-open): decidir se mantém.

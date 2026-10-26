@@ -7,13 +7,15 @@
 - **Telas:** entrada (Google/NextAuth), acesso pendente e restrito, autorização de contexto, chat (`/chat` e `/chat/[id]`) com histórico na sidebar, cartões de resultado, gavetas de perfil e comparação, Meu contexto, administração (`/admin/*`, dentro da casca) e privacidade.
 - **Textos:** todos em `web/messages/pt-BR.json` (next-intl, idioma fixo pt-BR, sem rota por idioma); o lint proíbe texto solto na interface.
 - **Componentes:** primitivos próprios com os nomes do Figma (`web/src/components/chateau/primitivos`), tema único claro, ícones Phosphor, animações `motion` com movimento reduzido respeitado. Não há mais shadcn, lucide nem `next-themes`.
-- **Dados:** o servidor web chama a API com o token interno e o e-mail da sessão ([acesso](../negocio/acesso.md#autorização-na-api)); conversas, contexto, autorização e perguntas guiadas vêm do PostgreSQL pela API. O que o grafo não traz aparece simulado e marcado em vermelho ([conversas e busca](../negocio/conversas-e-busca.md)).
-- **Recursos ainda parciais**, controlados em `web/src/lib/chateau/features.ts`: "Buscar candidatos" e "Montar equipe" desabilitados; profundidade visível e inerte; Parar avisa "em desenvolvimento"; upload de edital, documentos e ações secundárias ocultos.
+- **Dados:** o servidor web chama a API com o token interno e o e-mail da sessão ([acesso](../negocio/acesso.md#autorização-na-api)); conversas, contexto, autorização e perguntas guiadas vêm do PostgreSQL pela API. Valores e opções simulados aparecem em vermelho, inclusive uma resposta inteira de mock e as opções de filtro ([conversas e busca](../negocio/conversas-e-busca.md)).
+- **Recursos ainda parciais**, controlados em `web/src/lib/chateau/features.ts`: "Buscar candidatos" e "Montar equipe" desabilitados; o seletor de profundidade mostra níveis do catálogo do admin em vermelho, mas a escolha ainda não altera a busca; Parar avisa "em desenvolvimento"; upload de edital, documentos e ações secundárias ocultos.
 
-O catálogo `AiModel` é administrado, mas a busca envia só a pergunta.
+O catálogo `AiModel` fornece nome, subtítulo, descrição e ordem dos níveis ao seletor. A busca envia só a pergunta.
 
 ## Protótipo — referência
 
 `/mnt/c/temp/chateau/ui` (React/Vite, dados simulados, não versionado por decisão) é a versão final do protótipo e serviu de referência para o port. Não evolui em paralelo: ajustes de interface são feitos direto no `chateau-expert/web`. Se o diretório não existir no ambiente, solicitar o código.
+
+Em 26/10/2026, uma cópia estática desse protótipo foi publicada separadamente no Sites para demonstração, com acesso privado inicial: <https://chateau-prototipo-uerj.merryflea11.chatgpt.site>. Ela não substitui o Expert integrado e não recebe dados da API.
 
 Fontes: [web](../../chateau-expert/web/src/app/), [plano do port](../../docs/nova-ui/plano.md).

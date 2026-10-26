@@ -4,6 +4,8 @@ Fonte canônica dos conceitos e regras do projeto, compartilhada pelos repositó
 
 Revisão inicial de 20/10/2026 contra `chateau-data` `04c8225` e `chateau-expert` `51c4b1b`; reconferida no mesmo dia contra `chateau-data` `c770241` (só `AGENTS.md` mudou) e `chateau-expert` `514cc8a` (autenticação web → API). Conferir novamente as fontes ao mudar de commit.
 
+Atualização de interface decidida em 26/10/2026: [interfaces](tech/interfaces.md), [administração](negocio/administracao.md) e [contexto](modelo/contexto-ux.md) descrevem a marcação vermelha de simulações e o seletor visual alimentado pelo catálogo de modelos.
+
 Os arquivos distinguem **regra implementada**, **modelo definido** e **proposta**. Não interpretar um nó de grafo, campo planejado ou mock como funcionalidade entregue. Detalhes exaustivos de propriedades e relações pertencem ao JSON do modelo indicado abaixo.
 
 ## Produto e negócio
