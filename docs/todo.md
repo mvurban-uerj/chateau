@@ -160,7 +160,7 @@ Depois:
 
 ## 4. Aplicação — `chateau-expert`
 
-- [x] Publicar cópia estática separada do protótipo Vite para demonstração (26/10): <https://chateau-prototipo-uerj.merryflea11.chatgpt.site>, acesso privado inicial no Sites. Não substitui o Expert.
+- [x] Abrir o protótipo Vite em <http://localhost:5179/> para uso local (26/10). A cópia publicada por engano no Sites foi substituída por uma página de encerramento, com acesso privado; o projeto hospedado ainda existe.
 - [x] Autenticação web → API: implementada, commitada (`514cc8a`) e token gerado no `.env.prod` (20/10). [Desfecho](analises/divergencias-2026-10-20.md).
 - [ ] Reduzir o tempo do deploy: no log de 26/10 (`talk-ia.md`), `next build` levou 846 s, a cópia do app inteiro para a imagem final 167 s, e a exportação da imagem web 269 s; a cópia de `node_modules` entre etapas estava em cache. Investigar recursos do servidor e reduzir cópia/exportação da imagem. A limpeza final removeu 1,426 GB de cache; avaliar o custo de `docker builder prune -af` em cada deploy.
 - [ ] Validar em produção (<http://chateau2.duckdns.org:8080>): entrar com Google, abrir `/chat`, fazer uma busca e abrir `/admin` com um administrador.

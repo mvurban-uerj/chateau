@@ -16,6 +16,6 @@ O catálogo `AiModel` fornece nome, subtítulo, descrição e ordem dos níveis 
 
 `/mnt/c/temp/chateau/ui` (React/Vite, dados simulados, não versionado por decisão) é a versão final do protótipo e serviu de referência para o port. Não evolui em paralelo: ajustes de interface são feitos direto no `chateau-expert/web`. Se o diretório não existir no ambiente, solicitar o código.
 
-Em 26/10/2026, uma cópia estática desse protótipo foi publicada separadamente no Sites para demonstração, com acesso privado inicial: <https://chateau-prototipo-uerj.merryflea11.chatgpt.site>. Ela não substitui o Expert integrado e não recebe dados da API.
+Em 26/10/2026, uma cópia estática foi publicada por engano no Sites. Após o esclarecimento de que o pedido era para abrir o protótipo no localhost, o endereço privado <https://chateau-prototipo-uerj.merryflea11.chatgpt.site> foi substituído por uma página de encerramento. O protótipo de trabalho permanece no diretório local acima e pode ser executado com Vite na porta 5179.
 
 Fontes: [web](../../chateau-expert/web/src/app/), [plano do port](../../docs/nova-ui/plano.md).
