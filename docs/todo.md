@@ -13,30 +13,31 @@ Legenda: **(dep: X)** = depende de outra tarefa ou pessoa.
 
 ## 1. Nova UI — port do protótipo
 
-Decisões de 20/10/2026: [análise da UI](analises/ui-prototipo-2026-10-20.md#decisões-de-20102026). Aparência idêntica ao protótipo (`/mnt/c/temp/chateau/ui`, versão final, não versionada); infraestrutura e versões do Expert prevalecem (Next.js 14, React 18). **Nada de código antes de fechar o levantamento abaixo.**
+Decisões de 20/10/2026: [análise da UI](analises/ui-prototipo-2026-10-20.md#decisões-de-20102026). Aparência idêntica ao protótipo (`/mnt/c/temp/chateau/ui`, versão final, não versionada); infraestrutura e versões do Expert prevalecem (Next.js 14, React 18). O port entrou em `main` em 22/10; o levantamento abaixo ainda reúne conferências e decisões para as próximas integrações.
 
 Escopo pela [reunião de 20/10](reunioes/2026-10-20.md): portar toda a interface, menos os desdobramentos de "Buscar candidatos" e "Montar equipe" (botões desabilitados). O que não tem dado ou o modelo não responde fica simulado; o que dá para implementar (ex.: contexto no PostgreSQL) já se implementa. O protótipo não evolui em paralelo.
 
 Contexto consolidado para o port (22/10): [nova-ui/README.md](nova-ui/README.md), com escopo, mapa protótipo → web, tabelas propostas e ordem sugerida. Plano de execução em [nova-ui/plano.md](nova-ui/plano.md) (22/10).
 
-Levantamento (antes de programar). O Figma é espelho do protótipo e a página 08 Handoff já traz mapa de arquivos, contrato com o grafo e interruptores: ver [análise do Figma](analises/figma-2026-10-20.md).
+Levantamento e conferências. O Figma é espelho do protótipo e a página 08 Handoff traz mapa de arquivos, contrato com o grafo e interruptores: ver [análise do Figma](analises/figma-2026-10-20.md).
 
 - [ ] Confirmar com o Edson que a cópia em `/mnt/c/temp/chateau/ui` corresponde ao commit `3cf7be7` (ou posterior) do repositório local dele, que o Figma espelha.
 - [x] Consentimento × termo de uso: respondido na [reunião de 20/10](reunioes/2026-10-20.md) (20/10).
 - [x] **Remover o termo de uso por completo e criar a autorização de contexto** (feito na fase 3, `9bf9aaf`) (nome, unidade, e-mail, campus etc. + cookies) no PostgreSQL: apagar `Term`, `Account.acceptedTermId`, `/terms`, `/termos-uso`, `/api/accept-terms`, admin de termos e a exigência na API e no middleware, sem guardar aceites (fase 3 do [plano](nova-ui/plano.md#7-fases)). Falta definir o que cada escolha opcional controla.
-- [ ] **Busca por etapas, Parar e Retomar:** adiado ([reunião de 20/10](reunioes/2026-10-20.md)): o modelo ainda só recebe pergunta e devolve resposta. Definir no port como a espera aparece sem etapas reais. **(dep: Edson, quando o modelo informar etapas)**
+- [ ] **Busca por etapas, Parar e Retomar reais:** adiados ([reunião de 20/10](reunioes/2026-10-20.md)): o modelo ainda só recebe pergunta e devolve resposta. O port já mostra espera genérica e Parar avisa "em desenvolvimento". **(dep: Edson, quando o modelo informar etapas)**
 - [ ] Níveis de busca: nomes e existência no modelo. **(dep: Edson; não respondido na [reunião de 20/10](reunioes/2026-10-20.md))**
 - [x] Chat livre: continua indo ao modelo; profissionais da resposta viram cartões, campos fora do grafo em vermelho com dado falso; modelo fora → simulação com aviso "Modelo fora do ar — dados simulados" (decidido pelo Marcelo em 22/10, [regra](nova-ui/README.md#chat-livre--cartões-decidido-em-22102026)).
 - [x] Implementar a regra do chat livre: detector de linhas de pessoa e construtor de cartões no web; gerador determinístico de dado falso; campo `simulado` no `SearchResult` e no histórico; mock do backend marcado como simulado quando o modelo está fora. (fase 4, `e4b19a5`)
 - [x] **Contexto do usuário no PostgreSQL** (fase 6, `a96b322`), ligado à conta Google: filtros, interesses, instruções e demais itens; disponibilidade com padrão "disponível". Ainda não entra no envio da pesquisa.
 - [x] **Perguntas guiadas:** geradas do grafo rev_6 e gravadas no PostgreSQL; modal aberto pelo Tab (fase 7, `774286f`). Ainda perguntar ao Edson se o admin poderá editá-las (hoje uma nova versão gerada regrava o banco).
-- [ ] **Opções de filtro:** simuladas num provedor isolado (`web/src/lib/chateau/filtros.ts` e `opcoes.ts`, fase 8 feita); backend sem acesso ao Neo4j (decidido em 22/10). Fonte definitiva: **(dep: Edson)**.
-- [x] Decisões do plano (22/10): branch `feat/nova-ui` até fechar; Parar visível avisando "em desenvolvimento"; admin redesenhado com os primitivos novos; perguntas guiadas geradas por script e revisadas pelo Marcelo ([plano](nova-ui/plano.md#10-decisões)).
+- [ ] **Opções de filtro reais:** as atuais são simuladas num provedor isolado (`web/src/lib/chateau/filtros.ts` e `opcoes.ts`, fase 8 feita). A reunião de 20/10 levantou Cypher direto ou cópia no PostgreSQL com cron, mas nenhuma alternativa foi aprovada; web/backend seguem sem acesso ao Neo4j. Definir fonte e contrato com o Edson.
+- [x] Decisões do plano (22/10): branch `feat/nova-ui` até fechar; Parar visível avisando "em desenvolvimento"; admin redesenhado com os primitivos novos; perguntas guiadas geradas por script ([plano](nova-ui/plano.md#10-decisões)). A revisão crítica das perguntas continua pendente com o Edson.
 - [x] Termo de uso sai por completo, sem guardar aceites; backend sem acesso ao Neo4j, o que o modelo não trouxer fica simulado (decidido em 22/10; [domínio](../dominio/negocio/termos-e-privacidade.md) atualizado).
-- [ ] Ajustar nosso código (decidido): acesso à administração pela nova sidebar; tema único claro; histórico com Desfazer por 6 s (exclusão adiada) e rota por conversa para voltar/avançar do navegador.
-- [ ] Inventário tela a tela e componente a componente do protótipo → rota/componente correspondente no `chateau-expert/web`, indicando o que é visual puro e o que depende de dado ou de backend.
+- [x] Ajustar nosso código: acesso à administração pela nova sidebar; tema único claro; histórico com Desfazer por 6 s e rota por conversa (`chateau-expert` `842cd96` e `43a25d1`, 22/10).
+- [x] Inventário tela a tela e dos componentes principais do protótipo → rotas/componentes no `chateau-expert/web`, com dependências de dados e backend ([análise](analises/ui-telas-portadas-2026-10-27.md), 27/10). Comparação visual em produção segue pendente.
 - [ ] Compatibilidade técnica ([versões](duvidas-edson/README.md#4-versões-do-protótipo--projeto)): dependências do protótipo (`motion` 13, `@phosphor-icons/react`, `@radix-ui/react-slider`, fontes Geist) aceitam React 18 e o código não usa APIs exclusivas do React 19 (verificado em 20/10). Falta: conferir Tailwind 4 do protótipo × configuração do web (tokens, `index.css`), coexistência com shadcn/lucide já usados no web, e o aviso de bundle > 500 kB.
-- [ ] Campo a campo: cada dado exibido (cartão, gaveta de perfil, comparação, cobertura, equipe) → nó/propriedade/aresta da **rev_6** (o código do protótipo cita rev_5). Marcar o que existe no modelo e o que não existe. **(dep: frente 2 para saber o que estará carregado)**
+- [x] Mapear os campos exibidos (cartão, gaveta, comparação, cobertura e equipe) para nó/propriedade/aresta da rev_6 e para o construtor atual do web ([análise](analises/ui-campos-rev6-2026-10-27.md), 27/10). O mapa é estático; não comprova dados carregados.
+- [ ] Conferir no Neo4j de produção quais caminhos e valores estão carregados e comparar exemplos reais de resposta do modelo ao mapa. **(dep: frente 2, carga rev_6, e teste do modelo)**
 - [ ] Mapear fluxos do protótipo para os contratos do Expert:
   - login demonstrativo → Google/NextAuth; `/pending` e regras de [acesso](../dominio/negocio/acesso.md);
   - tela de consentimento → autorização de contexto no PostgreSQL, sem termo de uso (decidido na reunião de 20/10);
@@ -62,18 +63,30 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 9 — admin e privacidade na nova UI; retirada da interface antiga e das dependências sem uso; axe sem violações em 13 telas; lint limpo; 153 testes no web e 73 no backend (`43a25d1`, 22/10). Peso por página entre 196 e 230 kB comprimidos (React/Next ~165 kB; motion + Radix ~74 kB); carregar o motion à parte não reduziu nada.
 - [x] Merge de `feat/nova-ui` em `main` (fast-forward até `43a25d1`, 22/10), confirmado pelo Marcelo; dispara o deploy.
 - [x] Ajuste solicitado em 26/10: dados simulados em vermelho também nas opções, respostas mock e barra da aderência; seletor visual de complexidade alimentado pelo catálogo do admin, com subtítulo próprio. A escolha ainda não altera a busca. Publicado em `main` do Expert (`acd2f6d`, `af63b9b`); validação em produção pendente.
+- [x] Validar em produção entrada com Google e autorização de contexto, incluindo persistência das escolhas: usuário confirmou todos os passos do roteiro em 27/10/2026.
+- [x] Validar em produção resposta da busca e persistência da conversa no histórico: usuário confirmou ambos em 27/10/2026.
+- [x] Confirmar o deploy do commit `chateau-expert` `dc77c53`: captura em `C:\temp\Captura de tela 2026-10-27 104557.png` mostra o Deploy #26 concluído com sucesso em 21 min 39 s; página pública respondeu HTTP 200 (27/10/2026).
+- [x] Conferir em produção a correção visual da rolagem do chat/sidebar e da transição após a primeira busca: usuário confirmou que os dois problemas foram resolvidos em 27/10/2026.
 - [ ] Validar em produção Meu contexto, admin e privacidade. Confirmar também se a busca usa o modelo selecionado ou a simulação; a presença do container de orquestração não comprova que haja modelo disponível.
 - [x] Issue #34: implementar cadastro com Nome, Descrição, Nome do modelo, URL, Versão e Disponível; mostrar só disponíveis no chat, ocultar seletor com um, e enviar o nome técnico escolhido na busca ([análise](analises/modelos-admin-2026-10-27.md), 27/10). Migração e testes direcionados passaram; Expert `bc6f16a` publicado no Git, validação em produção pendente.
 - [ ] Validar a issue #34 com a GPU real e a URL alcançável pelo container após o deploy; confirmar também o contrato dinâmico Quarkus quando o ambiente Testcontainers permitir.
 - [x] Deploy após aumentar o limite do passo SSH de 30 para 60 min: o run de 26/10/2026 terminou com `Deploy finalizado` e os containers foram iniciados (`docs/talk-ia.md`). A validação dos fluxos da UI continua pendente acima.
 - [ ] Revisão jurídica da página de privacidade: linha nova "Meu contexto" e textos de exportação e exclusão (22/10).
 - [ ] Levar ao Edson: como os filtros devem chegar ao modelo (hoje vão na pergunta em linguagem natural, porque a busca só recebe texto). **(dep: Edson)**
-- [ ] Levar ao Edson: crítica das perguntas guiadas geradas (`backend/src/data/perguntas-guiadas.pt-BR.ts`) e do comportamento do Tab (abre o modal no fim do molde ou quando não há o que completar). **(dep: Edson)**
+- [x] Revisar internamente as perguntas guiadas geradas e o comportamento do Tab; exemplos e limites registrados na [análise de 27/10](analises/perguntas-guiadas-2026-10-27.md).
+- [ ] Levar ao Edson os exemplos da análise: opções fixas × dados reais, disponibilidade fora do grafo acadêmico, requisitos obrigatórios sem ranqueamento, molde de equipe acessível pelo campo e preservação de edições na seed. **(dep: Edson)**
 
 Depois do levantamento:
 
-- [ ] Plano de port por etapas (o que entra primeiro com dados reais, o que fica escondido). **(dep: levantamento completo)**
-- [ ] Port dos componentes, mantendo a interface atual até cada fluxo integrado estar validado.
+- [x] Plano de port por etapas, com dados reais, simulados e recursos escondidos ([plano](nova-ui/plano.md), 22/10).
+- [x] Port dos componentes para `main` do Expert (`43a25d1`, 22/10); validação integrada em produção continua pendente acima.
+
+### Próximos itens que já podem avançar
+
+- [ ] Validar os fluxos restantes da UI em produção. Os deploys do Expert `6545a07` e `dc77c53` e as medidas do servidor ocioso estão na [análise do deploy](analises/deploy-2026-10-26.md); conta administradora e conferência visual autenticada ainda são necessárias.
+- [ ] Fechar o inventário tela a tela da UI portada e completar o [mapa campo a campo](analises/ui-campos-rev6-2026-10-27.md) com dados do Neo4j de produção e respostas reais do modelo, após a carga rev_6.
+- [ ] Levar ao Edson a [revisão das perguntas guiadas e do Tab](analises/perguntas-guiadas-2026-10-27.md), incluindo decisão sobre edição administrativa e atualização da seed.
+- [x] Atualizar o diagrama web–API e sinalizar `nova-ui/README.md` e `plano.md` como registros anteriores ao port, com resumo do código entregue e retirada do termo de uso (27/10; frente 6).
 
 ## 2. Dados — `chateau-data` (rev_6)
 
@@ -161,9 +174,10 @@ Depois:
 
 - [x] Abrir o protótipo Vite em <http://localhost:5179/> para uso local (26/10). A cópia publicada por engano no Sites foi substituída por uma página de encerramento, com acesso privado; o projeto hospedado ainda existe.
 - [x] Autenticação web → API: implementada, commitada (`514cc8a`) e token gerado no `.env.prod` (20/10). [Desfecho](analises/divergencias-2026-10-20.md).
-- [ ] Validar o deploy do commit `6545a07` e medir tempo/espaço após a correção do erro de 26/10: o log de 39 min terminou em `no space left on device`; a imagem web passou a usar Next standalone, o deploy constrói apenas serviços alterados e mantém até 2 GB de cache. Ainda falta medir CPU, RAM, I/O e espaço reais no servidor (SSH indisponível neste ambiente) e confirmar o resultado em produção. [Análise](analises/deploy-2026-10-26.md).
+- [x] Confirmar o workflow de deploy do commit `6545a07`: a captura mais recente em `/mnt/c/temp` em 27/10/2026 mostra o run #25 concluído com sucesso em 35 min 32 s. O usuário informou que o site funciona em produção (27/10); isso ainda não valida os fluxos da UI.
+- [x] Medir espaço, CPU, RAM e I/O no servidor após o deploy (27/10): 5,1 GB livres no disco de 18 GB, 712 MiB de RAM disponível, CPU 94–99% ociosa e espera por I/O em 0% na amostra. O cache de build ocupa 1,889 GB, 1,503 GB recuperáveis. Essas medidas não representam os picos durante o build de 35 min 32 s. [Análise](analises/deploy-2026-10-26.md#medição-posterior--27102026).
 - [ ] Preparar a checagem do segundo disco no deploy após receber versão/driver do Docker e caminhos reais do servidor. Administração executa backup, montagem e migração em janela de manutenção; o deploy valida que imagens e cache usam o novo armazenamento. [Avaliação](producao/disco-adicional.md).
-- [ ] Validar em produção (<http://chateau2.duckdns.org:8080>): entrar com Google, abrir `/chat`, fazer uma busca e abrir `/admin` com um administrador.
+- [ ] Validar em produção (<http://chateau2.duckdns.org:8080>): login, autorização de contexto, resposta da busca, histórico e os dois ajustes visuais confirmados pelo usuário em 27/10; falta verificar `/admin` com um administrador.
 - [ ] Retenção de logs de acesso: decidir o prazo (página diz 6 meses, código tem limpeza de 90 dias nunca chamada) e implementar a rotina. Ver [termos e privacidade](../dominio/negocio/termos-e-privacidade.md).
 - [ ] Middleware web usa o JWT quando a API está fora do ar (fail-open): decidir se mantém.
 - [ ] Tarefa 5: ambiente de avaliação — nada ainda (reunião de 19/10).
@@ -177,6 +191,6 @@ Depois:
 ## 6. Documentação e segurança
 
 - [ ] Trocar a senha SSH que ficou no histórico Git da raiz (commit `b8ff640`, já publicado).
-- [ ] Atualizar o [diagrama web–API](diagrams/chateau-web-api-map.drawio): ainda mostra a busca como mock no navegador e não mostra o token web → API.
+- [x] Atualizar o [diagrama web–API](diagrams/chateau-web-api-map.drawio) para o fluxo atual, incluindo token web → API e retirada dos termos; novo mapa e [guia](diagrams/README.md) conferidos contra `chateau-expert` `dc77c53` (27/10/2026).
 - [ ] Revisar guias antigos do `chateau-data` (`scripts/README.md`, `docs/knowledge-graph-pipeline.md`, `docs/levantamento-campos.md`) que citam versões e comandos anteriores.
 - [ ] Decidir a relação entre o modelo relacional alvo (`chateau-db-schema.json`) e o modelo acadêmico rev_6.

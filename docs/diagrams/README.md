@@ -1,21 +1,15 @@
-# Diagrams
+# Diagramas
 
-Diagramas do projeto em formato `.drawio` (mxGraph), editáveis em [app.diagrams.net](https://app.diagrams.net).
+Diagramas editáveis em formato `.drawio` para abrir no [app.diagrams.net](https://app.diagrams.net).
 
-## `chateau-web-api-map.drawio`
+## [chateau-web-api-map.drawio](chateau-web-api-map.drawio)
 
-Mapa de todas as chamadas que o `chateau-expert/web` faz à API (`chateau-expert/backend`), levantado direto do código-fonte em 2026-09-01.
+Mapa das chamadas entre navegador, servidor Next.js, API Express, orquestração e bancos, atualizado em 27/10/2026 contra `chateau-expert` `dc77c53`. As caixas agrupam endpoints por fluxo; para métodos e validações exatos, confira os Route Handlers, Server Actions e routers do Expert.
 
-**Faixa do topo — coração do sistema (planejado):** o pipeline real de busca de especialistas, hoje inexistente, todo agrupado numa linha só, ligado ponta a ponta: `mock atual (app/chat/page.tsx)` → `POST /api/chat/query` (endpoint a criar em `chat.router.ts`) → `API de Orquestração (LangChain)` (a criar em `chateau-expert/orchestration/`) → `Modelo de IA / LLM`. Fica em vermelho (estado atual) + laranja tracejado (planejado), separado do resto pra deixar claro que é o que falta construir.
+- **Acesso:** Google/NextAuth → API de autenticação; o middleware consulta a sessão e verifica aprovação e autorização de contexto.
+- **Segurança web → API:** o servidor Next.js envia `INTERNAL_API_TOKEN` e, nas chamadas de usuário, `X-User-Email`. O navegador não recebe o token interno.
+- **Busca:** `/chat` e `/chat/[id]` chamam `POST /api/search` via Route Handler web. Na evolução local da issue #34, o backend usa a orquestração quando há modelo disponível selecionado; sem modelo ou em falha dele, devolve resposta simulada e marcada. `ORCHESTRATION_URL` só substitui o endereço interno do serviço. A orquestração gera Cypher com o Ollama e lê o Neo4j. Web e backend não acessam o Neo4j diretamente.
+- **Persistência:** PostgreSQL guarda contas, autorização, Meu contexto, perguntas guiadas, conversas e administração. O `schema_producao.txt` é uma fotografia versionada para o modelo, não uma leitura automática do grafo.
+- **Outras áreas:** administração usa Server Actions; privacidade usa Route Handlers para exportação e exclusão.
 
-Abaixo dela, o mapa do que **já está implementado**, em 3 colunas:
-
-1. **Origem (UI)** — páginas e componentes que disparam a chamada.
-2. **Camada de Serviço (Web)** — Server Actions (`actions.ts`), Route Handlers internos (`app/api/*/route.ts`) e callbacks do NextAuth (`lib/auth.ts`).
-3. **Backend API (Express)** — cada router de `chateau-expert/backend/src/routes` vira um box **UML `«Interface»`** (modelo sugerido pelo coordenador): nome da API (`terms-API`, `chats-API`, `admins-API`...), compartimento de **campos** (a entidade que a API manipula) e compartimento de **métodos** (assinatura + comentário com o endpoint HTTP real, ex. `getLatestTerm(): Term // GET /latest`). A `search-API` planejada (`chateau-orchestration`) segue o mesmo formato, em laranja tracejado.
-
-Cores: cinza = origem na UI · verde = Server Action · azul = Route Handler Next.js · roxo = callback NextAuth · box branco `«Interface»` = API implementada no backend · vermelho = mock atual (`app/chat/page.tsx`, `mockResponse()`) · laranja tracejado = API/fluxo planejado, ainda não existe.
-
-**Achado principal:** a busca de profissionais (função central do produto) é 100% mockada no frontend — não existe endpoint de busca no backend. Todos os outros ~33 endpoints (termos, chats, admins, domínios, modelos de IA, exemplos de busca, privacidade, usuários) já estão implementados de ponta a ponta.
-
-Para editar: abra [app.diagrams.net](https://app.diagrams.net) → Arquivo → Abrir de → Dispositivo → selecione o arquivo.
+O diagrama de 01/09/2026 foi substituído porque mostrava busca simulada no navegador, endpoint `/api/chat/query` ainda planejado e o termo de uso removido depois. O histórico continua no Git.

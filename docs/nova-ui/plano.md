@@ -1,5 +1,7 @@
 # Plano do port da nova UI
 
+**Registro histórico:** as fases deste plano foram executadas e integradas ao `main` do Expert em 22/10/2026. Para o estado atual, consulte [interfaces](../../dominio/tech/interfaces.md), [tarefas](../todo.md) e o [resumo pós-port](README.md). Verbos no futuro e escolhas marcadas como proposta abaixo descrevem o planejamento de 22/10, não uma implementação ainda pendente.
+
 Plano de execução do port do protótipo (`/mnt/c/temp/chateau/ui`) para `chateau-expert/web`. O escopo, as decisões e o mapa geral estão no [README desta pasta](README.md); este documento diz **como** fazer: o que aproveitar do código do protótipo, o que otimizar, quais componentes criar, como preparar a internacionalização e em que ordem trabalhar.
 
 Base da leitura (22/10/2026):

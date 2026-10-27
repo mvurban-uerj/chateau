@@ -1,5 +1,9 @@
 # Nova UI: contexto para montar o port
 
+**Estado após o port:** a interface foi integrada ao `main` do Expert em 22/10/2026. As seções de mapeamento e tabelas propostas abaixo preservam o levantamento anterior à implementação e não descrevem, sozinhas, o estado atual. Para o que está entregue, começar por [interfaces](../../dominio/tech/interfaces.md), [contexto](../../dominio/modelo/contexto-ux.md), [busca](../../dominio/negocio/conversas-e-busca.md) e pelo código do Expert. O [mapa de campos rev_6](../analises/ui-campos-rev6-2026-10-27.md) registra as lacunas atuais.
+
+Conferência de 27/10/2026 contra `chateau-expert` `dc77c53`: o termo de uso, `Term` e as telas antigas foram removidos; a autorização de contexto, Meu contexto e perguntas guiadas são persistidos no PostgreSQL. O chat usa `/api/search` e `/api/chats`; respostas sem modelo são simuladas no backend e marcadas em vermelho no web. Administração usa a nova casca e os novos primitivos; shadcn, lucide e `next-themes` saíram. Ainda faltam dados reais do rev_6, contrato de resposta estruturada e validação completa da UI em produção. O [plano](plano.md) e os trechos abaixo com "proposta" são registro do port, não tarefas novamente em aberto.
+
 Ponto de partida para portar o protótipo para `chateau-expert/web`. Junta, para uso prático, o que decidiram as reuniões de [19/10](../reunioes/2026-10-19.md) e [20/10](../reunioes/2026-10-20.md) e as análises da [UI](../analises/ui-prototipo-2026-10-20.md) e do [Figma](../analises/figma-2026-10-20.md). As decisões e suas fontes continuam nesses documentos; aqui ficam o escopo, o mapa protótipo → web e o que falta definir. Itens marcados **proposta** ainda não foram decididos. O plano de execução (o que aproveitar do código, otimizações, componentes, internacionalização e fases) está em [plano.md](plano.md).
 
 Conferido em 22/10/2026 contra `chateau-expert` `514cc8a` e o protótipo em `/mnt/c/temp/chateau/ui`, que não tem Git.
