@@ -6,6 +6,8 @@ Revisão inicial de 20/10/2026 contra `chateau-data` `04c8225` e `chateau-expert
 
 Atualização de interface decidida em 26/10/2026: [interfaces](tech/interfaces.md), [administração](negocio/administracao.md) e [contexto](modelo/contexto-ux.md) descrevem a marcação vermelha de simulações e o seletor visual alimentado pelo catálogo de modelos.
 
+Decisão de 27/10/2026: [administração](negocio/administracao.md) registra o cadastro de URL, nome técnico e disponibilidade e o envio do nome técnico escolhido pelo navegador. [Contrato da busca](tech/contrato-de-busca.md) registra que a ausência de modelo selecionado aciona o mock; `ORCHESTRATION_URL` apenas substitui o endereço interno da orquestração. Implementação no Expert `bc6f16a`; validação em produção pendente.
+
 Os arquivos distinguem **regra implementada**, **modelo definido** e **proposta**. Não interpretar um nó de grafo, campo planejado ou mock como funcionalidade entregue. Detalhes exaustivos de propriedades e relações pertencem ao JSON do modelo indicado abaixo.
 
 ## Produto e negócio

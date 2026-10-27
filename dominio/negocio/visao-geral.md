@@ -26,6 +26,6 @@ No código atual, quem executa a consulta no Neo4j é o serviço de orquestraç�
 
 ## Estado atual
 
-A busca do web atual usa o serviço real **somente quando** `ORCHESTRATION_URL` está preenchida; caso contrário, o backend devolve um mock. O [protótipo da nova interface](../../docs/analises/ui-prototipo-2026-10-20.md) é outra aplicação, ainda isolada. Exemplos e dados simulados não descrevem a cobertura real do grafo.
+Na evolução local ainda não publicada, a busca usa a orquestração quando há um modelo disponível selecionado; sem modelo, o backend devolve um mock. `ORCHESTRATION_URL` apenas substitui o endereço interno padrão do serviço. Exemplos e dados simulados não descrevem a cobertura real do grafo.
 
 Fontes: [README do Expert](../../chateau-expert/README.md), [busca do backend](../../chateau-expert/backend/src/services/search.service.ts), [README do Data](../../chateau-data/README.md).

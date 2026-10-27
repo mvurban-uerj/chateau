@@ -62,7 +62,9 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Fase 9 — admin e privacidade na nova UI; retirada da interface antiga e das dependências sem uso; axe sem violações em 13 telas; lint limpo; 153 testes no web e 73 no backend (`43a25d1`, 22/10). Peso por página entre 196 e 230 kB comprimidos (React/Next ~165 kB; motion + Radix ~74 kB); carregar o motion à parte não reduziu nada.
 - [x] Merge de `feat/nova-ui` em `main` (fast-forward até `43a25d1`, 22/10), confirmado pelo Marcelo; dispara o deploy.
 - [x] Ajuste solicitado em 26/10: dados simulados em vermelho também nas opções, respostas mock e barra da aderência; seletor visual de complexidade alimentado pelo catálogo do admin, com subtítulo próprio. A escolha ainda não altera a busca. Publicado em `main` do Expert (`acd2f6d`, `af63b9b`); validação em produção pendente.
-- [ ] Validar em produção: entrada, autorização de contexto, busca (simulada, sem `ORCHESTRATION_URL`), Meu contexto, admin e privacidade.
+- [ ] Validar em produção Meu contexto, admin e privacidade. Confirmar também se a busca usa o modelo selecionado ou a simulação; a presença do container de orquestração não comprova que haja modelo disponível.
+- [x] Issue #34: implementar cadastro com Nome, Descrição, Nome do modelo, URL, Versão e Disponível; mostrar só disponíveis no chat, ocultar seletor com um, e enviar o nome técnico escolhido na busca ([análise](analises/modelos-admin-2026-10-27.md), 27/10). Migração e testes direcionados passaram; Expert `bc6f16a` publicado no Git, validação em produção pendente.
+- [ ] Validar a issue #34 com a GPU real e a URL alcançável pelo container após o deploy; confirmar também o contrato dinâmico Quarkus quando o ambiente Testcontainers permitir.
 - [x] Deploy após aumentar o limite do passo SSH de 30 para 60 min: o run de 26/10/2026 terminou com `Deploy finalizado` e os containers foram iniciados (`docs/talk-ia.md`). A validação dos fluxos da UI continua pendente acima.
 - [ ] Revisão jurídica da página de privacidade: linha nova "Meu contexto" e textos de exportação e exclusão (22/10).
 - [ ] Levar ao Edson: como os filtros devem chegar ao modelo (hoje vão na pergunta em linguagem natural, porque a busca só recebe texto). **(dep: Edson)**
@@ -128,20 +130,18 @@ Com o túnel de pé:
    No servidor (`ssh prointec@152.92.2.63`):
    ```bash
    cd /opt/apps/chateau-expert
-   nano .env.prod          # acrescentar as 3 linhas abaixo
-   #   COMPOSE_PROFILES=ia
-   #   ORCHESTRATION_URL=http://orchestration:8000
+   nano .env.prod          # configurar a URL do Ollama se necessária para o teste
    #   OLLAMA_URL=<o valor que o teste indicou>
    docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
    docker logs --tail 20 chateau_orchestration
    ```
-   Se `docker ps` não mostrar o `chateau_orchestration`, o Compose do servidor
-   não leu o `COMPOSE_PROFILES` do `.env.prod`: rodar o mesmo comando com
-   `--profile ia` e avisar (o deploy automático também não vai subi-lo).
+   Cadastrar no admin o nome técnico e a URL alcançável a partir do container
+   de orquestração e marcar o modelo como **Disponível**. Sem modelo disponível,
+   a busca continuará simulada. `ORCHESTRATION_URL` pode ficar vazia: a API usa
+   `http://orchestration:8000` na rede Docker.
    Depois, perguntar pelo chat: "Quantos livros existem?", "Quantos artigos o
    Hermes Alves Filho publicou em 2024?" e "Quantas bananas tem numa penca?".
-   - **Para voltar ao mock:** apagar a linha `ORCHESTRATION_URL` do
-     `.env.prod` e rodar o mesmo `docker compose ... up -d`.
+   - **Para voltar ao mock:** desmarcar **Disponível** nos modelos pelo admin.
    - O `.env.prod` não é versionado: a configuração sobrevive aos deploys
      automáticos.
 
@@ -154,9 +154,8 @@ Depois:
       aposentar a versão Python.
 - [ ] Se o `/api/chat` (LangChain4j) gerar a mesma consulta que o
       `/api/generate`, levar ao Edson a decisão sobre qual usar como padrão.
-- [ ] Antes de devolver a GPU: voltar a interface para o mock (apagar
-      `ORCHESTRATION_URL` do `.env.prod` e `up -d`) se o túnel não for
-      continuar de pé — senão o chat mostra "serviço indisponível".
+- [ ] Antes de devolver a GPU: desmarcar **Disponível** nos modelos pelo admin
+      se o túnel não for continuar de pé; a busca então usa dados simulados.
 
 ## 4. Aplicação — `chateau-expert`
 

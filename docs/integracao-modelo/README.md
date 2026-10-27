@@ -10,6 +10,8 @@ Plano de trabalho para trocar o mock do chat pela busca real: pergunta do usuár
 
 Criado em 2026-09-28.
 
+**Atualização de 27/10/2026:** o critério para usar mock mudou na issue #34. Sem modelo disponível selecionado, a busca é simulada; com modelo, a API chama a orquestração em `http://orchestration:8000` por padrão. `ORCHESTRATION_URL` só substitui esse endereço. A orquestração agora sobe sempre no Compose de produção. As instruções antigas abaixo sobre `COMPOSE_PROFILES=ia` e apagar `ORCHESTRATION_URL` registram o plano anterior; o roteiro operacional atualizado está em [docs/todo.md](../todo.md).
+
 ---
 
 ## 1. Contexto
