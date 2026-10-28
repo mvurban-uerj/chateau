@@ -1,5 +1,7 @@
 # Integração do modelo de IA (texto → Cypher) com a interface
 
+Para apresentar ao Edson o caminho da pergunta e dos dados, veja o [fluxo de busca versão 1](fluxo-busca-v1.md), implementado no Expert. A [versão 2](fluxo-busca-v2.md) registra a hipótese de reformulação com histórico, sugerida em 28/10/2026 e ainda sem implementação.
+
 **Decisão de 28/10/2026:** o serviço `orchestration` padrão nos Compose local e de produção passa a ser Quarkus com `CHATEAU_GERADOR=generate` (`/api/generate`). Python permanece versionado como referência de comparação e opção de retorno; pode subir em paralelo por perfil, sem tráfego padrão da API. A comparação automatizada com um servidor simulado do modelo de IA e, quando a GPU estiver acessível, com o modelo real deve acompanhar as duas implementações. Esta decisão substitui os passos antigos abaixo que previam apagar Python após a troca. Ela não comprova, por si, deploy nem equivalência com o modelo real.
 
 **Vocabulário atual:** “modelo de IA” e “servidor do modelo de IA” são os termos de produto. Menções a Ollama nas seções históricas e nos comandos abaixo identificam o programa usado para servir o modelo e seus nomes de API/variáveis; não são nomes alternativos do modelo.

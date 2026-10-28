@@ -101,6 +101,8 @@ Depois do levantamento:
 
 ## 3. IA e orquestração
 
+- [x] 28/10: documentar para o Edson o fluxo resumido da busca, com dados transmitidos em cada ida e volta ([versão 1](integracao-modelo/fluxo-busca-v1.md)).
+- [ ] 28/10: avaliar a [versão 2 proposta pelo Edson](integracao-modelo/fluxo-busca-v2.md): comparar com o modelo real histórico completo e resumo acumulado da conversa, inclusive referências antigas; definir limite de contexto, acesso às mensagens originais, fonte/formato do histórico, prompt, modelo de reformulação/resumo, tratamento de respostas simuladas e impacto no tempo de busca. Somente documentação por enquanto; sem implementação aprovada.
 - [x] 28/10: padronizar “modelo de IA” e “servidor do modelo de IA” no vocabulário de produto; manter nomes de campos, variáveis e comandos da integração atual nos contratos técnicos.
 - [x] 28/10: esclarecer no fluxo de produto que o servidor do modelo é uma caixa preta; documentar apenas a solicitação enviada e a resposta recebida, deixando rotas e tecnologia no contrato técnico.
 - [x] Levar ao Edson a lista de [dúvidas](duvidas-edson/README.md) e registrar as respostas ([reunião de 20/10](reunioes/2026-10-20.md)).
