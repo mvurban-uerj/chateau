@@ -15,7 +15,7 @@ Correção do Marcelo no mesmo dia: o **navegador envia o nome técnico do model
 
 ## Caminho implementado localmente no Expert
 
-1. Administrador cadastra URL e nome técnico Ollama em cada modelo e marca Disponível quando deve aparecer no chat. A listagem enviada ao usuário omite a URL.
+1. Administrador cadastra a URL do servidor e o nome técnico do modelo de IA em cada registro e marca Disponível quando deve aparecer no chat. A listagem enviada ao usuário omite a URL.
 2. O chat envia o **nome técnico** com a pergunta. O backend valida que ele corresponde a um cadastro disponível, busca sua URL no PostgreSQL e repassa os dois valores à orquestração. O navegador não controla diretamente o endereço de destino.
 3. A orquestração usa a configuração recebida apenas naquela requisição; o schema do grafo e as regras de leitura permanecem os mesmos.
 4. Registros anteriores à migração começam indisponíveis. Com um modelo disponível, o seletor fica oculto; sem modelos disponíveis, a busca continua com dados simulados e a interface indica esse estado.

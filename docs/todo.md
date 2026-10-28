@@ -70,6 +70,8 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [ ] Validar em produção Meu contexto, admin e privacidade. Confirmar também se a busca usa o modelo selecionado ou a simulação; a presença do container de orquestração não comprova que haja modelo disponível.
 - [x] Issue #34: implementar cadastro com Nome, Descrição, Nome do modelo, URL, Versão e Disponível; mostrar só disponíveis no chat, ocultar seletor com um, e enviar o nome técnico escolhido na busca ([análise](analises/modelos-admin-2026-10-27.md), 27/10). Migração e testes direcionados passaram; Expert `bc6f16a` publicado no Git, validação em produção pendente.
 - [ ] Validar a issue #34 com a GPU real e a URL alcançável pelo container após o deploy; confirmar também o contrato dinâmico Quarkus quando o ambiente Testcontainers permitir.
+- [x] 28/10: distinguir no chat a falha sem modelo disponível (orientação para tentar mais tarde) da falha de serviço com modelo escolhido; textos da interface no catálogo de traduções. Validar após o próximo deploy.
+- [x] 28/10: retirar a exceção de i18n do catálogo de componentes, mover seus textos de tela para `web/messages/pt-BR.json` e ampliar o lint para atributos visíveis. Verificação estática do JSX e lint do web passaram.
 - [x] Deploy após aumentar o limite do passo SSH de 30 para 60 min: o run de 26/10/2026 terminou com `Deploy finalizado` e os containers foram iniciados (`docs/talk-ia.md`). A validação dos fluxos da UI continua pendente acima.
 - [ ] Revisão jurídica da página de privacidade: linha nova "Meu contexto" e textos de exportação e exclusão (22/10).
 - [ ] Levar ao Edson: como os filtros devem chegar ao modelo (hoje vão na pergunta em linguagem natural, porque a busca só recebe texto). **(dep: Edson)**
@@ -99,6 +101,8 @@ Depois do levantamento:
 
 ## 3. IA e orquestração
 
+- [x] 28/10: padronizar “modelo de IA” e “servidor do modelo de IA” no vocabulário de produto; manter nomes de campos, variáveis e comandos da integração atual nos contratos técnicos.
+- [x] 28/10: esclarecer no fluxo de produto que o servidor do modelo é uma caixa preta; documentar apenas a solicitação enviada e a resposta recebida, deixando rotas e tecnologia no contrato técnico.
 - [x] Levar ao Edson a lista de [dúvidas](duvidas-edson/README.md) e registrar as respostas ([reunião de 20/10](reunioes/2026-10-20.md)).
 - [ ] Definir com o Edson o **contrato de resposta do modelo** (hoje o modelo ainda está em treino para pergunta → resposta, sem aderência nem contexto) para a nova UI: lista de perfis, aderência, justificativa, caminho no grafo, cobertura e montagem de equipe; como isso chega pelo caminho web → API → orquestração. **(dep: levantamento campo a campo da frente 1)**
 - [ ] Depois da carga rev_6: extrair de novo `schema_producao.txt` e atualizar o schema usado pelo modelo. **(dep: frente 2, carga rev_6)**
@@ -114,7 +118,7 @@ Detalhes e justificativas: `docs/integracao-modelo/README.md`, Fase 5.
 Antes:
 
 - [ ] Combinar com o Edson o **horário** e **quem sobe o túnel** da máquina com
-      GPU. O Ollama precisa aparecer no servidor em `127.0.0.1:11434`.
+      GPU. O servidor do modelo de IA (Ollama neste roteiro) precisa aparecer no servidor em `127.0.0.1:11434`.
 - [ ] Ter à mão a **senha do SSH** do `prointec@152.92.2.63`.
 - [ ] Docker Desktop rodando na máquina local.
 - [ ] (Opcional) Acrescentar perguntas em
@@ -134,8 +138,8 @@ Com o túnel de pé:
 2. [ ] Colar o conteúdo de
    `orchestration/teste_modelo/resultados/<data>/resumo.md` no
    `docs/talk-ia.md` e pedir a análise. O resumo traz:
-   - versão do Ollama e se o modelo está carregado;
-   - acesso container → Ollama e o `OLLAMA_URL` a usar;
+   - versão do servidor do modelo de IA e se o modelo está carregado;
+   - acesso container → servidor do modelo e o `OLLAMA_URL` a usar;
    - as 14 perguntas reais (bananas, pergunta com ano, recusa do "Apague");
    - a avaliação das 20 perguntas do README (o Edson mediu 15/20);
    - a comparação Python × Quarkus com o modelo real (critério: 100%).
@@ -143,7 +147,7 @@ Com o túnel de pé:
    No servidor (`ssh prointec@152.92.2.63`):
    ```bash
    cd /opt/apps/chateau-expert
-   nano .env.prod          # configurar a URL do Ollama se necessária para o teste
+   nano .env.prod          # configurar a URL do servidor do modelo se necessária para o teste
    #   OLLAMA_URL=<o valor que o teste indicou>
    docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
    docker logs --tail 20 chateau_orchestration
@@ -162,9 +166,13 @@ Depois:
 
 - [ ] Rodar de novo com mais perguntas reais e anotar erros e acertos para o
       Edson (material para a próxima versão do modelo).
-- [ ] Com a comparação em 100%: decidir a troca para a Quarkus (Fase 7) —
-      apontar o compose para `orchestration/quarkus/`, validar em produção e
-      aposentar a versão Python.
+- [x] 28/10: definir Quarkus como `orchestration` padrão nos dois Compose;
+      Python fica em perfil opcional para comparação paralela/retorno, sem ser apagado.
+- [x] 28/10: comparar Python × Quarkus com servidor simulado do modelo de IA e o mesmo Neo4j/schema:
+      30 casos, 60/60 pares sem diferença, prompt enviado idêntico. [Registro](analises/quarkus-padrao-2026-10-28.md).
+- [ ] Validar a subida do Quarkus no próximo deploy e uma busca real com a GPU.
+- [ ] Comparar Python × Quarkus com o modelo real (critério: mesmo resultado em
+      100% das perguntas) e repetir a comparação ao atualizar qualquer implementação.
 - [ ] Se o `/api/chat` (LangChain4j) gerar a mesma consulta que o
       `/api/generate`, levar ao Edson a decisão sobre qual usar como padrão.
 - [ ] Antes de devolver a GPU: desmarcar **Disponível** nos modelos pelo admin

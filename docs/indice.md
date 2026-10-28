@@ -12,6 +12,7 @@
 | Inventário das telas portadas: protótipo → rotas e componentes atuais | [analises/ui-telas-portadas-2026-10-27.md](analises/ui-telas-portadas-2026-10-27.md) |
 | Perguntas guiadas, comportamento do Tab e pontos para crítica com o Edson | [analises/perguntas-guiadas-2026-10-27.md](analises/perguntas-guiadas-2026-10-27.md) |
 | Issue #34: configuração e escolha de modelos de IA | [analises/modelos-admin-2026-10-27.md](analises/modelos-admin-2026-10-27.md) |
+| Quarkus padrão: decisão, comparação e retorno para Python | [analises/quarkus-padrao-2026-10-28.md](analises/quarkus-padrao-2026-10-28.md) |
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
 | Uso de um disco adicional no servidor | [producao/disco-adicional.md](producao/disco-adicional.md) |
 | Falha de espaço e lentidão do deploy de 26/10/2026 | [analises/deploy-2026-10-26.md](analises/deploy-2026-10-26.md) |

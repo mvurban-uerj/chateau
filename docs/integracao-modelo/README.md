@@ -1,5 +1,9 @@
 # Integração do modelo de IA (texto → Cypher) com a interface
 
+**Decisão de 28/10/2026:** o serviço `orchestration` padrão nos Compose local e de produção passa a ser Quarkus com `CHATEAU_GERADOR=generate` (`/api/generate`). Python permanece versionado como referência de comparação e opção de retorno; pode subir em paralelo por perfil, sem tráfego padrão da API. A comparação automatizada com um servidor simulado do modelo de IA e, quando a GPU estiver acessível, com o modelo real deve acompanhar as duas implementações. Esta decisão substitui os passos antigos abaixo que previam apagar Python após a troca. Ela não comprova, por si, deploy nem equivalência com o modelo real.
+
+**Vocabulário atual:** “modelo de IA” e “servidor do modelo de IA” são os termos de produto. Menções a Ollama nas seções históricas e nos comandos abaixo identificam o programa usado para servir o modelo e seus nomes de API/variáveis; não são nomes alternativos do modelo.
+
 Plano de trabalho para trocar o mock do chat pela busca real: pergunta do usuário
 → modelo gera Cypher → consulta no Neo4j → resultado na interface.
 
@@ -679,8 +683,9 @@ Checklist operacional (com os comandos): `docs/todo.md`.
 
 **Quinta/sexta**
 - [ ] Mais perguntas reais; registrar acertos/erros para o Edson.
-- [ ] Com 100% na comparação: decidir a troca para a Quarkus (Fase 7) e se o
-      `/api/chat` pode ser o padrão (pendência 6).
+- [x] A escolha da Quarkus como padrão foi feita em 28/10/2026, mantendo
+      `/api/generate`; a comparação com o modelo real e a decisão sobre
+      `/api/chat` continuam pendentes.
 
 Aceite: busca real funcionando pela interface em produção; comportamento de
 fora-do-domínio documentado.
@@ -728,10 +733,9 @@ em 0,7 s; mesmo `schema_sha256` e mesmos campos de log. Sem `smallrye-health`
       (etapa 6 do `testar_modelo.sh`).* Texto de `cypher`
       diferente é listado e analisado (variação do Ollama × diferença de
       prompt — a segunda é bug).
-- [ ] Troca: apontar o compose para `quarkus/`, validar em produção, apagar
-      `python/`, mover `quarkus/*` para `orchestration/`, ajustar build path.
-      Manter `comparacao/` para versões futuras do modelo (comparando contra os
-      resultados gravados).
+- [x] Troca do padrão dos Compose para `quarkus/`, mantendo `python/` e `comparacao/`
+      para comparação paralela e retorno (decisão de 28/10/2026). Validação em
+      produção e equivalência com o modelo real continuam pendentes.
 
 Aceite: relatório 100% igual; produção rodando Quarkus.
 

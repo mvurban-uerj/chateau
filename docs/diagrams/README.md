@@ -8,7 +8,7 @@ Mapa das chamadas entre navegador, servidor Next.js, API Express, orquestração
 
 - **Acesso:** Google/NextAuth → API de autenticação; o middleware consulta a sessão e verifica aprovação e autorização de contexto.
 - **Segurança web → API:** o servidor Next.js envia `INTERNAL_API_TOKEN` e, nas chamadas de usuário, `X-User-Email`. O navegador não recebe o token interno.
-- **Busca:** `/chat` e `/chat/[id]` chamam `POST /api/search` via Route Handler web. Na evolução local da issue #34, o backend usa a orquestração quando há modelo disponível selecionado; sem modelo ou em falha dele, devolve resposta simulada e marcada. `ORCHESTRATION_URL` só substitui o endereço interno do serviço. A orquestração gera Cypher com o Ollama e lê o Neo4j. Web e backend não acessam o Neo4j diretamente.
+- **Busca:** `/chat` e `/chat/[id]` chamam `POST /api/search` via Route Handler web. Na evolução local da issue #34, o backend usa a orquestração quando há modelo disponível selecionado; sem modelo ou em falha dele, devolve resposta simulada e marcada. `ORCHESTRATION_URL` só substitui o endereço interno do serviço. A orquestração pede ao modelo de IA que gere Cypher e lê o Neo4j. Web e backend não acessam o Neo4j diretamente.
 - **Persistência:** PostgreSQL guarda contas, autorização, Meu contexto, perguntas guiadas, conversas e administração. O `schema_producao.txt` é uma fotografia versionada para o modelo, não uma leitura automática do grafo.
 - **Outras áreas:** administração usa Server Actions; privacidade usa Route Handlers para exportação e exclusão.
 

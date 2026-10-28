@@ -8,6 +8,16 @@ Atualização de interface decidida em 26/10/2026: [interfaces](tech/interfaces.
 
 Decisão de 27/10/2026: [administração](negocio/administracao.md) registra o cadastro de URL, nome técnico e disponibilidade e o envio do nome técnico escolhido pelo navegador. [Contrato da busca](tech/contrato-de-busca.md) registra que a ausência de modelo selecionado aciona o mock; `ORCHESTRATION_URL` apenas substitui o endereço interno da orquestração. Implementação no Expert `bc6f16a`; validação em produção pendente.
 
+Ajuste de 28/10/2026: [conversas e busca](negocio/conversas-e-busca.md) distingue o aviso de busca sem modelo e sem resposta do aviso de falha com modelo escolhido.
+
+Regra de interface confirmada em 28/10/2026: [interfaces](tech/interfaces.md) exige internacionalização de todos os textos fixos de tela, inclusive no catálogo de componentes.
+
+Decisão de 28/10/2026: [arquitetura](tech/arquitetura.md) e [operação](tech/operacao-e-validacao.md) definem Quarkus como orquestração padrão, com Python preservado para comparação paralela e retorno.
+
+Vocabulário confirmado em 28/10/2026: [glossário](negocio/glossario.md) usa “modelo de IA” e “servidor do modelo de IA” na comunicação do produto; identificadores de protocolo existentes continuam documentados no [contrato de busca](tech/contrato-de-busca.md).
+
+Esclarecimento de 28/10/2026: a [visão geral](negocio/visao-geral.md) descreve o servidor do modelo como caixa preta, apenas pelo que a orquestração envia e recebe. Caminhos HTTP e detalhes da integração pertencem ao [contrato técnico](tech/contrato-de-busca.md).
+
 Os arquivos distinguem **regra implementada**, **modelo definido** e **proposta**. Não interpretar um nó de grafo, campo planejado ou mock como funcionalidade entregue. Detalhes exaustivos de propriedades e relações pertencem ao JSON do modelo indicado abaixo.
 
 ## Produto e negócio
