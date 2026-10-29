@@ -8,6 +8,8 @@ Atualização de interface decidida em 26/10/2026: [interfaces](tech/interfaces.
 
 Decisão de 27/10/2026: [administração](negocio/administracao.md) registra o cadastro de URL, nome técnico e disponibilidade e o envio do nome técnico escolhido pelo navegador. [Contrato da busca](tech/contrato-de-busca.md) registra que a ausência de modelo selecionado aciona o mock; `ORCHESTRATION_URL` apenas substitui o endereço interno da orquestração. Implementação no Expert `bc6f16a`; validação em produção pendente.
 
+Ajuste de 29/10/2026: [administração](negocio/administracao.md) permite compartilhar o nome técnico entre versões; o [contrato da busca](tech/contrato-de-busca.md) usa o ID do cadastro para selecionar a URL. Expert `8000529` enviado a `main`; deploy e busca real pendentes de validação. [Diagnóstico](../docs/analises/modelos-admin-2026-10-29.md).
+
 Ajuste de 28/10/2026: [conversas e busca](negocio/conversas-e-busca.md) distingue o aviso de busca sem modelo e sem resposta do aviso de falha com modelo escolhido.
 
 Regra de interface confirmada em 28/10/2026: [interfaces](tech/interfaces.md) exige internacionalização de todos os textos fixos de tela, inclusive no catálogo de componentes.
