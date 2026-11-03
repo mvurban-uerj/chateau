@@ -15,6 +15,8 @@ Legenda: **(dep: X)** = depende de outra tarefa ou pessoa.
 
 Decisões de 20/10/2026: [análise da UI](analises/ui-prototipo-2026-10-20.md#decisões-de-20102026). Aparência idêntica ao protótipo (`/mnt/c/temp/chateau/ui`, versão final, não versionada); infraestrutura e versões do Expert prevalecem (Next.js 14, React 18). O port entrou em `main` em 22/10; o levantamento abaixo ainda reúne conferências e decisões para as próximas integrações.
 
+- [x] Reunião de 29/10 e pedidos de 03/11: portar o `public/favicon.svg` do protótipo para o web e centralizar o texto "Acesso com conta institucional." sob o botão na tela de entrada (03/11). Conferência em produção pendente de deploy.
+
 Escopo pela [reunião de 20/10](reunioes/2026-10-20.md): portar toda a interface, menos os desdobramentos de "Buscar candidatos" e "Montar equipe" (botões desabilitados). O que não tem dado ou o modelo não responde fica simulado; o que dá para implementar (ex.: contexto no PostgreSQL) já se implementa. O protótipo não evolui em paralelo.
 
 Contexto consolidado para o port (22/10): [nova-ui/README.md](nova-ui/README.md), com escopo, mapa protótipo → web, tabelas propostas e ordem sugerida. Plano de execução em [nova-ui/plano.md](nova-ui/plano.md) (22/10).
@@ -72,6 +74,7 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [ ] Validar a issue #34 com a GPU real e a URL alcançável pelo container após o deploy; confirmar também o contrato dinâmico Quarkus quando o ambiente Testcontainers permitir.
 - [x] 29/10: ajustar o Expert para permitir o mesmo nome técnico nas versões do catálogo e resolver a URL da busca pelo ID da versão escolhida. Migração, API, chat e testes direcionados concluídos; Expert `8000529` enviado a `main`. Deploy e busca real pendentes de validação. [Diagnóstico](analises/modelos-admin-2026-10-29.md).
 - [ ] Após publicação do ajuste de 29/10: cadastrar na versão Pro a URL `http://host.docker.internal:11435`, marcar Disponível e validar uma busca real. O usuário confirmou HTTP 200 em `/api/tags` nessa porta dentro de `chateau_orchestration`; `:11434` falha. Logs anteriores mostram tentativas em `http://127.0.0.1:11434`. SSH ao servidor recusou autenticação neste ambiente.
+- [ ] Permitir várias URLs por cadastro de modelo no Admin, com inclusão, edição e remoção; migrar a URL única existente sem perdê-la, atualizar API/web e definir o comportamento ao excluir a última URL de um modelo disponível. Coordenar o novo contrato de envio das URLs à busca com a frente 3.
 - [x] 28/10: distinguir no chat a falha sem modelo disponível (orientação para tentar mais tarde) da falha de serviço com modelo escolhido; textos da interface no catálogo de traduções. Validar após o próximo deploy.
 - [x] 28/10: retirar a exceção de i18n do catálogo de componentes, mover seus textos de tela para `web/messages/pt-BR.json` e ampliar o lint para atributos visíveis. Verificação estática do JSX e lint do web passaram.
 - [x] Deploy após aumentar o limite do passo SSH de 30 para 60 min: o run de 26/10/2026 terminou com `Deploy finalizado` e os containers foram iniciados (`docs/talk-ia.md`). A validação dos fluxos da UI continua pendente acima.
@@ -94,6 +97,7 @@ Depois do levantamento:
 
 ## 2. Dados — `chateau-data` (rev_6)
 
+- [ ] Comparar o modelo texto→Cypher indicado na reunião de 29/10 com o JSON rev_6: obter artefato, prompt/schema e relatório citado; montar casos por rótulo, campo, tipo e direção de relação; executar consultas geradas contra grafo de teste rev_6 e registrar diferenças. O Neo4j de produção ainda usa carga anterior; não usá-lo para julgar aderência à rev_6.
 - [ ] **(Marcelo)** Gerar o Cypher completo no modelo `rev_6_training` e carregar no Neo4j de produção (hoje o grafo é da carga anterior: sem `Job`, `Role`, `WORKS`, `TAUGHT`, `COORDINATES`, `Campus`, `Acknowledgment`). Definir a estratégia de carga (substituir × incrementar; identificadores sequenciais não são estáveis entre execuções). Ver [Neo4j](neo4j/README.md) e a issue citada na [reunião de 23/09](reunioes/2026-09-23.md).
 - [ ] Corrigir o extrator de produções do PDF Sucupira (teste falha em 20 PDFs) e repetir o teste. Ver [fontes e pipeline](../dominio/dados/fontes-e-pipeline.md).
 - [ ] Fontes para os campos novos da UI (cargo/vínculo, unidade, campus, disciplinas, prêmios, coordenação): identificar de onde cada um é extraído. **(dep: levantamento campo a campo da frente 1)**
@@ -103,6 +107,8 @@ Depois do levantamento:
 
 ## 3. IA e orquestração
 
+- [ ] Planejar a seleção entre várias URLs do mesmo modelo: critérios de saúde, política de distribuição, timeout, tentativas, falha durante geração, afinidade por conversa, observabilidade e configuração de túneis; depois implementar no serviço de orquestração e testar com servidores reais. **(dep: cadastro de múltiplas URLs no Admin; política a decidir)**
+- [ ] Revisar a proposta de contexto da conversa de 28/10 à luz do pedido de 03/11: definir o contrato com o servidor de modelo que fará a reformulação, quais mensagens e resultados são enviados, limites, tratamento de dados simulados, falhas e testes de referência antiga. Definir como o Quarkus encaminhará as chamadas ao novo servidor; o contrato e a disponibilidade dele ainda não foram informados. **(dep: contrato do servidor de modelo)**
 - [x] 28/10: documentar para o Edson o fluxo resumido da busca, com dados transmitidos em cada ida e volta ([versão 1](integracao-modelo/fluxo-busca-v1.md)).
 - [ ] 28/10: avaliar a [versão 2 proposta pelo Edson](integracao-modelo/fluxo-busca-v2.md): comparar com o modelo real histórico completo e resumo acumulado da conversa, inclusive referências antigas; definir limite de contexto, acesso às mensagens originais, fonte/formato do histórico, prompt, modelo de reformulação/resumo, tratamento de respostas simuladas e impacto no tempo de busca. Somente documentação por enquanto; sem implementação aprovada.
 - [x] 28/10: padronizar “modelo de IA” e “servidor do modelo de IA” no vocabulário de produto; manter nomes de campos, variáveis e comandos da integração atual nos contratos técnicos.
