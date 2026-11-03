@@ -12,6 +12,8 @@ Ajuste de 29/10/2026: [administração](negocio/administracao.md) permite compar
 
 Ajuste de 28/10/2026: [conversas e busca](negocio/conversas-e-busca.md) distingue o aviso de busca sem modelo e sem resposta do aviso de falha com modelo escolhido.
 
+Alteração de 03/11/2026, com validação em produção pendente: [administração](negocio/administracao.md), [conversas e busca](negocio/conversas-e-busca.md) e [contrato da busca](tech/contrato-de-busca.md) registram o formato de prompt por cadastro de modelo e o estado `fora_escopo` para recusa explícita do 31B.
+
 Regra de interface confirmada em 28/10/2026: [interfaces](tech/interfaces.md) exige internacionalização de todos os textos fixos de tela, inclusive no catálogo de componentes.
 
 Decisão de 28/10/2026: [arquitetura](tech/arquitetura.md) e [operação](tech/operacao-e-validacao.md) definem Quarkus como orquestração padrão, com Python preservado para comparação paralela e retorno.

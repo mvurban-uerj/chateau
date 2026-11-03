@@ -6,6 +6,8 @@ O envio da pergunta usa `POST /api/search`; a primeira mensagem pode criar a con
 
 O status da busca é um entre `ok`, `sem_resultado`, `recusada`, `erro_consulta` e `indisponivel`. Zero linhas ou todas as células vazias, inclusive `count: 0`, viram `sem_resultado`: o produto **não consegue afirmar** se a pergunta está fora do domínio ou se o Cypher não correspondeu à intenção. Uma consulta de escrita recusada e uma falha de banco são estados diferentes. Ver [contrato de busca](../tech/contrato-de-busca.md).
 
+**Preparado em 03/11/2026 no Expert, com validação em produção pendente:** para o modelo 31B rev_6, a resposta explícita `RETURN null AS sem_resposta` vira `fora_escopo`, sem consulta ao Neo4j e sem mostrar a sentinela como Cypher ao usuário. Isso difere de `sem_resultado`, que continua sem diagnóstico seguro, e de `recusada`, reservada à consulta de escrita bloqueada.
+
 No protótipo da nova UI, níveis de profundidade, perguntas guiadas, filtros, montagem de equipe, porcentagens e justificativas operam sobre dados simulados. **Direção decidida em 20/10/2026:** ranqueamento, aderência, justificativas e equipe virão do modelo de IA consultando o grafo rev_6, pelo caminho web → API → orquestração. O contrato dessa resposta ainda não existe; até lá, o resultado real continua sendo a tabela descrita acima.
 
 **Estado do modelo ([reunião de 20/10/2026](../../docs/reunioes/2026-10-20.md)):** ainda em treino para receber uma pergunta e emitir uma resposta. Não responde aderência e outros campos do protótipo, não recebe o contexto do usuário e não informa etapas durante a busca. No port, esses campos ficam simulados; "Buscar candidatos" e "Montar equipe" ficam desabilitados.
