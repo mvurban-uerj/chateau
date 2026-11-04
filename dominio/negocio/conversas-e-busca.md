@@ -4,7 +4,7 @@
 
 O envio da pergunta usa `POST /api/search`; a primeira mensagem pode criar a conversa. O resultado aparece como tabela/estado de busca. A atualização das mensagens após a resposta e algumas ações de histórico são disparadas pelo web sem aguardar confirmação; falha de persistência não impede que a conversa apareça na sessão atual.
 
-O status da busca é um entre `ok`, `sem_resultado`, `recusada`, `erro_consulta` e `indisponivel`. Zero linhas ou todas as células vazias, inclusive `count: 0`, viram `sem_resultado`: o produto **não consegue afirmar** se a pergunta está fora do domínio ou se o Cypher não correspondeu à intenção. Uma consulta de escrita recusada e uma falha de banco são estados diferentes. Ver [contrato de busca](../tech/contrato-de-busca.md).
+O status da busca é um entre `ok`, `sem_resultado`, `recusada`, `fora_escopo`, `erro_consulta` e `indisponivel`. Zero linhas ou todas as células vazias, inclusive `count: 0`, viram `sem_resultado`: o produto **não consegue afirmar** se a pergunta está fora do domínio ou se o Cypher não correspondeu à intenção. Uma consulta de escrita recusada e uma falha de banco são estados diferentes. Ver [contrato de busca](../tech/contrato-de-busca.md).
 
 **Preparado em 03/11/2026 no Expert, com validação em produção pendente:** para o modelo 31B rev_6, a resposta explícita `RETURN null AS sem_resposta` vira `fora_escopo`, sem consulta ao Neo4j e sem mostrar a sentinela como Cypher ao usuário. Isso difere de `sem_resultado`, que continua sem diagnóstico seguro, e de `recusada`, reservada à consulta de escrita bloqueada.
 

@@ -10,9 +10,15 @@ Decisão de 27/10/2026: [administração](negocio/administracao.md) registra o c
 
 Ajuste de 29/10/2026: [administração](negocio/administracao.md) permite compartilhar o nome técnico entre versões; o [contrato da busca](tech/contrato-de-busca.md) usa o ID do cadastro para selecionar a URL. Expert `8000529` enviado a `main`; deploy e busca real pendentes de validação. [Diagnóstico](../docs/analises/modelos-admin-2026-10-29.md).
 
+Implementação local de 04/11/2026: [administração](negocio/administracao.md) registra várias URLs ordenadas por cadastro; o [contrato da busca](tech/contrato-de-busca.md) define failover sequencial em falhas técnicas claras. Distribuição normal de carga, regra de lentidão e validação em produção estão pendentes. [Contexto](../docs/analises/failover-modelo-2026-11-04.md).
+
+Correção de 04/11/2026: [administração](negocio/administracao.md) e [contrato da busca](tech/contrato-de-busca.md) retiram o formato de prompt do cadastro; o nome técnico seleciona o de-para no código. Esta regra substitui a seleção por cadastro registrada em 03/11.
+
+Ajuste de interface de 04/11/2026: [administração](negocio/administracao.md) limita a rolagem à lista de URLs e mostra mensagem específica para URLs repetidas.
+
 Ajuste de 28/10/2026: [conversas e busca](negocio/conversas-e-busca.md) distingue o aviso de busca sem modelo e sem resposta do aviso de falha com modelo escolhido.
 
-Alteração de 03/11/2026, com validação em produção pendente: [administração](negocio/administracao.md), [conversas e busca](negocio/conversas-e-busca.md) e [contrato da busca](tech/contrato-de-busca.md) registram o formato de prompt por cadastro de modelo e o estado `fora_escopo` para recusa explícita do 31B.
+Alteração de 03/11/2026: [conversas e busca](negocio/conversas-e-busca.md) e [contrato da busca](tech/contrato-de-busca.md) registram `fora_escopo` para recusa explícita do 31B. A seleção de formato de prompt por cadastro foi substituída em 04/11 pelo de-para do nome técnico.
 
 Regra de interface confirmada em 28/10/2026: [interfaces](tech/interfaces.md) exige internacionalização de todos os textos fixos de tela, inclusive no catálogo de componentes.
 

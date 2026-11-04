@@ -14,8 +14,8 @@ Confirmado pelo Marcelo em 22/10/2026. As etapas são construídas **em paralelo
 
 Antes da busca, o `chateau-data` extrai dados das fontes acadêmicas e gera o Cypher que popula o Neo4j. Durante uma busca com modelo disponível, o caminho é:
 
-1. **Web → API Express:** o usuário escreve a pergunta no chat. O web envia a pergunta e o nome técnico do modelo escolhido (selecionado automaticamente quando há apenas um).
-2. **API Express → orquestração Quarkus:** a API consulta o cadastro para obter a URL do servidor do modelo e envia à orquestração a pergunta, o nome técnico e essa URL.
+1. **Web → API Express:** o usuário escreve a pergunta no chat. O web envia a pergunta, o ID do cadastro e o nome técnico do modelo escolhido (selecionado automaticamente quando há apenas um).
+2. **API Express → orquestração Quarkus:** a API consulta o cadastro para obter as URLs ordenadas dos servidores do modelo e envia à orquestração a pergunta, o nome técnico, o formato de prompt associado a esse nome e as URLs. A orquestração começa pela primeira e pode tentar outra em falha técnica clara.
 3. **Orquestração → servidor do modelo de IA:** a orquestração envia a pergunta e o esquema do grafo. Para o Chateau, o servidor é uma caixa preta: descrevemos o que entra e o que sai, sem pressupor seu processamento interno, seus caminhos ou sua tecnologia.
 4. **Servidor do modelo de IA → orquestração:** o servidor devolve uma resposta da qual a orquestração extrai o Cypher gerado.
 5. **Orquestração → Neo4j:** a orquestração verifica que o Cypher é de leitura e executa a consulta.

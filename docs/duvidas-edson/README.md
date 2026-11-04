@@ -63,6 +63,19 @@ Resposta (20/10): o protótipo não vai evoluir em paralelo. Deverá vir a área
 
 ## Perguntas ainda abertas para o Edson
 
+### Vários servidores para o mesmo modelo (04/11/2026)
+
+O Admin permite várias URLs no mesmo cadastro. O failover sequencial já tenta a próxima em conexão recusada, HTTP 503 ou resposta técnica vazia; a distribuição normal de carga e a troca por lentidão ainda dependem das respostas abaixo:
+
+1. Cada URL terá **o mesmo nome técnico, a mesma versão/binário e o mesmo formato de prompt**? Há alguma diferença entre os servidores que precise constar no cadastro?
+2. Os túneis são permanentes? Qual endereço a orquestração deve usar e como identificar quando túnel e servidor de modelo estão prontos para receber geração, além de responderem a uma verificação HTTP?
+3. Qual limite de gerações simultâneas e de fila cada servidor suporta? Há capacidades ou prioridades diferentes entre eles?
+4. A distribuição deve ser por alternância, menor número de chamadas em andamento ou outra medida? Uma conversa precisa manter afinidade com o mesmo servidor?
+5. Em falha ou timeout **durante** a geração, podemos repetir a pergunta em outra URL? Qual timeout e quantas tentativas são aceitáveis, considerando custo e demora para o usuário?
+6. Como confirmar que o modelo esperado está instalado e carregável em cada URL? O que fazer quando uma URL responde, mas não tem o modelo ou devolve erro de geração?
+7. Quais métricas e registros são necessários para acompanhar URL escolhida, duração, falhas e distribuição, sem expor dados desnecessários da conversa?
+
+
 - [ ] As perguntas guiadas podem ser editadas pelo admin? Se sim, como preservar edições quando uma nova versão da seed for carregada? A [revisão de 27/10](../analises/perguntas-guiadas-2026-10-27.md) traz exemplos concretos para criticar com o Edson: opções fixas, disponibilidade, requisito obrigatório, molde de equipe acessível pelo campo e comportamento do Tab.
 - [ ] Por qual contrato chegam as opções reais de filtro, sem acesso direto da web/backend ao Neo4j? Como os filtros selecionados devem ser enviados ao modelo? Hoje vão como linguagem natural na pergunta.
 - [ ] Que estrutura o modelo entregará para perfis, aderência, justificativa, caminho no grafo, cobertura e equipe? Quando haverá etapas de progresso e entrada do contexto do usuário?

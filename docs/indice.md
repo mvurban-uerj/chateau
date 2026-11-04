@@ -13,7 +13,8 @@
 | Perguntas guiadas, comportamento do Tab e pontos para crítica com o Edson | [analises/perguntas-guiadas-2026-10-27.md](analises/perguntas-guiadas-2026-10-27.md) |
 | Issue #34: configuração e escolha de modelos de IA | [analises/modelos-admin-2026-10-27.md](analises/modelos-admin-2026-10-27.md) |
 | Nome técnico compartilhado entre versões e diagnóstico de 29/10 | [analises/modelos-admin-2026-10-29.md](analises/modelos-admin-2026-10-29.md) |
-| Formato de prompt por cadastro para versões de modelo | [analises/prompt-por-cadastro-2026-11-03.md](analises/prompt-por-cadastro-2026-11-03.md) |
+| Histórico do formato de prompt por cadastro, substituído em 04/11 | [analises/prompt-por-cadastro-2026-11-03.md](analises/prompt-por-cadastro-2026-11-03.md) |
+| Failover entre várias URLs do modelo e revisão do domínio | [analises/failover-modelo-2026-11-04.md](analises/failover-modelo-2026-11-04.md) |
 | Quarkus padrão: decisão, comparação e retorno para Python | [analises/quarkus-padrao-2026-10-28.md](analises/quarkus-padrao-2026-10-28.md) |
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
 | Uso de um disco adicional no servidor | [producao/disco-adicional.md](producao/disco-adicional.md) |
