@@ -8,6 +8,7 @@
 | Nova interface: execução isolada, análise e integração futura | [analises/ui-prototipo-2026-10-20.md](analises/ui-prototipo-2026-10-20.md) |
 | Figma da nova UI: estrutura, handoff e pontos de decisão | [analises/figma-2026-10-20.md](analises/figma-2026-10-20.md) |
 | Divergências entre documentação, modelos e código; decisões pendentes | [analises/divergencias-2026-10-20.md](analises/divergencias-2026-10-20.md) |
+| Comparações de esquema: JSON rev_6, prompt 31B e Neo4j | [comparacoes/README.md](comparacoes/README.md) |
 | Campos da nova UI × modelo rev_6 × schema de produção versionado | [analises/ui-campos-rev6-2026-10-27.md](analises/ui-campos-rev6-2026-10-27.md) |
 | Inventário das telas portadas: protótipo → rotas e componentes atuais | [analises/ui-telas-portadas-2026-10-27.md](analises/ui-telas-portadas-2026-10-27.md) |
 | Perguntas guiadas, comportamento do Tab e pontos para crítica com o Edson | [analises/perguntas-guiadas-2026-10-27.md](analises/perguntas-guiadas-2026-10-27.md) |
@@ -15,6 +16,7 @@
 | Nome técnico compartilhado entre versões e diagnóstico de 29/10 | [analises/modelos-admin-2026-10-29.md](analises/modelos-admin-2026-10-29.md) |
 | Histórico do formato de prompt por cadastro, substituído em 04/11 | [analises/prompt-por-cadastro-2026-11-03.md](analises/prompt-por-cadastro-2026-11-03.md) |
 | Failover entre várias URLs do modelo e revisão do domínio | [analises/failover-modelo-2026-11-04.md](analises/failover-modelo-2026-11-04.md) |
+| Medição de latência por URL antes de definir o limiar de lentidão | [analises/medicao-latencia-modelo-2026-11-04.md](analises/medicao-latencia-modelo-2026-11-04.md) |
 | Quarkus padrão: decisão, comparação e retorno para Python | [analises/quarkus-padrao-2026-10-28.md](analises/quarkus-padrao-2026-10-28.md) |
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
 | Uso de um disco adicional no servidor | [producao/disco-adicional.md](producao/disco-adicional.md) |

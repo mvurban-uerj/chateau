@@ -8,6 +8,8 @@ O backend resolve o cadastro pelo ID, envia à orquestração `modelo`, `prompt_
 
 O Quarkus inclui `tentativas_modelo` no log da consulta quando recebe mais de uma URL, com URL, tempo em milissegundos e desfecho. O Python registra as tentativas no stderr; seus clientes existentes também gravam o log próprio de cada chamada. A resposta HTTP da busca conserva o contrato anterior. Com uma URL, o comportamento permanece equivalente ao anterior.
 
+**Atualização de 04/11:** a [decisão de medição](medicao-latencia-modelo-2026-11-04.md) ampliou o log estruturado em Quarkus e Python para todas as tentativas, inclusive com uma URL ou falha. O parágrafo anterior descreve o estado da primeira implementação do failover.
+
 ## Limite de tempo
 
 O timeout atual do modelo é 55 s e o backend espera 60 s pela orquestração. Todas as tentativas de modelo na mesma busca compartilham o prazo de 55 s; cada URL recebe apenas o tempo restante. Uma troca após o timeout da primeira geração não caberia com segurança nessa janela; além disso, não sabemos se a geração anterior continuaria ocupando a GPU. O cliente usa `stream: false`, sem progresso parcial. Por isso, **lentidão isolada não aciona failover nesta etapa**. O limiar e a política de tentativas após timeout dependem de medidas com o 31B real e das respostas do Edson.

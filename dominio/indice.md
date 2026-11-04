@@ -16,6 +16,10 @@ Correção de 04/11/2026: [administração](negocio/administracao.md) e [contrat
 
 Ajuste de interface de 04/11/2026: [administração](negocio/administracao.md) limita a rolagem à lista de URLs e mostra mensagem específica para URLs repetidas.
 
+Ajuste de 04/11/2026: [administração](negocio/administracao.md) permite reordenar as URLs pelo ícone de arrastar ou pelas setas do teclado. A ordem salva define qual URL será tentada primeiro e a sequência do failover.
+
+Decisão de 04/11/2026: o [contrato da busca](tech/contrato-de-busca.md) registra horário, duração, URL e desfecho de todas as chamadas ao modelo para medir a latência real por servidor antes de definir quando acionar outra URL. [Registro da decisão](../docs/analises/medicao-latencia-modelo-2026-11-04.md).
+
 Ajuste de 28/10/2026: [conversas e busca](negocio/conversas-e-busca.md) distingue o aviso de busca sem modelo e sem resposta do aviso de falha com modelo escolhido.
 
 Alteração de 03/11/2026: [conversas e busca](negocio/conversas-e-busca.md) e [contrato da busca](tech/contrato-de-busca.md) registram `fora_escopo` para recusa explícita do 31B. A seleção de formato de prompt por cadastro foi substituída em 04/11 pelo de-para do nome técnico.
