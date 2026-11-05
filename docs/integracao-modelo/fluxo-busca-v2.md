@@ -2,6 +2,8 @@
 
 **Proposta registrada em 28/10/2026, a partir de [talk-ia.md](../talk-ia.md). Não implementada.** O Edson sugere uma etapa de IA que chama de *modelo orquestrador* para reescrever perguntas que dependem de respostas anteriores. Essa função é diferente do serviço Quarkus, que coordena a busca, e precede a geração de Cypher. Não está definido se haverá um modelo separado, qual será o prompt nem como o histórico chegará à etapa de reformulação.
 
+**05/11/2026:** o usuário decidiu implementar a etapa com liga/desliga no Admin; o caminho escolhido está no [plano do modelo orquestrador](plano-modelo-orquestrador.md).
+
 ### Exemplo sugerido
 
 1. Pergunta anterior: “Liste as pessoas do PPGMC”.

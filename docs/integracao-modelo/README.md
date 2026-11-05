@@ -634,7 +634,7 @@ recarregado a cada subida (o script usa `CREATE`).
 **Roteiro automatizado:** com o túnel da GPU de pé,
 `bash chateau-expert/orchestration/teste_modelo/testar_modelo.sh` (pede só a
 senha do SSH). Confere Ollama/versão/modelo no servidor; diagnostica se os
-containers alcançam o Ollama e oferece a ponte `chateau_ollama_ponte` (socat,
+containers alcançam o Ollama e oferece a ponte `chateau_ollama_ponte_11434` (socat,
 sem sudo) se não alcançarem — cobre o item 2 da seção 4; roda
 `teste_modelo/perguntas.txt` no modelo real contra o banco de produção pelo
 mesmo código da interface; roda o `avaliar.py` do README (20 perguntas) num
@@ -656,8 +656,8 @@ Checklist operacional (com os comandos): `docs/todo.md`.
 - [ ] 3. Container → Ollama: testa de dentro do `chateau_api` o gateway do
       `docker0` (= `host.docker.internal` com `host-gateway`) e o da
       `backend_net`. Se falhar (túnel só em `127.0.0.1`), aplica com
-      confirmação a ponte `chateau_ollama_ponte` (`alpine/socat`,
-      `--network host`, escuta em `<gw docker0>:11435`) e indica o
+      confirmação a ponte `chateau_ollama_ponte_11434` (`alpine/socat`,
+      `--network host`, escuta em `<gw docker0>:11434`, mesma porta do túnel em outro IP) e indica o
       `OLLAMA_URL` para o `.env.prod`. Resolve a seção 4, item 2, sem sudo.
 - [ ] 4. As 14 perguntas de `teste_modelo/perguntas.txt` contra o Neo4j de
       produção (túnel), pelo mesmo código da interface. **Registrar o que

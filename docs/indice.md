@@ -29,6 +29,7 @@
 | Integração com modelo de IA | [integracao-modelo/README.md](integracao-modelo/README.md) |
 | Fluxo da busca — versão 1 implementada | [integracao-modelo/fluxo-busca-v1.md](integracao-modelo/fluxo-busca-v1.md) |
 | Fluxo da busca — versão 2 proposta pelo Edson em 28/10 | [integracao-modelo/fluxo-busca-v2.md](integracao-modelo/fluxo-busca-v2.md) |
+| Plano do modelo orquestrador (contexto da conversa), 05/11 | [integracao-modelo/plano-modelo-orquestrador.md](integracao-modelo/plano-modelo-orquestrador.md) |
 | Orquestração | [orquestrador/README.md](orquestrador/README.md) |
 | Neo4j | [neo4j/README.md](neo4j/README.md) |
 | Diagramas | [diagrams/README.md](diagrams/README.md) |

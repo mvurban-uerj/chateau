@@ -73,7 +73,9 @@ Execução no branch `feat/nova-ui` do `chateau-expert` ([plano](nova-ui/plano.m
 - [x] Issue #34: implementar cadastro com Nome, Descrição, Nome do modelo, URL, Versão e Disponível; mostrar só disponíveis no chat, ocultar seletor com um, e enviar o nome técnico escolhido na busca ([análise](analises/modelos-admin-2026-10-27.md), 27/10). Migração e testes direcionados passaram; Expert `bc6f16a` publicado no Git, validação em produção pendente.
 - [ ] Validar a issue #34 com a GPU real e a URL alcançável pelo container após o deploy; confirmar também o contrato dinâmico Quarkus quando o ambiente Testcontainers permitir.
 - [x] 29/10: ajustar o Expert para permitir o mesmo nome técnico nas versões do catálogo e resolver a URL da busca pelo ID da versão escolhida. Migração, API, chat e testes direcionados concluídos; Expert `8000529` enviado a `main`. Deploy e busca real pendentes de validação. [Diagnóstico](analises/modelos-admin-2026-10-29.md).
-- [ ] Após publicação do ajuste de 29/10: cadastrar na versão Pro a URL `http://host.docker.internal:11435`, marcar Disponível e validar uma busca real. O usuário confirmou HTTP 200 em `/api/tags` nessa porta dentro de `chateau_orchestration`; `:11434` falha. Logs anteriores mostram tentativas em `http://127.0.0.1:11434`. SSH ao servidor recusou autenticação neste ambiente.
+- [x] Após publicação do ajuste de 29/10: cadastrar na versão Pro a URL `http://host.docker.internal:11435`, marcar Disponível e validar uma busca real. O usuário confirmou HTTP 200 em `/api/tags` nessa porta dentro de `chateau_orchestration`; `:11434` falha. Logs anteriores mostram tentativas em `http://127.0.0.1:11434`. SSH ao servidor recusou autenticação neste ambiente. Substituído em 05/11 pela porta `11434` (item abaixo).
+- [x] 05/11: unificar a porta da ponte em `11434` para não confundir com a porta do modelo. Viabilidade verificada no servidor (`docs/talk-ia.md`): só `127.0.0.1:11434` (túnel) ocupava a porta; ponte de teste em `172.17.0.1:11434` devolveu HTTP 200 a `chateau_orchestration`. O usuário informou ter criado `chateau_ollama_ponte_11434` e concluído a troca da URL no Admin para `http://host.docker.internal:11434` (sem saída anexada). `testar_modelo.sh` e documentação ajustados para a nova ponte. A `127.0.0.1:11436` (túnel do 31b) segue sem ponte.
+- [ ] Confirmar no servidor que `chateau_ollama_ponte` (11435) foi removida e que `ss -ltn` mostra `172.17.0.1:11434`; validar uma busca real pela nova URL.
 - [x] 04/11: permitir várias URLs ordenadas por cadastro no Admin, com inclusão, edição e remoção; migração copia a URL única. A primeira é a tentativa inicial, e remover a última exige desmarcar Disponível. Publicado em `chateau-expert/main` (`e52bd79`); deploy e validação em produção pendentes. O envio da lista à orquestração foi concluído na frente 3.
 - [x] 04/11: corrigir a rolagem do modal de URLs e o botão Salvar com linha vazia; retirar o formato de prompt do Admin e selecionar o formato pelo nome técnico no código. Validar em produção após deploy.
 - [x] 04/11: restringir a rolagem à lista de URLs, mantendo o restante do modal visível; informar especificamente URLs duplicadas na tela e na API. Testes dirigidos locais concluídos; validação visual em produção pendente.
@@ -121,6 +123,15 @@ Depois do levantamento:
 - [x] 04/11: ampliar o log de buscas para registrar cada chamada ao modelo, inclusive com URL única e falha, com início, duração, desfecho e tokens disponíveis. Implementação local em Quarkus e Python; 21 e 29 testes dirigidos passaram, respectivamente. [Decisão de medição](analises/medicao-latencia-modelo-2026-11-04.md).
 - [ ] Após acumular buscas reais, gerar relatório agregado por URL e modelo (mediana, percentis 90/95 e taxa de falha/timeout), separar respostas concluídas de timeouts e definir com Edson o limiar de lentidão. Ainda não há dados reais nesta sessão.
 - [ ] Validar o failover com servidores/túneis reais e definir com Edson saúde, capacidade, distribuição normal de carga, limiar de lentidão, timeout e tentativas durante geração, afinidade por conversa e observabilidade em produção. A troca por lentidão ainda não está implementada.
+- [ ] 05/11: modelo orquestrador (`gemma4:31b`, `127.0.0.1:11436`) para interpretar o contexto da conversa antes do modelo Cypher, com liga/desliga e URL no Admin e retorno do prompt gerado. [Plano](integracao-modelo/plano-modelo-orquestrador.md); nada implementado.
+  - [ ] Fase 0: o modelo subiu (usuário, 05/11). Falta provar a reescrita com o exemplo do Ivan, medir tokens e tempo e combinar `num_ctx` com o Edson. O “Fluxo da resposta” e o log já registram tokens e tempo.
+  - [x] Fase 1 (05/11, local, sem commit): Admin (toggle, URL, modelo; migração `20261105000000_orchestrator_settings`), histórico das últimas trocas na busca, `ReescritorContexto` no Quarkus, bloco `orquestrador` na resposta e no log, “Fluxo da resposta” na tela. API 95, Quarkus 39 e web 175 testes passaram.
+  - [x] 05/11: fase 1 enviada a `chateau-expert/main` (`e6f4add`; ponte 11434 em `c2d5bf3`) com autorização do usuário.
+  - [ ] Confirmar o deploy; ligar no Admin e testar o exemplo do Ivan em produção.
+  - [ ] Confirmar no servidor que o container `chateau_orchestration` alcança `http://host.docker.internal:11436` (`/api/tags` com `gemma4:31b`); se não alcançar, criar a ponte `172.17.0.1:11436`. O usuário informou em 05/11 que o servidor do modelo está no ar e acessível em produção.
+  - [ ] Python de comparação ignora a etapa (divergência registrada no contrato da busca); decidir se terá paridade.
+  - [ ] Fase 2: conversas encadeadas de teste, comparação ligado/desligado e revisão dos prompts pelo coordenador.
+  - [x] Confirmado em 05/11: URL `127.0.0.1:11436`, exemplo do Ivan, fluxo visível para todos.
 - [ ] Revisar a proposta de contexto da conversa de 28/10 à luz do pedido de 03/11: definir o contrato com o servidor de modelo que fará a reformulação, quais mensagens e resultados são enviados, limites, tratamento de dados simulados, falhas e testes de referência antiga. Definir como o Quarkus encaminhará as chamadas ao novo servidor; o contrato e a disponibilidade dele ainda não foram informados. **(dep: contrato do servidor de modelo)**
 - [x] 28/10: documentar para o Edson o fluxo resumido da busca, com dados transmitidos em cada ida e volta ([versão 1](integracao-modelo/fluxo-busca-v1.md)).
 - [ ] 28/10: avaliar a [versão 2 proposta pelo Edson](integracao-modelo/fluxo-busca-v2.md): comparar com o modelo real histórico completo e resumo acumulado da conversa, inclusive referências antigas; definir limite de contexto, acesso às mensagens originais, fonte/formato do histórico, prompt, modelo de reformulação/resumo, tratamento de respostas simuladas e impacto no tempo de busca. Somente documentação por enquanto; sem implementação aprovada.
@@ -132,7 +143,7 @@ Depois do levantamento:
 - [ ] Confirmar o deploy da atualização da orquestração, cadastrar/selecionar o nome técnico `chateau-data-gemma4-31b-cypher-rev6-2000-A-s1234` com URL alcançável do servidor do modelo de IA; o formato `rev6_31b` é escolhido pelo nome técnico no código. Validar perguntas reais no Neo4j de produção.
 - [ ] Se o modelo e4b continuar em uso, reextrair `schema_producao.txt` após a carga rev_6 e reconstruir a imagem; o 31B usa o template rev_6 do pacote, não esse arquivo.
 - [x] 03/11: corrigir os tipos gerados e carregar a rev_6 em produção: anos isolados em `publicationYear: INTEGER`, datas completas em `DATE`; contagens e amostras de tipos conferidas. Campos obrigatórios sem fonte continuam na frente de dados.
-- [ ] Tarefa 1: versão 2.0 do orquestrador — aguardando o Edson.
+- [ ] Tarefa 1: versão 2.0 do orquestrador — aguardando o Edson. Em 05/11 a etapa de contexto passou a ter plano próprio (item do modelo orquestrador acima).
 - [ ] Levar ao Edson: como a interface obtém o que o modelo não traz (opções de filtro, campos de perfil para completar os cartões). Hoje backend e web não acessam o Neo4j e esses dados ficam simulados (decidido em 22/10). **(dep: Edson)**
 - [ ] Teste do modelo real com GPU e ligação da busca real: confirmar se aconteceu e registrar o resultado. Roteiro detalhado abaixo.
 
@@ -158,7 +169,7 @@ Com o túnel de pé:
    - Se parar em **"Ollama NÃO responde"**, o túnel não está de pé: falar com
      o Edson.
    - Se perguntar **"Aplicar a ponte agora no servidor?"**, responder `SIM`
-     (cria o container `chateau_ollama_ponte`, sem sudo). **Anotar o
+     (cria o container `chateau_ollama_ponte_11434`, sem sudo). **Anotar o
      `OLLAMA_URL` que ele indicar** no fim da etapa 3.
 2. [ ] Colar o conteúdo de
    `orchestration/teste_modelo/resultados/<data>/resumo.md` no
