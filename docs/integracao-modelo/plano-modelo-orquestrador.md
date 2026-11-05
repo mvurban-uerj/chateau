@@ -140,3 +140,33 @@ Confirmado pelo usuário em 05/11: a URL é `127.0.0.1:11436` (no container, `ht
 Pendentes:
 1. **Janela de contexto:** quem fixa o `num_ctx` (servidor ou requisição) — Edson.
 2. **Disponibilidade e capacidade:** o `gemma4:31b` e o modelo Cypher no mesmo servidor disputam GPU; medir se duas chamadas seguidas cabem no tempo aceitável (logs de latência já existem).
+
+## 9. Limitações acordadas da fase 1 (05/11/2026)
+
+Consolidadas a pedido do usuário. Valem até decisão contrária registrada.
+
+**Contexto enviado ao modelo orquestrador**
+- Só as últimas 4 trocas. Uma referência a algo de mais de 4 perguntas atrás não é resolvida.
+- Até 15 linhas por troca, com cada valor cortado em 120 caracteres. O total fica em cerca de 8.000 caracteres; acima disso, as trocas mais antigas saem primeiro. O total real de linhas vai junto.
+- Só a conversa aberta: não lê outras conversas nem o “Meu contexto” do usuário.
+- O chat monta o histórico, não a leitura do banco. Quem adulterar o histórico afeta só a própria busca, e a consulta continua sendo apenas de leitura.
+- Respostas simuladas vão só com a pergunta, para dado falso não virar fato. Trocas sem resposta nenhuma (serviço fora) não entram.
+
+**Comportamento da etapa**
+- Primeira pergunta da conversa: o modelo orquestrador não é chamado (`sem_historico`).
+- Toda pergunta seguinte passa por ele. Não há detecção de quando a pergunta não depende do contexto; a instrução pede ao modelo que a devolva sem alteração.
+- Falha não bloqueia: erro, resposta vazia ou mais de 20 s fazem a busca seguir com a pergunta original, e o fluxo mostra `falhou`.
+- Não pede esclarecimento: diante de referência ambígua, o modelo decide sozinho.
+- Instrução fixa (versão `2026-11-05`), alterável só no código, não pelo Admin.
+
+**Infraestrutura e desempenho**
+- Uma única URL, sem failover, ao contrário do modelo Cypher.
+- Até 20 s a mais por busca; o timeout da API sobe de 60 para 80 s com a etapa ligada.
+- Janela de contexto: cerca de 8.000 caracteres enviados; o `num_ctx` do servidor não é alterado e segue como o Edson configurou. Reduzi-lo depende de combinar com ele.
+- Só no Quarkus: a orquestração Python de comparação se comporta como desligada.
+- O container alcança o modelo pela ponte `chateau_ollama_ponte_11436` (`172.17.0.1:11436`), criada no servidor em 05/11.
+
+**Visibilidade e avaliação**
+- “Fluxo da resposta” visível para todos os usuários enquanto a etapa estiver em avaliação. O mesmo conteúdo fica gravado na conversa e no log de buscas para o coordenador.
+
+**Para a fase 3:** pedido de esclarecimento, resumo acumulado para conversas longas, histórico lido do banco, pular a chamada quando não houver referência ao contexto, failover de URLs e paridade no Python.

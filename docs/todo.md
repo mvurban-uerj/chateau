@@ -128,7 +128,7 @@ Depois do levantamento:
   - [x] Fase 1 (05/11, local, sem commit): Admin (toggle, URL, modelo; migração `20261105000000_orchestrator_settings`), histórico das últimas trocas na busca, `ReescritorContexto` no Quarkus, bloco `orquestrador` na resposta e no log, “Fluxo da resposta” na tela. API 95, Quarkus 39 e web 175 testes passaram.
   - [x] 05/11: fase 1 enviada a `chateau-expert/main` (`e6f4add`; ponte 11434 em `c2d5bf3`) com autorização do usuário.
   - [ ] Confirmar o deploy; ligar no Admin e testar o exemplo do Ivan em produção.
-  - [ ] Confirmar no servidor que o container `chateau_orchestration` alcança `http://host.docker.internal:11436` (`/api/tags` com `gemma4:31b`); se não alcançar, criar a ponte `172.17.0.1:11436`. O usuário informou em 05/11 que o servidor do modelo está no ar e acessível em produção.
+  - [x] 05/11: ponte `chateau_ollama_ponte_11436` (`172.17.0.1:11436` → `127.0.0.1:11436`) criada pelo usuário. Antes, `chateau_orchestration` recebia conexão recusada (curl 7); depois, `host.docker.internal:11436/api/tags` responde 200 e lista `gemma4:31b` (Q4_K_M, 30,7B, capacidade `thinking`; a chamada envia `think: false`).
   - [ ] Python de comparação ignora a etapa (divergência registrada no contrato da busca); decidir se terá paridade.
   - [ ] Fase 2: conversas encadeadas de teste, comparação ligado/desligado e revisão dos prompts pelo coordenador.
   - [x] Confirmado em 05/11: URL `127.0.0.1:11436`, exemplo do Ivan, fluxo visível para todos.
@@ -225,6 +225,9 @@ Depois:
 - [ ] Retenção de logs de acesso: decidir o prazo (página diz 6 meses, código tem limpeza de 90 dias nunca chamada) e implementar a rotina. Ver [termos e privacidade](../dominio/negocio/termos-e-privacidade.md).
 - [ ] Middleware web usa o JWT quando a API está fora do ar (fail-open): decidir se mantém.
 - [ ] Tarefa 5: ambiente de avaliação — nada ainda (reunião de 19/10).
+
+- [x] 05/11: separar testes e deploy no Expert (`0e81ff5` no `main`): push no `main` só testa; push na `deploy` testa e publica o commit exato (`github.sha`), um deploy por vez. Branch `deploy` criada em `e6f4add`, cujo workflow só escuta o `main`, para não disparar deploy durante o teste do coordenador. Próximo deploy: `git push origin main:deploy`. [Operação](../dominio/tech/operacao-e-validacao.md).
+- [ ] Avisar o Edson e demais colaboradores que push no `main` do Expert não publica mais; confirmar na aba Actions que o push de `0e81ff5` rodou só os testes.
 
 ## 5. Identidade visual
 

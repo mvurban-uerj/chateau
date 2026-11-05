@@ -20,6 +20,8 @@ Ajuste de 04/11/2026: [administração](negocio/administracao.md) permite reorde
 
 Decisão de 04/11/2026: o [contrato da busca](tech/contrato-de-busca.md) registra horário, duração, URL e desfecho de todas as chamadas ao modelo para medir a latência real por servidor antes de definir quando acionar outra URL. [Registro da decisão](../docs/analises/medicao-latencia-modelo-2026-11-04.md).
 
+Decisão de 05/11/2026: [operação](tech/operacao-e-validacao.md) separa testes e deploy no Expert. Push no `main` só testa; publicar é `git push origin main:deploy`.
+
 Implementação local de 05/11/2026: [administração](negocio/administracao.md), [conversas e busca](negocio/conversas-e-busca.md) e [contrato da busca](tech/contrato-de-busca.md) registram o modelo orquestrador (`gemma4:31b`, `127.0.0.1:11436`). Ele é ligado pelo Admin, reescreve a pergunta com o contexto da conversa antes do modelo Cypher e mostra a todos o “Fluxo da resposta”. Expert `e6f4add` enviado a `main`; deploy e teste com o modelo real pendentes. [Plano](../docs/integracao-modelo/plano-modelo-orquestrador.md).
 
 Ajuste de 28/10/2026: [conversas e busca](negocio/conversas-e-busca.md) distingue o aviso de busca sem modelo e sem resposta do aviso de falha com modelo escolhido.
