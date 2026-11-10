@@ -22,6 +22,7 @@
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
 | Uso de um disco adicional no servidor | [producao/disco-adicional.md](producao/disco-adicional.md) |
 | Falha de espaço e lentidão do deploy de 26/10/2026 | [analises/deploy-2026-10-26.md](analises/deploy-2026-10-26.md) |
+| Imagens construídas no GitHub Actions e recebidas pelo servidor | [analises/deploy-imagens-2026-11-10.md](analises/deploy-imagens-2026-11-10.md) |
 | Tarefas e agenda, por frente de trabalho | [todo.md](todo.md) |
 | Perguntas abertas para o Edson | [duvidas-edson/README.md](duvidas-edson/README.md) |
 | Testes do backend | [testes-backend.md](testes-backend.md) |

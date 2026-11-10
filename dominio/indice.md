@@ -22,7 +22,7 @@ Ajuste de 04/11/2026: [administração](negocio/administracao.md) permite reorde
 
 Decisão de 04/11/2026: o [contrato da busca](tech/contrato-de-busca.md) registra horário, duração, URL e desfecho de todas as chamadas ao modelo para medir a latência real por servidor antes de definir quando acionar outra URL. [Registro da decisão](../docs/analises/medicao-latencia-modelo-2026-11-04.md).
 
-Decisão de 10/11/2026: [operação](tech/operacao-e-validacao.md) executa testes e publicação no Expert somente no push para `deploy`; push no `main` não dispara o workflow. Publicar é `git push origin main:deploy`. Esta decisão substitui o gatilho de testes de 05/11.
+Decisões de 10/11/2026: [operação](tech/operacao-e-validacao.md) executa testes, build de imagens no GitHub Actions e publicação no Expert somente no push para `deploy`; o servidor baixa as imagens prontas do GHCR. Push no `main` não dispara o workflow. Publicar é `git push origin main:deploy`. O gatilho de testes de 05/11 e o build no servidor foram substituídos.
 
 Implementação local de 05/11/2026: [administração](negocio/administracao.md), [conversas e busca](negocio/conversas-e-busca.md) e [contrato da busca](tech/contrato-de-busca.md) registram o modelo orquestrador (`gemma4:31b`, `127.0.0.1:11436`). Ele é ligado pelo Admin, reescreve a pergunta com o contexto da conversa antes do modelo Cypher e mostra a todos o “Fluxo da resposta”. Expert `e6f4add` enviado a `main`; deploy e teste com o modelo real pendentes. [Plano](../docs/integracao-modelo/plano-modelo-orquestrador.md).
 
