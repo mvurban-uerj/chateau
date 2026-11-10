@@ -2,7 +2,14 @@
 
 ## Onde roda
 
-Só existe em **produção**, no servidor interno da faculdade (`152.92.2.63`, diretório `/opt/apps/chateau-expert`). Não está no `docker-compose.yml` local, só no `docker-compose.prod.yml` do `chateau-expert`.
+O grafo compartilhado fica no servidor da faculdade (`152.92.2.63`, diretório `/opt/apps/chateau-expert`) no serviço `neo4j` de `docker-compose.prod.yml`. A máquina local pode subir um Neo4j **de exemplo** pelo perfil `ia` de `docker-compose.yml`, em `chateau_neo4j_exemplo`; ele é separado do servidor e não tem volume persistente declarado. Para testar o Admin local sem executar a carga automática de exemplo, suba explicitamente os serviços necessários:
+
+```bash
+cd chateau-expert
+docker compose --profile ia up -d db neo4j-exemplo api web caddy
+```
+
+Depois acesse `http://localhost:5000/admin/graph` com uma conta administradora. Selecionar um arquivo apenas mostra o nome; o upload e a importação começam após clicar **Importar** e confirmar. A API local aponta para `bolt://neo4j-exemplo:7687` e a pasta local de arquivos é `chateau-expert/graph-imports/`. O Neo4j local de exemplo começa vazio quando criado assim; a carga automática `neo4j-exemplo-carga` não participa desse comando.
 
 | Item | Valor |
 |---|---|

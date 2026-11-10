@@ -216,6 +216,10 @@ Depois:
 
 ## 4. Aplicação — `chateau-expert`
 
+- [x] 10/11: implementar localmente no Admin escolha de um `.cypher` por vez, nome visível, confirmação e upload + importação apenas após clicar **Importar**; card único de upload e lista com ícones para atualizar e remover arquivos, andamento e conclusão em modal e botão **Zerar grafo** que abre modal de explicação e confirmação digitada. [Decisão](analises/admin-grafo-2026-11-10.md).
+- [x] 10/11: validar importação e limpeza em Neo4j descartável (2 nós, 1 relação e 1 restrição criados; 0 nós, relações, restrições e índices após limpar); repetição da limpeza também deixou o banco vazio sem apagar mais nada. O IPRJ foi importado duas vezes em outro Neo4j descartável; ambas concluíram 1.390 instruções e deixaram 5.045 nós e 16.289 relações. Dois arquivos pequenos enviados em sequência confirmaram que somente o segundo atualizou o nó em comum, sem reexecutar o primeiro. Nenhuma carga no servidor.
+- [ ] Conferir a UI do Admin no navegador em `http://localhost:5000/admin/graph` com conta administradora; em 10/11 o stack local foi iniciado, a home respondeu 200, a rota protegida redirecionou para login e a API consultou o Neo4j local vazio. Depois publicar após autorização e testar no servidor. Só então importar `grafo_IPRJ.cypher`, conferir contagens e apagar o arquivo temporário do coordenador.
+
 - [x] Abrir o protótipo Vite em <http://localhost:5179/> para uso local (26/10). A cópia publicada por engano no Sites foi substituída por uma página de encerramento, com acesso privado; o projeto hospedado ainda existe.
 - [x] Autenticação web → API: implementada, commitada (`514cc8a`) e token gerado no `.env.prod` (20/10). [Desfecho](analises/divergencias-2026-10-20.md).
 - [x] Confirmar o workflow de deploy do commit `6545a07`: a captura mais recente em `/mnt/c/temp` em 27/10/2026 mostra o run #25 concluído com sucesso em 35 min 32 s. O usuário informou que o site funciona em produção (27/10); isso ainda não valida os fluxos da UI.
