@@ -230,8 +230,9 @@ Depois:
 - [ ] Middleware web usa o JWT quando a API está fora do ar (fail-open): decidir se mantém.
 - [ ] Tarefa 5: ambiente de avaliação — nada ainda (reunião de 19/10).
 
-- [x] 05/11: separar testes e deploy no Expert (`0e81ff5` no `main`): push no `main` só testa; push na `deploy` testa e publica o commit exato (`github.sha`), um deploy por vez. Branch `deploy` criada em `e6f4add`, cujo workflow só escuta o `main`, para não disparar deploy durante o teste do coordenador. Próximo deploy: `git push origin main:deploy`. [Operação](../dominio/tech/operacao-e-validacao.md).
-- [ ] Avisar o Edson e demais colaboradores que push no `main` do Expert não publica mais; confirmar na aba Actions que o push de `0e81ff5` rodou só os testes.
+- [x] 05/11: separar testes e deploy no Expert (`0e81ff5` no `main`): a regra original executava testes no `main` e testes/publicação no `deploy`. Em 10/11, a decisão foi ajustada: somente o push no `deploy` executa o workflow. Próximo deploy: `git push origin main:deploy`. [Operação](../dominio/tech/operacao-e-validacao.md).
+- [ ] Avisar o Edson e demais colaboradores que push no `main` do Expert não executa testes nem publica; conferir a regra após o próximo envio.
+- [ ] 10/11: publicar novamente a administração do grafo após corrigir o `backend-test`. Os pushes de `813e8cc` no `main` e no `deploy` abriram dois runs de testes; o job de publicação da branch `deploy` não executou porque o Vitest descobriu `dist/services/graph-cypher.test.js` após o build. Correção local no Expert limita a descoberta a `src/` e `tests/` e exclui testes do build; testes locais passaram. Aguardar autorização para novo commit e pushes, depois confirmar que só o push no `deploy` dispara o workflow e publica.
 
 ## 5. Identidade visual
 
