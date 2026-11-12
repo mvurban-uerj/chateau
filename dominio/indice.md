@@ -6,6 +6,8 @@ Revisão inicial de 20/10/2026 contra `chateau-data` `04c8225` e `chateau-expert
 
 Atualização de interface decidida em 26/10/2026: [interfaces](tech/interfaces.md), [administração](negocio/administracao.md) e [contexto](modelo/contexto-ux.md) descrevem a marcação vermelha de simulações e o seletor visual alimentado pelo catálogo de modelos.
 
+Decisão de 12/11/2026: [termos e privacidade](negocio/termos-e-privacidade.md) exigem confirmação ativa da leitura da Política de Privacidade na tela de autorização de contexto. O registro fica no PostgreSQL; autorizações anteriores precisam passar novamente pela tela. Expert `7a1027a` enviado a `main` e `deploy`; execução do workflow pendente de confirmação.
+
 Implementação local de 10/11/2026: [administração](negocio/administracao.md) define upload, lista, importação e exclusão de arquivos Cypher no Admin, usa ícones para atualizar e remover arquivos, mostra andamento e conclusão da carga em modal e abre a limpeza completa do grafo em outro modal com confirmação. [Decisão](../docs/analises/admin-grafo-2026-11-10.md). Deploy e validação no servidor pendentes.
 
 Decisão de 27/10/2026: [administração](negocio/administracao.md) registra o cadastro de URL, nome técnico e disponibilidade e o envio do nome técnico escolhido pelo navegador. [Contrato da busca](tech/contrato-de-busca.md) registra que a ausência de modelo selecionado aciona o mock; `ORCHESTRATION_URL` apenas substitui o endereço interno da orquestração. Implementação no Expert `bc6f16a`; validação em produção pendente.

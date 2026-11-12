@@ -216,6 +216,10 @@ Depois:
 
 ## 4. Aplicação — `chateau-expert`
 
+- [ ] 12/11: investigar por que `next dev` no Docker fica vários minutos em `Compiling / ...` sem servir a home, inclusive com cache limpo. O `localhost:5000` foi restaurado com um build local atualizado e um override temporário em `/tmp/chateau-web-local-restore.yml`; nesse modo, novas edições do web exigem novo build.
+
+- [x] 12/11: mover o link de privacidade da entrada para a autorização de contexto; exigir confirmação inicialmente desmarcada, com instrução e aviso junto ao item, e registrar a data no backend. Expert `7a1027a` enviado a `main` e `deploy`; 98 testes do backend e 176 do web passaram. Ver [regra](../dominio/negocio/termos-e-privacidade.md). Conclusão do workflow e conferência funcional em produção pendentes.
+
 - [x] 10/11: implementar localmente no Admin escolha de um `.cypher` por vez, nome visível, confirmação e upload + importação apenas após clicar **Importar**; card único de upload e lista com ícones para atualizar e remover arquivos, andamento e conclusão em modal e botão **Zerar grafo** que abre modal de explicação e confirmação digitada. [Decisão](analises/admin-grafo-2026-11-10.md).
 - [x] 10/11: validar importação e limpeza em Neo4j descartável (2 nós, 1 relação e 1 restrição criados; 0 nós, relações, restrições e índices após limpar); repetição da limpeza também deixou o banco vazio sem apagar mais nada. O IPRJ foi importado duas vezes em outro Neo4j descartável; ambas concluíram 1.390 instruções e deixaram 5.045 nós e 16.289 relações. Dois arquivos pequenos enviados em sequência confirmaram que somente o segundo atualizou o nó em comum, sem reexecutar o primeiro. Nenhuma carga no servidor.
 - [ ] Conferir a UI do Admin no navegador em `http://localhost:5000/admin/graph` com conta administradora; em 10/11 o stack local foi iniciado, a home respondeu 200, a rota protegida redirecionou para login e a API consultou o Neo4j local vazio. Depois publicar após autorização e testar no servidor. Só então importar `grafo_IPRJ.cypher`, conferir contagens e apagar o arquivo temporário do coordenador.

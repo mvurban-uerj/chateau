@@ -19,6 +19,7 @@
 | Medição de latência por URL antes de definir o limiar de lentidão | [analises/medicao-latencia-modelo-2026-11-04.md](analises/medicao-latencia-modelo-2026-11-04.md) |
 | Quarkus padrão: decisão, comparação e retorno para Python | [analises/quarkus-padrao-2026-10-28.md](analises/quarkus-padrao-2026-10-28.md) |
 | Admin do grafo: upload, importação e limpeza | [analises/admin-grafo-2026-11-10.md](analises/admin-grafo-2026-11-10.md) |
+| Confirmação da Política de Privacidade na autorização | [analises/privacidade-autorizacao-2026-11-12.md](analises/privacidade-autorizacao-2026-11-12.md) |
 | Produção: endereço do site, servidor e deploy | [producao/README.md](producao/README.md) |
 | Uso de um disco adicional no servidor | [producao/disco-adicional.md](producao/disco-adicional.md) |
 | Falha de espaço e lentidão do deploy de 26/10/2026 | [analises/deploy-2026-10-26.md](analises/deploy-2026-10-26.md) |
