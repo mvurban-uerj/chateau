@@ -102,6 +102,7 @@ Depois do levantamento:
 
 ## 2. Dados — `chateau-data` (rev_6)
 
+- [ ] 12/11: localizar a atividade #10 e os canais de coleta mencionados; incluir dados adicionais para validação/experimentação, criar um Cypher do zero e comparar com o grafo atual em ambiente paralelo, sem alterar a produção. [Reunião](reunioes/2026-11-12.md).
 - [x] 03/11: alinhar tipos do Cypher gerado ao rev_6: ano isolado de produção → `publicationYear` inteiro; datas completas normalizadas e emitidas como `date(...)`; carga horária inteira. Execução local gerou `data/out/20261103-114032` (não versionado); validação dirigida e de coautoria passou. Cypher carregado em produção em 03/11, após dumps de `neo4j` e `system`; consulta retornou 488 nós e 603 relações de domínio, 333 anos de artigo como `INTEGER` e 78 inícios de projeto como `DATE`.
 - [ ] Decidir fontes e tratamento dos campos marcados `NOT NULL`/`IS KEY` no rev_6 sem valor nos dados extraídos (por exemplo, `Article.abstract`, `Article.keywords` e `ResearchProject.description`); não preencher com dados inventados.
 - [x] 04/11: comparar integralmente o JSON rev_6 com o esquema fornecido ao modelo `chateau-data-gemma4-31b-cypher-rev6-2000-A-s1234` pelo cliente em `C:\temp`: nomes, tipos básicos, rótulos e direções coincidem; o esquema fornecido omite 19 `IS KEY` e 48 `NOT NULL` do JSON. Tamanhos máximos não são declarados. [Quadro e script](comparacoes/rev6-x-prompt-31b-2026-11-04.md).
@@ -248,6 +249,7 @@ Depois:
 
 ## 6. Documentação e segurança
 
+- [ ] 12/11: definir quais e-mails serão enviados, remetente e configuração do Workspace para realizar os envios por ele. [Reunião](reunioes/2026-11-12.md).
 - [ ] Trocar a senha SSH que ficou no histórico Git da raiz (commit `b8ff640`, já publicado).
 - [x] Atualizar o [diagrama web–API](diagrams/chateau-web-api-map.drawio) para o fluxo atual, incluindo token web → API e retirada dos termos; novo mapa e [guia](diagrams/README.md) conferidos contra `chateau-expert` `dc77c53` (27/10/2026).
 - [ ] Revisar guias antigos do `chateau-data` (`scripts/README.md`, `docs/knowledge-graph-pipeline.md`, `docs/levantamento-campos.md`) que citam versões e comandos anteriores.

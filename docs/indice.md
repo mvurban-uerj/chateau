@@ -28,6 +28,7 @@
 | Perguntas abertas para o Edson | [duvidas-edson/README.md](duvidas-edson/README.md) |
 | Testes do backend | [testes-backend.md](testes-backend.md) |
 | Reuniões e decisões datadas | [reunioes/](reunioes/) |
+| Reunião de 12/11: e-mails pelo Workspace e coleta experimental de dados (#10) | [reunioes/2026-11-12.md](reunioes/2026-11-12.md) |
 | Termos de uso | [termos-uso/README.md](termos-uso/README.md) |
 | Integração com modelo de IA | [integracao-modelo/README.md](integracao-modelo/README.md) |
 | Fluxo da busca — versão 1 implementada | [integracao-modelo/fluxo-busca-v1.md](integracao-modelo/fluxo-busca-v1.md) |
