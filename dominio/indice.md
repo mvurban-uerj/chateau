@@ -1,6 +1,8 @@
 # Índice do domínio — Chateau
 
-Decisão de 17/11/2026: [administração](negocio/administracao.md) inclui envio manual de mensagem fixa para conta cadastrada, com remetente `chateau@iprj.uerj.br`. A configuração do token em produção foi informada pelo usuário; envio real ainda não validado. [Registro](../docs/analises/email-workspace-2026-11-17.md).
+Implementação de 17/11/2026: [acesso](negocio/acesso.md) e [administração](negocio/administracao.md) incluem avisos por e-mail no pedido e na decisão de acesso, com logo Chateau. Expert `17114b6` enviado a `main` e `deploy`; conclusão do workflow e validação em produção pendentes. [Registro](../docs/analises/avisos-acesso-email-2026-11-17.md).
+
+Decisão de 17/11/2026: [administração](negocio/administracao.md) inclui envio manual de mensagem fixa para conta cadastrada, com remetente `chateau@iprj.uerj.br`. Após trocar o token, o usuário informou que o envio funcionou; a proteção contra token de outra conta foi enviada em `17114b6`. [Registro](../docs/analises/email-workspace-2026-11-17.md).
 
 Fonte canônica dos conceitos e regras do projeto, compartilhada pelos repositórios `chateau-data` e `chateau-expert`. Leia **só o assunto da tarefa**. O código e os modelos versionados comprovam o estado de implementação; [docs/](../docs/indice.md) guarda a história, propostas e questões abertas.
 

@@ -254,8 +254,13 @@ Depois:
 
 - [x] 17/11: definir o primeiro envio: mensagem fixa e manual na aba E-mail do Admin, remetente `chateau@iprj.uerj.br`, destinatário cadastrado. Implementado no Expert. [Decisão](analises/email-workspace-2026-11-17.md).
 - [x] 17/11: usuário informou que autorizou o cliente OAuth existente a enviar em nome de `chateau@iprj.uerj.br` e guardou o refresh token no `.env.prod` do Expert. Não foi possível conferir o servidor por SSH neste ambiente.
-- [ ] Validar envio e recebimento reais após o deploy; conferir a pasta Enviados da conta remetente e eventuais bloqueios do Workspace.
-- [ ] Definir posteriormente os eventos, textos e regras para avisos/alertas automáticos por e-mail.
+- [x] 17/11: primeiro envio chegou de `marcelo.vendas`; usuário trocou o refresh token e informou que o envio pela conta Chateau funcionou. Validação informada pelo usuário, sem acesso direto ao servidor.
+- [x] 17/11: enviar ao Expert `main` e `deploy` a proteção que fixa `chateau@iprj.uerj.br` como caixa da chamada à Gmail API (`17114b6`). Conclusão do workflow pendente.
+- [ ] Confirmar rotação do segredo OAuth que apareceu na conversa; o cliente é usado também pelo login. Não registrar o valor em arquivos versionados.
+- [x] 17/11: implementar localmente os avisos de pedido de acesso (usuário e admins) e de decisão (aprovação ou recusa), com logo embutido e versões texto/HTML. [Registro](analises/avisos-acesso-email-2026-11-17.md).
+- [x] 17/11: enviar a migração e os avisos automáticos ao Expert `main` e `deploy` (`17114b6`).
+- [ ] Confirmar conclusão do workflow e validar os quatro e-mails em produção, incluindo destinatários `ADMIN`/`SUPERADMIN`, remetente `chateau@iprj.uerj.br` e logo embutido.
+- [ ] Definir os demais eventos de alerta por e-mail e, se necessário, uma fila de retentativas para falhas transitórias.
 - [ ] Trocar a senha SSH que ficou no histórico Git da raiz (commit `b8ff640`, já publicado).
 - [x] Atualizar o [diagrama web–API](diagrams/chateau-web-api-map.drawio) para o fluxo atual, incluindo token web → API e retirada dos termos; novo mapa e [guia](diagrams/README.md) conferidos contra `chateau-expert` `dc77c53` (27/10/2026).
 - [ ] Revisar guias antigos do `chateau-data` (`scripts/README.md`, `docs/knowledge-graph-pipeline.md`, `docs/levantamento-campos.md`) que citam versões e comandos anteriores.
