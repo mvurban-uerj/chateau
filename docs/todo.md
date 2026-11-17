@@ -252,7 +252,10 @@ Depois:
 
 ## 6. Documentação e segurança
 
-- [ ] 12/11: definir quais e-mails serão enviados, remetente e configuração do Workspace para realizar os envios por ele. [Reunião](reunioes/2026-11-12.md).
+- [x] 17/11: definir o primeiro envio: mensagem fixa e manual na aba E-mail do Admin, remetente `chateau@iprj.uerj.br`, destinatário cadastrado. Implementado no Expert. [Decisão](analises/email-workspace-2026-11-17.md).
+- [x] 17/11: usuário informou que autorizou o cliente OAuth existente a enviar em nome de `chateau@iprj.uerj.br` e guardou o refresh token no `.env.prod` do Expert. Não foi possível conferir o servidor por SSH neste ambiente.
+- [ ] Validar envio e recebimento reais após o deploy; conferir a pasta Enviados da conta remetente e eventuais bloqueios do Workspace.
+- [ ] Definir posteriormente os eventos, textos e regras para avisos/alertas automáticos por e-mail.
 - [ ] Trocar a senha SSH que ficou no histórico Git da raiz (commit `b8ff640`, já publicado).
 - [x] Atualizar o [diagrama web–API](diagrams/chateau-web-api-map.drawio) para o fluxo atual, incluindo token web → API e retirada dos termos; novo mapa e [guia](diagrams/README.md) conferidos contra `chateau-expert` `dc77c53` (27/10/2026).
 - [ ] Revisar guias antigos do `chateau-data` (`scripts/README.md`, `docs/knowledge-graph-pipeline.md`, `docs/levantamento-campos.md`) que citam versões e comandos anteriores.

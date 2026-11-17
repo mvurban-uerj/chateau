@@ -1,5 +1,7 @@
 # Índice do domínio — Chateau
 
+Decisão de 17/11/2026: [administração](negocio/administracao.md) inclui envio manual de mensagem fixa para conta cadastrada, com remetente `chateau@iprj.uerj.br`. A configuração do token em produção foi informada pelo usuário; envio real ainda não validado. [Registro](../docs/analises/email-workspace-2026-11-17.md).
+
 Fonte canônica dos conceitos e regras do projeto, compartilhada pelos repositórios `chateau-data` e `chateau-expert`. Leia **só o assunto da tarefa**. O código e os modelos versionados comprovam o estado de implementação; [docs/](../docs/indice.md) guarda a história, propostas e questões abertas.
 
 Decisão de 17/11/2026: novos modelos de Cypher treinados usarão por padrão o [contrato de prompt rev_6](tech/contrato-de-busca.md); outro formato exigirá implementação no código. Implementada localmente no Expert; publicação e validação em produção pendentes. [Registro](../docs/analises/contrato-modelos-cypher-2026-11-17.md).
