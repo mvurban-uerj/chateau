@@ -15,6 +15,7 @@
 | Issue #34: configuração e escolha de modelos de IA | [analises/modelos-admin-2026-10-27.md](analises/modelos-admin-2026-10-27.md) |
 | Nome técnico compartilhado entre versões e diagnóstico de 29/10 | [analises/modelos-admin-2026-10-29.md](analises/modelos-admin-2026-10-29.md) |
 | Histórico do formato de prompt por cadastro, substituído em 04/11 | [analises/prompt-por-cadastro-2026-11-03.md](analises/prompt-por-cadastro-2026-11-03.md) |
+| Contrato rev_6 padrão para novos modelos de Cypher, decisão de 17/11 | [analises/contrato-modelos-cypher-2026-11-17.md](analises/contrato-modelos-cypher-2026-11-17.md) |
 | Failover entre várias URLs do modelo e revisão do domínio | [analises/failover-modelo-2026-11-04.md](analises/failover-modelo-2026-11-04.md) |
 | Medição de latência por URL antes de definir o limiar de lentidão | [analises/medicao-latencia-modelo-2026-11-04.md](analises/medicao-latencia-modelo-2026-11-04.md) |
 | Quarkus padrão: decisão, comparação e retorno para Python | [analises/quarkus-padrao-2026-10-28.md](analises/quarkus-padrao-2026-10-28.md) |

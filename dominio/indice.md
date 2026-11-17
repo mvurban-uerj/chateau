@@ -2,6 +2,8 @@
 
 Fonte canônica dos conceitos e regras do projeto, compartilhada pelos repositórios `chateau-data` e `chateau-expert`. Leia **só o assunto da tarefa**. O código e os modelos versionados comprovam o estado de implementação; [docs/](../docs/indice.md) guarda a história, propostas e questões abertas.
 
+Decisão de 17/11/2026: novos modelos de Cypher treinados usarão por padrão o [contrato de prompt rev_6](tech/contrato-de-busca.md); outro formato exigirá implementação no código. Implementada localmente no Expert; publicação e validação em produção pendentes. [Registro](../docs/analises/contrato-modelos-cypher-2026-11-17.md).
+
 Revisão inicial de 20/10/2026 contra `chateau-data` `04c8225` e `chateau-expert` `51c4b1b`; reconferida no mesmo dia contra `chateau-data` `c770241` (só `AGENTS.md` mudou) e `chateau-expert` `514cc8a` (autenticação web → API). Conferir novamente as fontes ao mudar de commit.
 
 Atualização de interface decidida em 26/10/2026: [interfaces](tech/interfaces.md), [administração](negocio/administracao.md) e [contexto](modelo/contexto-ux.md) descrevem a marcação vermelha de simulações e o seletor visual alimentado pelo catálogo de modelos.
@@ -16,7 +18,7 @@ Ajuste de 29/10/2026: [administração](negocio/administracao.md) permite compar
 
 Implementação local de 04/11/2026: [administração](negocio/administracao.md) registra várias URLs ordenadas por cadastro; o [contrato da busca](tech/contrato-de-busca.md) define failover sequencial em falhas técnicas claras. Distribuição normal de carga, regra de lentidão e validação em produção estão pendentes. [Contexto](../docs/analises/failover-modelo-2026-11-04.md).
 
-Correção de 04/11/2026: [administração](negocio/administracao.md) e [contrato da busca](tech/contrato-de-busca.md) retiram o formato de prompt do cadastro; o nome técnico seleciona o de-para no código. Esta regra substitui a seleção por cadastro registrada em 03/11.
+Correção de 04/11/2026: [administração](negocio/administracao.md) e [contrato da busca](tech/contrato-de-busca.md) retiram o formato de prompt do cadastro; naquela data, o nome técnico selecionava um de-para no código. A decisão de 17/11 acima tornou `rev6_31b` o padrão para novos modelos de Cypher.
 
 Ajuste de interface de 04/11/2026: [administração](negocio/administracao.md) limita a rolagem à lista de URLs e mostra mensagem específica para URLs repetidas.
 
