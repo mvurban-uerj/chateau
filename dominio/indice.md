@@ -1,5 +1,7 @@
 # Índice do domínio — Chateau
 
+Implementação de 18/11/2026: [interfaces](tech/interfaces.md) exibem o identificador `0.N` no rodapé de todas as páginas; [operação](tech/operacao-e-validacao.md) define `N` como o número da execução do workflow do Expert. Expert `67d1cd0` enviado a `main` e `deploy`; conclusão do workflow e conferência visual em produção pendentes.
+
 Implementação de 17/11/2026: [acesso](negocio/acesso.md) e [administração](negocio/administracao.md) incluem avisos por e-mail no pedido e na decisão de acesso, com logo Chateau. Expert `17114b6` enviado a `main` e `deploy`; conclusão do workflow e validação em produção pendentes. [Registro](../docs/analises/avisos-acesso-email-2026-11-17.md).
 
 Decisão de 17/11/2026: [administração](negocio/administracao.md) inclui envio manual de mensagem fixa para conta cadastrada, com remetente `chateau@iprj.uerj.br`. Após trocar o token, o usuário informou que o envio funcionou; a proteção contra token de outra conta foi enviada em `17114b6`. [Registro](../docs/analises/email-workspace-2026-11-17.md).
