@@ -14,6 +14,7 @@ Legenda: **(dep: X)** = depende de outra tarefa ou pessoa.
 ## 1. Nova UI — port do protótipo
 
 - [x] 18/11: implementar o rodapé “Protótipo de Avaliação - versão 0.N” em todas as páginas, com número automático da execução do workflow. Na home, fica abaixo do PROINTEC 2025 à esquerda; nas demais páginas, fixo à direita no desktop e em linha final no celular. Expert `67d1cd0` enviado a `main` e `deploy`; conclusão do workflow e conferência visual em produção pendentes.
+- [x] 18/11: corrigir a falha no teste de entrada do workflow de `67d1cd0`: o mock de `next/navigation` não fornecia `usePathname`. A versão da home não consulta a rota; 177 testes da web, lint e build da imagem passaram. Expert `dc489fa` enviado a `main` e `deploy`; conclusão do workflow e conferência em produção pendentes.
 
 Decisões de 20/10/2026: [análise da UI](analises/ui-prototipo-2026-10-20.md#decisões-de-20102026). Aparência idêntica ao protótipo (`/mnt/c/temp/chateau/ui`, versão final, não versionada); infraestrutura e versões do Expert prevalecem (Next.js 14, React 18). O port entrou em `main` em 22/10; o levantamento abaixo ainda reúne conferências e decisões para as próximas integrações.
 
