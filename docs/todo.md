@@ -6,6 +6,8 @@ Legenda: **(dep: X)** = depende de outra tarefa ou pessoa.
 
 ## Agenda
 
+- [ ] Revisar com a equipe o texto da UERJ Sem Muros: figura, resultados com modelos reais e evidências de revisão de literatura, avaliação, Singrar e INPI. [Levantamento de 18/11](uerjsemmuros/objetivos-especificos-prointec-2026-11-18.md).
+
 | Data | O quê | Frente |
 |---|---|---|
 | 20/10 | ~~Edson deve mandar o Figma da identidade visual~~ recebido e lido ([análise](analises/figma-2026-10-20.md)) | Identidade visual |

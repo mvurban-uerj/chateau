@@ -40,5 +40,6 @@
 | Neo4j | [neo4j/README.md](neo4j/README.md) |
 | Diagramas | [diagrams/README.md](diagrams/README.md) |
 | Anotações de conversa | [talk-ia.md](talk-ia.md) |
+| UERJ Sem Muros: objetivos específicos e atividades do grupo de trabalho | [uerjsemmuros/objetivos-especificos-prointec-2026-11-18.md](uerjsemmuros/objetivos-especificos-prointec-2026-11-18.md) |
 
 Os guias em `chateau-data/docs/` e `chateau-expert/web/docs/` pertencem aos seus repositórios. Para uma regra vigente, comece pelo [índice do domínio](../dominio/indice.md) e confira o código/modelo indicado como fonte.
